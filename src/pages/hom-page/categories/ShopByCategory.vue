@@ -20,41 +20,52 @@
         @click="openView(category)"
       >
         <div class="aspect-square bg-gray-100 overflow-hidden">
-          <img :src="category.image"
-               :alt="category.name"
-               class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+          <img
+            :src="category.image"
+            :alt="category.title"
+            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          >
         </div>
         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
         <div class="absolute bottom-0 left-0 right-0 p-4 text-center">
-          <h3 class="text-lg sm:text-xl font-semibold text-white">{{ category.name }}</h3>
-          <p class="text-sm text-white/80 mt-1">{{ category.shopbycategorys }}</p>
+          <h3 class="text-lg sm:text-xl font-semibold text-white">{{ category.title }}</h3>
+          <p class="text-sm text-white/80 mt-1">
+            <!-- Optionally show category description or leave blank -->
+            {{ category.description || '' }}
+          </p>
         </div>
       </div>
     </div>
-    <ViewDetail v-if="showViewDetail && viewProduct" :product="viewProduct" @close="closeView" @add-to-cart="addToCart" />
+    <ViewDetail
+      v-if="showViewDetail && viewProduct"
+      :product="viewProduct"
+      @close="closeView"
+      @add-to-cart="addToCart"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import ProductCard from './ProductCard.vue'
+import type { Product } from '../../../store/storeProduct'
 import ViewDetail from '../product/ViewDetail.vue'
 import { products } from '../../../store/storeProduct'
 import { useCartStore } from '../../../store/cartStore'
 
 const showViewDetail = ref(false)
-const viewProduct = ref(null)
+const viewProduct = ref<Product | null>(null)
 const cartStore = useCartStore()
-// =======Filter products by shopbycategory property
-const categories = computed(() =>
+
+// Filter products by shopbycategory property
+const categories = computed<Product[]>(() =>
   products.filter(product => product.shopbycategory)
 )
 
-const addToCart = (product, quantity = 1) => {
+const addToCart = (product: Product, quantity = 1) => {
   cartStore.addToCart(product, quantity)
 }
 
-const openView = (product) => {
+const openView = (product: Product) => {
   viewProduct.value = product
   showViewDetail.value = true
 }

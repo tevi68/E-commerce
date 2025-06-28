@@ -69,7 +69,7 @@
                         <TabView class="custom-tabs">
 
                             <!-- Reviews Tab -->
-                            <TabPanel header="Reviews">
+                            <TabPanel header="Reviews" value="reviews">
                                 <div class="space-y-6">
                                     <!-- Review Summary -->
                                     <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-100">
@@ -153,7 +153,7 @@
                             </TabPanel>
 
                             <!-- Shipping & Returns Tab -->
-                            <TabPanel header="Shipping & Returns">
+                            <TabPanel header="Shipping & Returns" value="shipping">
                                 <div class="space-y-6">
                                     <!-- Shipping Information -->
                                     <Card class="!bg-gradient-to-r !from-green-50 !to-emerald-50 !border-green-100">
@@ -312,7 +312,7 @@
                             </div>
                         </div>
                         <!-- Description Tab -->
-                            <TabPanel header="Description">
+                            <TabPanel header="Description" value="description">
                                 <div class="space-y-4">
                                     <div class="flex items-center gap-2 mb-3">
                                         <i class="pi pi-info-circle text-blue-500"></i>
@@ -344,7 +344,7 @@
                                 </div>
                             </TabPanel>
                             <!-- Features Tab -->
-                            <TabPanel header="Features">
+                            <TabPanel header="Features" value="features">
                                 <div class="space-y-4">
                                     <div class="flex items-center gap-2 mb-3">
                                         <i class="pi pi-star text-yellow-500"></i>

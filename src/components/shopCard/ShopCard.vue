@@ -8,192 +8,192 @@
             :class="{ 'hidden lg:block': !showMobileFilters, 'block fixed inset-0 z-50 overflow-y-auto lg:static lg:inset-auto': showMobileFilters }"
         >
             <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-100 dark:border-gray-700">
-            <h2 class="text-xl font-bold text-gray-800 dark:text-white flex items-center gap-3">
-                <span class="pi pi-filter text-orange-500"></span> 
-                <span class="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
-                Filter Products
-                </span>
-            </h2>
-            <button 
-                @click="showMobileFilters = false" 
-                class="lg:hidden text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded-full"
-            >
-                <span class="pi pi-times text-lg"></span>
-            </button>
+                <h2 class="text-xl font-bold text-gray-800 dark:text-white flex items-center gap-3">
+                    <span class="pi pi-filter text-orange-500"></span> 
+                    <span class="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+                        Filter Products
+                    </span>
+                </h2>
+                <button 
+                    @click="showMobileFilters = false" 
+                    class="lg:hidden text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded-full"
+                >
+                    <span class="pi pi-times text-lg"></span>
+                </button>
             </div>
 
             <!-- Category Filter -->
             <div class="mb-6">
-            <label class="block text-gray-700 dark:text-gray-300 font-medium mb-3 text-sm uppercase tracking-wider">
-                Category
-            </label>
-            <Dropdown
-                v-model="selectedCategory"
-                :options="categories"
-                optionLabel="name"
-                placeholder="All Categories"
-                class="w-full"
-                :pt="{
-                root: { class: 'border-gray-200 dark:border-gray-600 rounded-lg' },
-                input: { class: 'py-2.5 text-sm' },
-                panel: { class: 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg' },
-                item: { class: 'text-sm hover:bg-gray-50 dark:hover:bg-gray-700' }
-                }"
-            >
-                <template #value="slotProps">
-                <div v-if="slotProps.value" class="flex items-center">
-                    <span class="pi pi-tag mr-2 text-orange-500"></span>
-                    <span>{{ slotProps.value.name }}</span>
-                </div>
-                <span v-else>{{ slotProps.placeholder }}</span>
-                </template>
-                <template #option="slotProps">
-                <div class="flex items-center">
-                    <span class="pi pi-tag mr-2 text-orange-500"></span>
-                    <span>{{ slotProps.option.name }}</span>
-                </div>
-                </template>
-            </Dropdown>
+                <label class="block text-gray-700 dark:text-gray-300 font-medium mb-3 text-sm uppercase tracking-wider">
+                    Category
+                </label>
+                <Dropdown
+                    v-model="selectedCategory"
+                    :options="categories"
+                    optionLabel="name"
+                    placeholder="All Categories"
+                    class="w-full"
+                    :pt="{
+                        root: { class: 'border-gray-200 dark:border-gray-600 rounded-lg' },
+                        input: { class: 'py-2.5 text-sm' },
+                        panel: { class: 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg' },
+                        item: { class: 'text-sm hover:bg-gray-50 dark:hover:bg-gray-700' }
+                    }"
+                >
+                    <template #value="slotProps">
+                        <div v-if="slotProps.value" class="flex items-center">
+                            <span class="pi pi-tag mr-2 text-orange-500"></span>
+                            <span>{{ slotProps.value.name }}</span>
+                        </div>
+                        <span v-else>{{ slotProps.placeholder }}</span>
+                    </template>
+                    <template #option="slotProps">
+                        <div class="flex items-center">
+                            <span class="pi pi-tag mr-2 text-orange-500"></span>
+                            <span>{{ slotProps.option.name }}</span>
+                        </div>
+                    </template>
+                </Dropdown>
             </div>
 
             <!-- Price Filter -->
             <div class="mb-6">
-            <label class="block text-gray-700 dark:text-gray-300 font-medium mb-3 text-sm uppercase tracking-wider">
-                Price Range
-            </label>
-            <div class="space-y-3">
-                <Slider
-                v-model="priceRange"
-                :min="0"
-                :max="1000"
-                :step="10"
-                range
-                class="w-full"
-                :pt="{
-                    range: { class: 'bg-orange-500' },
-                    handle: { class: 'border-orange-500 hover:bg-orange-500' }
-                }"
-                />
-                <div class="flex items-center justify-between gap-3">
-                <span class="text-xs text-gray-500 dark:text-gray-400">
-                    ${{ priceRange[0] }}
-                </span>
-                <span class="text-xs text-gray-500 dark:text-gray-400">
-                    ${{ priceRange[1] }}
-                </span>
+                <label class="block text-gray-700 dark:text-gray-300 font-medium mb-3 text-sm uppercase tracking-wider">
+                    Price Range
+                </label>
+                <div class="space-y-3">
+                    <Slider
+                        v-model="priceRange"
+                        :min="0"
+                        :max="1000"
+                        :step="10"
+                        range
+                        class="w-full"
+                        :pt="{
+                            range: { class: 'bg-orange-500' },
+                            handle: { class: 'border-orange-500 hover:bg-orange-500' }
+                        }"
+                    />
+                    <div class="flex items-center justify-between gap-3">
+                        <span class="text-xs text-gray-500 dark:text-gray-400">
+                            ${{ priceRange[0] }}
+                        </span>
+                        <span class="text-xs text-gray-500 dark:text-gray-400">
+                            ${{ priceRange[1] }}
+                        </span>
+                    </div>
                 </div>
-            </div>
             </div>
 
             <!-- Rating Filter -->
             <div class="mb-6">
-            <label class="block text-gray-700 dark:text-gray-300 font-medium mb-3 text-sm uppercase tracking-wider">
-                Customer Rating
-            </label>
-            <div class="space-y-2">
-                <div 
-                v-for="rating in [4, 3, 2, 1]" 
-                :key="rating"
-                @click="minRating = rating"
-                class="flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-all"
-                :class="{
-                    'bg-orange-50 dark:bg-gray-700': minRating === rating,
-                    'hover:bg-gray-50 dark:hover:bg-gray-700': minRating !== rating
-                }"
-                >
-                <Rating 
-                    :modelValue="rating" 
-                    :readonly="true" 
-                    :cancel="false" 
-                    class="text-sm"
-                    :pt="{
-                    onIcon: { class: 'text-yellow-400' }
-                    }"
-                />
-                <span class="text-xs text-gray-500 dark:text-gray-400">
-                    {{ rating }}+ Stars
-                </span>
-                <span 
-                    v-if="minRating === rating"
-                    class="ml-auto pi pi-check text-orange-500"
-                ></span>
+                <label class="block text-gray-700 dark:text-gray-300 font-medium mb-3 text-sm uppercase tracking-wider">
+                    Customer Rating
+                </label>
+                <div class="space-y-2">
+                    <div 
+                        v-for="rating in [4, 3, 2, 1]" 
+                        :key="rating"
+                        @click="minRating = rating"
+                        class="flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-all"
+                        :class="{
+                            'bg-orange-50 dark:bg-gray-700': minRating === rating,
+                            'hover:bg-gray-50 dark:hover:bg-gray-700': minRating !== rating
+                        }"
+                    >
+                        <Rating 
+                            :modelValue="rating" 
+                            :readonly="true" 
+                            :cancel="false" 
+                            class="text-sm"
+                            :pt="{
+                                onIcon: { class: 'text-yellow-400' }
+                            }"
+                        />
+                        <span class="text-xs text-gray-500 dark:text-gray-400">
+                            {{ rating }}+ Stars
+                        </span>
+                        <span 
+                            v-if="minRating === rating"
+                            class="ml-auto pi pi-check text-orange-500"
+                        ></span>
+                    </div>
+                    <div 
+                        @click="minRating = 0"
+                        class="flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-all"
+                        :class="{
+                            'bg-orange-50 dark:bg-gray-700': minRating === 0,
+                            'hover:bg-gray-50 dark:hover:bg-gray-700': minRating !== 0
+                        }"
+                    >
+                        <span class="text-xs text-gray-500 dark:text-gray-400">
+                            Any Rating
+                        </span>
+                        <span 
+                            v-if="minRating === 0"
+                            class="ml-auto pi pi-check text-orange-500"
+                        ></span>
+                    </div>
                 </div>
-                <div 
-                @click="minRating = 0"
-                class="flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-all"
-                :class="{
-                    'bg-orange-50 dark:bg-gray-700': minRating === 0,
-                    'hover:bg-gray-50 dark:hover:bg-gray-700': minRating !== 0
-                }"
-                >
-                <span class="text-xs text-gray-500 dark:text-gray-400">
-                    Any Rating
-                </span>
-                <span 
-                    v-if="minRating === 0"
-                    class="ml-auto pi pi-check text-orange-500"
-                ></span>
-                </div>
-            </div>
             </div>
 
             <!-- Availability Filter -->
             <div class="mb-8">
-            <label class="block text-gray-700 dark:text-gray-300 font-medium mb-3 text-sm uppercase tracking-wider">
-                Availability
-            </label>
-            <div class="space-y-2">
-                <div class="flex items-center">
-                <Checkbox
-                    v-model="inStockOnly"
-                    inputId="inStock"
-                    :binary="true"
-                    :pt="{
-                    root: { class: 'mr-3' },
-                    box: { class: 'border-gray-300 dark:border-gray-600' },
-                    input: { class: 'focus:ring-orange-500' },
-                    icon: { class: 'text-orange-500' }
-                    }"
-                />
-                <label for="inStock" class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
-                    In Stock Only
+                <label class="block text-gray-700 dark:text-gray-300 font-medium mb-3 text-sm uppercase tracking-wider">
+                    Availability
                 </label>
+                <div class="space-y-2">
+                    <div class="flex items-center">
+                        <Checkbox
+                            v-model="inStockOnly"
+                            inputId="inStock"
+                            :binary="true"
+                            :pt="{
+                                root: { class: 'mr-3' },
+                                box: { class: 'border-gray-300 dark:border-gray-600' },
+                                input: { class: 'focus:ring-orange-500' },
+                                icon: { class: 'text-orange-500' }
+                            }"
+                        />
+                        <label for="inStock" class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
+                            In Stock Only
+                        </label>
+                    </div>
+                    <div class="flex items-center">
+                        <Checkbox
+                            v-model="includeOutOfStock"
+                            inputId="outOfStock"
+                            :binary="true"
+                            :pt="{
+                                root: { class: 'mr-3' },
+                                box: { class: 'border-gray-300 dark:border-gray-600' },
+                                input: { class: 'focus:ring-orange-500' },
+                                icon: { class: 'text-orange-500' }
+                            }"
+                        />
+                        <label for="outOfStock" class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
+                            Include Out of Stock
+                        </label>
+                    </div>
                 </div>
-                <div class="flex items-center">
-                <Checkbox
-                    v-model="includeOutOfStock"
-                    inputId="outOfStock"
-                    :binary="true"
-                    :pt="{
-                    root: { class: 'mr-3' },
-                    box: { class: 'border-gray-300 dark:border-gray-600' },
-                    input: { class: 'focus:ring-orange-500' },
-                    icon: { class: 'text-orange-500' }
-                    }"
-                />
-                <label for="outOfStock" class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
-                    Include Out of Stock
-                </label>
-                </div>
-            </div>
             </div>
 
             <!-- Action Buttons -->
             <div class="flex flex-col gap-3">
-            <button
-                @click="applyFilters"
-                class="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white py-2.5 rounded-lg font-medium text-sm transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2"
-            >
-                <span class="pi pi-check"></span>
-                Apply Filters
-            </button>
-            <button
-                @click="resetFilters"
-                class="w-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 py-2.5 rounded-lg font-medium text-sm transition flex items-center justify-center gap-2"
-            >
-                <span class="pi pi-refresh"></span>
-                Reset All
-            </button>
+                <button
+                    @click="applyFilters"
+                    class="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white py-2.5 rounded-lg font-medium text-sm transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+                >
+                    <span class="pi pi-check"></span>
+                    Apply Filters
+                </button>
+                <button
+                    @click="resetFilters"
+                    class="w-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 py-2.5 rounded-lg font-medium text-sm transition flex items-center justify-center gap-2"
+                >
+                    <span class="pi pi-refresh"></span>
+                    Reset All
+                </button>
             </div>
         </aside>
 
@@ -258,7 +258,7 @@
                         <!-- Favorite Button -->
                         <button
                             class="absolute top-3 right-2 w-9 h-9 bg-white/90 hover:bg-white text-gray-800 rounded-full shadow-md transition opacity-0 group-hover:opacity-100"
-                            @click.stop="toggleFavorite(product.id)"
+                            @click.stop="toggleFavorite(product)"
                         >
                             <span
                                 class="pi"
@@ -349,10 +349,9 @@
     </div><br>
 </template>
 
-
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import ProductCard from '../../pages/hom-page/product/ProductCard.vue'
+import type { Product } from '../../store/storeProduct'
 import ViewDetail from '../../pages/hom-page/product/ViewDetail.vue'
 import { products } from '../../store/storeProduct'
 import { useCartStore } from '../../store/cartStore'
@@ -361,21 +360,6 @@ import Slider from 'primevue/slider'
 import Rating from 'primevue/rating'
 import Dropdown from 'primevue/dropdown'
 import Checkbox from 'primevue/checkbox'
-
-// Types
-interface Product {
-  id: number
-  name: string
-  price: number
-  price_shop?: number
-  category: string
-  category_shop?: string
-  rating: number
-  rating_shop?: number
-  inStock?: boolean
-  image?: string
-  // Add other product properties as needed
-}
 
 // ------------- STORES -------------
 const cartStore = useCartStore()
@@ -398,151 +382,148 @@ const includeOutOfStock = ref<boolean>(true)
 
 // ------------- COMPUTED PROPERTIES -------------
 const categories = computed(() => {
-  return [...new Set(products.map(p => p.category_shop || p.category))]
-    .filter(Boolean)
-    .map(category => ({ name: category, code: category.toUpperCase().replace(/\s+/g, '_') }))
+    return [...new Set(products.map(p => p.category_shop || p.category))]
+        .filter(Boolean)
+        .map(category => ({ name: category, code: category.toUpperCase().replace(/\s+/g, '_') }))
 })
 
 const filteredProducts = computed(() => {
-  return products.filter(product => {
-    // Category filter
-    const matchCategory = !selectedCategory.value || 
-      (product.category_shop || product.category) === selectedCategory.value
-    
-    // Price filter using range slider
-    const productPrice = product.price_shop || product.price
-    const matchMinPrice = productPrice >= priceRange.value[0]
-    const matchMaxPrice = productPrice <= priceRange.value[1]
-    
-    // Rating filter
-    const productRating = product.rating_shop || product.rating
-    const matchRating = minRating.value === 0 || productRating >= minRating.value
-    
-    // Stock availability
-    const matchStock = !inStockOnly.value || (product.inStock !== false)
-    const matchIncludeOutOfStock = includeOutOfStock.value || (product.inStock !== false)
+    return products.filter(product => {
+        // Category filter
+        const matchCategory = !selectedCategory.value || 
+            (product.category_shop || product.category) === selectedCategory.value
+        
+        // Price filter using range slider
+        const productPrice = product.price_shop || product.price
+        const matchMinPrice = productPrice >= priceRange.value[0]
+        const matchMaxPrice = productPrice <= priceRange.value[1]
+        
+        // Rating filter
+        const productRating = product.rating_shop || product.rating
+        const matchRating = minRating.value === 0 || productRating >= minRating.value
+        
+        // Stock availability
+        const matchStock = !inStockOnly.value || (product.stock > 0)
+        const matchIncludeOutOfStock = includeOutOfStock.value || (product.stock > 0)
 
-    return matchCategory && matchMinPrice && matchMaxPrice && 
-           matchRating && matchStock && matchIncludeOutOfStock
-  })
+        return matchCategory && matchMinPrice && matchMaxPrice && 
+            matchRating && matchStock && matchIncludeOutOfStock
+    })
 })
 
 const sortedProducts = computed(() => {
-  const productsToSort = [...filteredProducts.value]
+    const productsToSort = [...filteredProducts.value]
 
-  switch (sortOption.value) {
-    case 'price-low':
-      return productsToSort.sort((a, b) => (a.price_shop || a.price) - (b.price_shop || b.price))
-    case 'price-high':
-      return productsToSort.sort((a, b) => (b.price_shop || b.price) - (a.price_shop || a.price))
-    case 'rating':
-      return productsToSort.sort((a, b) => (b.rating_shop || b.rating) - (a.rating_shop || a.rating))
-    default: // 'featured'
-      return productsToSort
-  }
+    switch (sortOption.value) {
+        case 'price-low':
+            return productsToSort.sort((a, b) => (a.price_shop || a.price) - (b.price_shop || b.price))
+        case 'price-high':
+            return productsToSort.sort((a, b) => (b.price_shop || b.price) - (a.price_shop || a.price))
+        case 'rating':
+            return productsToSort.sort((a, b) => (b.rating_shop || b.rating) - (a.rating_shop || a.rating))
+        default: // 'featured'
+            return productsToSort
+    }
 })
 
-const pagedProducts = computed(() => sortedProducts.value.slice(0, productsPerPage.value))
 const canShowMore = computed(() => productsPerPage.value < sortedProducts.value.length)
 
 // ------------- FUNCTIONS -------------
 const applyFilters = () => {
-  showMobileFilters.value = false
-  // Reset pagination when filters change
-  productsPerPage.value = 8
+    showMobileFilters.value = false
+    // Reset pagination when filters change
+    productsPerPage.value = 8
 }
 
 const resetFilters = () => {
-  selectedCategory.value = ''
-  priceRange.value = [0, 500]
-  minRating.value = 0
-  inStockOnly.value = false
-  includeOutOfStock.value = true
-  showMobileFilters.value = false
-  productsPerPage.value = 8
+    selectedCategory.value = ''
+    priceRange.value = [0, 500]
+    minRating.value = 0
+    inStockOnly.value = false
+    includeOutOfStock.value = true
+    showMobileFilters.value = false
+    productsPerPage.value = 8
 }
 
 const addToCart = (product: Product, quantity: number = 1) => {
-  cartStore.addToCart(product, quantity)
-  // Optional: Show toast notification
+    cartStore.addToCart(product, quantity)
+    // Optional: Show toast notification
 }
 
 const toggleFavorite = (product: Product) => {
-  favoriteStore.toggleFavorite(product)
-  // Optional: Show toast notification
+    favoriteStore.toggleFavorite(product.id)
 }
 
 const isFavorite = (productId: number) => {
-  return favoriteStore.isFavorite(productId)
+    return favoriteStore.isFavorite(productId)
 }
 
 const openView = (product: Product) => {
-  viewProduct.value = product
-  showViewDetail.value = true
+    viewProduct.value = product
+    showViewDetail.value = true
 }
 
 const closeView = () => {
-  showViewDetail.value = false
+    showViewDetail.value = false
 }
 
 const showMoreProducts = () => {
-  loadingMore.value = true
-  setTimeout(() => {
-    productsPerPage.value += 8
-    loadingMore.value = false
-  }, 800) // Shorter loading time for better UX
+    loadingMore.value = true
+    setTimeout(() => {
+        productsPerPage.value += 8
+        loadingMore.value = false
+    }, 800) // Shorter loading time for better UX
 }
 
 // ------------- EXPOSE TO TEMPLATE IF NEEDED -------------
 defineExpose({
-  openView,
-  closeView,
-  addToCart,
-  toggleFavorite
+    openView,
+    closeView,
+    addToCart,
+    toggleFavorite
 })
 </script>
-
 
 <style scoped>
 /* Custom scrollbar for sidebar */
 aside {
-  scrollbar-width: thin;
-  scrollbar-color: #f59e42 #f5f5f5;
+    scrollbar-width: thin;
+    scrollbar-color: #f59e42 #f5f5f5;
 }
 
 aside::-webkit-scrollbar {
-  width: 6px;
+    width: 6px;
 }
 
 aside::-webkit-scrollbar-thumb {
-  background-color: #f59e42;
-  border-radius: 6px;
+    background-color: #f59e42;
+    border-radius: 6px;
 }
 
 /* Responsive adjustments */
 @media (max-width: 639px) {
-  .grid {
-    gap: 0.5rem;
-  }
+    .grid {
+        gap: 0.5rem;
+    }
 }
 
 @media (min-width: 640px) and (max-width: 767px) {
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.75rem;
-  }
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem;
+    }
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
-  .grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
-  }
+    .grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+    }
 }
 
 @media (min-width: 1024px) {
-  .grid {
-    gap: 1.25rem;
-  }
+    .grid {
+        gap: 1.25rem;
+    }
 }
-</style> 
+</style>

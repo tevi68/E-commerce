@@ -451,9 +451,9 @@
     const orderFilter = ref('all')
     const loading = ref(false)
 
-    onMounted(async() => {
+    onMounted(async () => {
         loading.value = true
-        await orderStore.fetchOrders?.()
+        orderStore.loadOrders()
         setTimeout(() => {
             loading.value = false
         }, 1000)
@@ -553,7 +553,7 @@
 
     // Methods
     const formatDate = (dateString: string) => {
-        const options = { year: 'numeric', month: 'long', day: 'numeric' }
+        const options: Intl.DateTimeFormatOptions = { year: "numeric", month: "long", day: "numeric" }
         return new Date(dateString).toLocaleDateString(undefined, options)
     }
 

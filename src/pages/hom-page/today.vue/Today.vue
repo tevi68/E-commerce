@@ -95,18 +95,6 @@
                         </div>
                     </div>
                 </template>
-
-                <!-- Custom Navigation Arrows -->
-                <template #previousicon>
-                    <button class="p-carousel-prev bg-white shadow-lg rounded-full w-10 h-10 flex items-center justify-center hover:bg-gray-100 transition-colors">
-                        <span class="pi pi-chevron-left text-gray-700"></span>
-                    </button>
-                </template>
-                <template #nexticon>
-                    <button class="p-carousel-next w-10 h-10 flex items-center justify-center">
-                        <span class="pi pi-chevron-right text-gray-700"></span>
-                    </button>
-                </template>
             </Carousel>
             
             <!-- Empty State -->
@@ -121,6 +109,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import Carousel from 'primevue/carousel'
 import { products } from '../../../store/storeProduct'
+import type { Product } from '../../../store/storeProduct'
 
 const cambodiaTime = ref('')
 
@@ -130,7 +119,7 @@ const todayDeals = computed(() => {
 })
 
 function updateCambodiaTime() {
-    const options = {
+    const options: Intl.DateTimeFormatOptions = {
         timeZone: 'Asia/Phnom_Penh',
         hour12: true,
         hour: 'numeric',
@@ -142,11 +131,11 @@ function updateCambodiaTime() {
 }
 
 // Add to cart function
-const addToCart = (product) => {
+const addToCart = (product: Product) => {
     console.log('Added to cart:', product)
 }
 
-let interval: NodeJS.Timeout
+let interval: ReturnType<typeof setInterval>
 
 onMounted(() => {
     updateCambodiaTime()

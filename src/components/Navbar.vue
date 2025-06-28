@@ -184,7 +184,7 @@
 				<div class="flex items-center space-x-4">
 					<!-- Language Selector -->
 					<div class="relative" @keydown.esc="languageDropdownOpen = false" @focusout="languageDropdownOpen = false">
-						<button class="flex items-center text-gray-700 hover:text-orange-500 p-3 focus:outline-none rounded-lg hover:bg-orange-50 transition-all duration-200" @click="languageDropdownOpen = !languageDropdownOpen" :aria-expanded="languageDropdownOpen.toString()" aria-haspopup="true" tabindex="0">
+						<button class="flex items-center text-gray-700 hover:text-orange-500 p-3 focus:outline-none rounded-lg hover:bg-orange-50 transition-all duration-200" @click="languageDropdownOpen = !languageDropdownOpen" :aria-expanded="languageDropdownOpen"  aria-haspopup="true" tabindex="0">
 							<img :src="languages.find((l) => l.code === selectedLanguage)?.path" alt="Flag" class="w-6 h-4 object-cover rounded-sm shadow-sm"/>
 							<span class="ml-2 uppercase font-semibold">{{ selectedLanguage.toUpperCase() }}</span>
 							<i class="pi pi-chevron-down ml-1 text-xs transition-transform duration-200" :class="{ 'rotate-180': languageDropdownOpen }"></i>
@@ -219,7 +219,7 @@
 					<div class="relative" @keydown.esc="isOpen = false" @focusout="handleFocusOut">
 						<button
 							@click="toggleDropdown"
-							:aria-expanded="isOpen.toString()"
+							:aria-expanded="isOpen"
 							class="flex items-center text-gray-700 hover:text-orange-500 p-3 focus:outline-none rounded-lg hover:bg-orange-50 transition-all duration-200 group"
 							tabindex="0"
 						>
@@ -282,7 +282,7 @@
 			<div class="flex items-center py-4 space-x-8 border-t border-gray-100">
 				<!-- Categories Dropdown -->
 				<div class="relative" @keydown.esc="isCategoryOpen = false" @focusout="isCategoryOpen = false">
-					<button @click="toggleCategory" :aria-expanded="isCategoryOpen.toString()" class="flex items-center text-gray-700 hover:text-orange-500 p-3 focus:outline-none rounded-lg hover:bg-orange-50 transition-all duration-200 group" tabindex="0">
+					<button @click="toggleCategory" :aria-expanded="isCategoryOpen" class="flex items-center text-gray-700 hover:text-orange-500 p-3 focus:outline-none rounded-lg hover:bg-orange-50 transition-all duration-200 group" tabindex="0">
 						<i class="pi pi-list text-lg group-hover:scale-110 transition-transform duration-200"></i>
 						<span class="ml-2 font-medium">Categories</span>
 						<i class="pi pi-chevron-down ml-2 text-xs transition-transform duration-200" :class="{ 'rotate-180': isCategoryOpen }"></i>

@@ -77,15 +77,15 @@
 </template>
 
 <script setup lang="ts">
-import useFavorites  from '../../../store/favoritesStore'
+import useFavorites from '../../../store/favoritesStore'
 
-const emit = defineEmits(['add-to-cart', 'toggle-favorite', 'view-product']);
-const { isFavorite, toggleFavorite } = useFavorites()
-const props = defineProps({
+defineProps({
     product: {
         type: Object,
         required: true
     }
-});
+})
 
+const emit = defineEmits(['add-to-cart', 'toggle-favorite', 'view-product']);
+const { isFavorite, toggleFavorite } = useFavorites()
 </script>

@@ -255,6 +255,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useCartStore } from '../../store/cartStore'
 import { useOrderStore } from '../../store/orderStore'
+import type { Order } from '../../store/orderStore'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useToast } from 'primevue/usetoast'
@@ -317,7 +318,7 @@ const completeOrder = () => {
     isProcessing.value = true
 
     setTimeout(() => {
-        const newOrder = {
+        const newOrder: Order = {
             id: Date.now(),
             date: new Date().toISOString().slice(0, 10),
             status: 'Completed',

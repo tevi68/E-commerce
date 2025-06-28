@@ -139,7 +139,6 @@ import Button from 'primevue/button'
 import Checkbox from 'primevue/checkbox'
 import router from '../../routes'
 import { useToast } from 'primevue/usetoast'
-import Toast from 'primevue/toast'
 
 // Reactive state
 const toast = useToast()

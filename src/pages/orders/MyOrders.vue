@@ -1,6 +1,5 @@
 <template>
     <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-        
         <!-- Loading Spinner -->
         <div v-if="loading" class="fixed inset-0 bg-white bg-opacity-30 flex items-center justify-center z-50">
             <ProgressSpinner style="width: 50px; height: 50px" strokeWidth="8" />
@@ -137,7 +136,7 @@
                                         label="Remove"
                                         icon="pi pi-trash"
                                         severity="danger"
-                                        @click="(e) => removeOrder(order.id, e)"
+                                        @click="removeOrder(order.id, $event)"
                                         class="bg-red-500 hover:bg-red-600 border-0 text-white px-6 py-2 rounded-xl font-semibold transition-all duration-300 shadow-lg"
                                         iconPos="right"
                                     />
@@ -199,7 +198,6 @@ import { useOrderStore } from '../../store/orderStore'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import ProgressSpinner from 'primevue/progressspinner'
-import ConfirmDialog from 'primevue/confirmdialog'
 import Button from 'primevue/button'
 import { useToast } from 'primevue/usetoast'
 
@@ -212,7 +210,7 @@ const { proxy } = getCurrentInstance()!
 
 onMounted(async () => {
     loading.value = true
-    await orderStore.fetchOrders?.()
+    orderStore.loadOrders()
     await new Promise(resolve => setTimeout(resolve, 1000))
     loading.value = false
 })
@@ -223,11 +221,12 @@ const viewOrderDetails = (orderId: number) => {
 
 // Use PrimeVue $confirm service
 const removeOrder = (orderId: number, event: Event) => {
+    if (!proxy) return
     proxy.$confirm.require({
         message: 'Are you sure you want to remove this order?',
         header: 'Remove Order',
         icon: 'pi pi-exclamation-triangle text-red-500',
-        target: event.currentTarget,
+        target: event.currentTarget as HTMLElement,
         acceptLabel: 'Remove',
         rejectLabel: 'Cancel',
         acceptClass: 'bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded',
@@ -247,7 +246,7 @@ const removeOrder = (orderId: number, event: Event) => {
 }
 
 const formatDate = (dateString: string) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' }
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
     return new Date(dateString).toLocaleDateString(undefined, options)
 }
 </script>
