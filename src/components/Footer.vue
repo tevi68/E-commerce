@@ -197,11 +197,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import InputText from 'primevue/inputtext'
-import Button from 'primevue/button'
 
-const email = ref('')
 
 const scrollToTop = () => {
   window.scrollTo({
