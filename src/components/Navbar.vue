@@ -358,8 +358,10 @@
 								<i class="pi pi-user text-white"></i>
 							</div>
 							<div>
-								<p class="font-semibold text-gray-800">Welcome!</p>
-								<p class="text-sm text-gray-600">Sign in for better experience</p>
+								<router-link to="/login" class="font-semibold text-gray-800 hover:text-orange-500 transition-colors duration-200">
+									<p class="font-semibold text-gray-800">Welcome!</p>
+									<p class="text-sm text-gray-600">Sign in for better experience</p>
+								</router-link>
 							</div>
 						</div>
 					</div>
