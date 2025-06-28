@@ -1,9 +1,6 @@
 <template>
   <div class="bg-gray-100 min-h-screen py-6 sm:py-10">
-    <!-- PrimeVue Components -->
-    <ConfirmDialog></ConfirmDialog>
-    <Toast />
-
+    
     <!-- Loading Spinner -->
     <div v-if="loading" class="fixed inset-0 bg-white bg-opacity-30 flex items-center justify-center z-50">
       <ProgressSpinner style="width: 50px; height: 50px" strokeWidth="8" />
@@ -12,18 +9,29 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Title -->
       <h1 class="text-2xl sm:text-3xl font-bold mb-6">Shopping Cart</h1>
-
       <!-- Empty Cart State -->
-      <div v-if="!loading && cartItems.length === 0" class="bg-white shadow rounded-lg p-8 text-center">
-        <i class="pi pi-shopping-cart text-5xl text-gray-400 mb-4"></i>
-        <h2 class="text-xl font-semibold mb-2">Your cart is empty</h2>
-        <p class="text-gray-600 mb-6">Start shopping to add items to your cart</p>
-        <Button 
-          label="Continue Shopping" 
-          icon="pi pi-arrow-left" 
-          severity="secondary" 
-          @click="$router.push('/')" 
+      <!-- <div v-if="!loading && cartItems.length === 0" class="bg-white shadow rounded-lg p-8 text-center">
+          <i class="pi pi-shopping-cart text-5xl text-gray-400 mb-4"></i>
+          <h2 class="text-xl font-semibold mb-2">Your cart is empty</h2>
+          <p class="text-gray-600 mb-6">Start shopping to add items to your cart</p>
+          <Button 
+            label="Continue Shopping" 
+            icon="pi pi-arrow-left" 
+            severity="secondary" 
+            @click="$router.push('/')" 
         />
+      </div> -->
+      <!-- Empty Cart State -->
+      <div v-if="!loading && cartItems.length === 0" class="flex flex-col items-center justify-center text-center py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 min-h-[400px]">
+        <img src="../../../assets/image/cart-empty.png" alt="Empty Cart" class="w-32 sm:w-40 mb-6 opacity-60" />
+        <h2 class="text-lg sm:text-xl font-semibold text-gray-800 mb-2">Your cart is empty</h2>
+        <p class="text-gray-600 mb-6">Start shopping to add items to your cart</p>
+        <button
+          @click="$router.push('/shopcard')"
+          class="bg-red-600 hover:bg-red-700 text-white font-semibold text-lg px-6 py-3 rounded-full transition-all duration-300"
+        >
+          Explore items
+        </button>
       </div>
 
       <!-- Cart with Items -->
@@ -248,7 +256,7 @@ async function confirmDelete(productId: number) {
       try {
         deletingItemId.value = productId
         await cartStore.removeFromCart(productId)
-        showToast('success', 'Success', 'Product has been removed from your cart')
+        showToast('success', 'Success', 'successfully')
       } catch (error) {
         showToast('error', 'Error', 'Failed to remove item from cart')
       } finally {

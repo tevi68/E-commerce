@@ -496,8 +496,7 @@ const addToCart = () => {
 
     toast.add({
         severity: 'success',
-        summary: 'Added to Cart',
-        detail: `${quantity.value} ${props.product.title} added to your cart`,
+        detail: 'Successfully',
         life: 3000
     })
 
@@ -509,8 +508,7 @@ const handleToggleFavorite = (id: number) => {
     if (isFavorite(id)) {
         toast.add({
             severity: 'success',
-            summary: 'Added to Favorites',
-            detail: `${props.product.title} has been added to your favorites.`,
+            detail: 'Successfully',
             life: 2000
         })
     } else {

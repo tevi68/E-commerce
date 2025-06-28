@@ -50,20 +50,20 @@
                             
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
                                 <Button
-                                v-for="method in paymentMethods"
-                                :key="method.id"
-                                :class="[
-                                    'h-20 transition-all duration-300 transform hover:scale-105',
-                                    selectedMethod === method.id 
-                                    ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg scale-105' 
-                                    : 'bg-white hover:bg-gray-50 text-gray-700 shadow-md border border-gray-200'
-                                ]"
-                                @click="selectedMethod = method.id"
-                                >
-                                <div class="flex flex-col items-center space-y-2">
-                                    <i :class="method.icon" class="text-2xl"></i>
-                                    <span class="text-sm font-semibold">{{ method.label }}</span>
-                                </div>
+                                    v-for="method in paymentMethods"
+                                    :key="method.id"
+                                    :class="[
+                                        'h-20 transition-all duration-300 transform hover:scale-105',
+                                        selectedMethod === method.id 
+                                        ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg scale-105' 
+                                        : 'bg-white hover:bg-gray-50 text-gray-700 shadow-md border border-gray-200'
+                                    ]"
+                                        @click="selectedMethod = method.id"
+                                    >
+                                    <div class="flex flex-col items-center space-y-2">
+                                        <i :class="method.icon" class="text-2xl"></i>
+                                        <span class="text-sm font-semibold">{{ method.label }}</span>
+                                    </div>
                                 </Button>
                             </div>
                         </div>

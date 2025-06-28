@@ -14,7 +14,7 @@
         <!-- Product Grid -->
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
             <ProductCard
-              v-for="product in products"
+              v-for="product in displayedProducts"
               :key="product.id"
               :product="product"
               :is-favorite="isFavorite(product.id)"
@@ -24,55 +24,60 @@
             />
         </div>
 
-        <!-- View All Button -->
-        <div class="text-center mt-10">
-            <!-- Loading Spinner (ក្រៅ Button) -->
-            <div v-if="loadingViewAll" class="flex justify-center items-center py-6">
+        <!-- View More Button -->
+        <div class="text-center mt-10" v-if="hasMoreProducts">
+            <div v-if="loadingMore" class="flex justify-center items-center py-6">
                 <svg class="animate-spin h-8 w-8 text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
                 </svg>
                 <span class="ml-3 text-orange-500 font-medium text-base">Loading...</span>
             </div>
-            <!-- Button (លាក់ពេល Loading) -->
             <button
                 v-else
-                @click="onViewAll"
+                @click="loadMoreProducts"
                 class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-orange-500 hover:bg-orange-600 transition-colors duration-200"
             >
-                View All Categories
+                View More
                 <svg class="ml-2 -mr-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                 </svg>
             </button>
         </div>
+        
         <ViewDetail v-if="showViewDetail && viewProduct" :product="viewProduct" @close="closeView" @add-to-cart="addToCart" />
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import ProductCard from './ProductCard.vue'
 import ViewDetail from './ViewDetail.vue'
 import { useCartStore } from '../../../store/cartStore'
 import type { Product } from '../../../store/storeProduct'
 import { fetchProducts } from '../../../store/productApi'
 
+// State
 const products = ref<Product[]>([])
+const displayedCount = ref(10)
 const favorites = ref<number[]>([])
 const viewProduct = ref<Product | null>(null)
 const showViewDetail = ref(false)
+const loadingMore = ref(false)
 const cartStore = useCartStore()
-const loadingViewAll = ref(false)
 
+// Computed properties
+const displayedProducts = computed(() => products.value.slice(0, displayedCount.value))
+const hasMoreProducts = computed(() => displayedCount.value < products.value.length)
 
-// Load products from mock API
+// Load initial products
 const loadData = async () => {
   products.value = (await fetchProducts()).filter(p => p.isOnProduct)
 }
 
 onMounted(loadData)
 
+// Methods
 const isFavorite = (productId: number) => favorites.value.includes(productId)
 
 const toggleFavorite = (productId: number) => {
@@ -97,17 +102,21 @@ const closeView = () => {
   showViewDetail.value = false
 }
 
-const onViewAll = () => {
-  loadingViewAll.value = true
-  setTimeout(() => {
-    loadingViewAll.value = false
-    // នៅទីនេះ អ្នកអាចបន្ថែម logic ដូចជា navigate ឬបង្ហាញ category ទាំងអស់
-  }, 1200)
+const loadMoreProducts = async () => {
+  loadingMore.value = true
+  try {
+    // Simulate API call delay
+    await new Promise(resolve => setTimeout(resolve, 800))
+    // Increase the number of displayed products
+    displayedCount.value += 8
+  } finally {
+    loadingMore.value = false
+  }
 }
 </script>
 
 <style scoped>
-    .container {
-        max-width: 1200px;
-    }
+.container {
+    max-width: 1200px;
+}
 </style>

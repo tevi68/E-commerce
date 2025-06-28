@@ -349,7 +349,7 @@
 			leave-from-class="opacity-100 transform translate-y-0"
 			leave-to-class="opacity-0 transform -translate-y-4"
 		>
-			<div v-if="mobileMenuOpen" class="md:hidden bg-white shadow-lg max-h-[80vh] overflow-y-auto">
+			<div v-if="mobileMenuOpen" class="md:hidden bg-white shadow-lg max-h-[100vh] overflow-y-auto">
 				<div class="p-6 space-y-4">
 					<!-- User Section -->
 					<div class="bg-gradient-to-r from-orange-50 to-red-50 p-4 rounded-xl">

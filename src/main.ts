@@ -80,6 +80,7 @@ app.component('Tabs', Tabs);
 app.component('Image', Image);
 app.component('InputMask', InputMask);
 
+
 app.use(ToastService);
 app.component('Toast', Toast);
 
