@@ -77,6 +77,33 @@ const routes: Array<RouteRecordRaw> = [
         meta: { auth: true, loggedIn: true }
     },
     {
+        path: '/blog',
+        name: 'Blog',
+        component: defineAsyncComponent({
+            loader: () => import('../pages/blog/Blog.vue'),
+            loadingComponent: LoadingComponent,
+        }),
+        meta: { auth: false, loggedIn: false }
+    },
+    {
+        path: '/about',
+        name: 'About',
+        component: defineAsyncComponent({
+            loader: () => import('../pages/about/About.vue'),
+            loadingComponent: LoadingComponent,
+        }),
+        meta: { auth: false, loggedIn: false }
+    },
+    {
+        path: '/contact',
+        name: 'Contact',
+        component: defineAsyncComponent({
+            loader: () => import('../pages/contact/Contact.vue'),
+            loadingComponent: LoadingComponent,
+        }),
+        meta: { auth: false, loggedIn: false }
+    },
+    {
         path: '/login',
         name: 'Login',
         component: defineAsyncComponent({

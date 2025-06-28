@@ -3,12 +3,15 @@
   <Toast />
   <ConfirmDialog />
   <router-view />
+
+  <Footer v-show="!isAuthPage" />
 </template>
 
 <script setup lang="ts">
 import { onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import Navbar from './components/Navbar.vue'
+import Footer from './components/Footer.vue'
 import Toast from 'primevue/toast'
 
 import { useCartStore } from './store/cartStore'

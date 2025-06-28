@@ -30,8 +30,6 @@
         <div class="absolute bottom-0 left-0 right-0 p-4 text-center">
           <h3 class="text-lg sm:text-xl font-semibold text-white"></h3>
           <p class="text-sm text-white/80 mt-1">
-            <!-- Optionally show category description or leave blank -->
-            <!-- {{ category.description || '' }} -->
           </p>
         </div>
       </div>
