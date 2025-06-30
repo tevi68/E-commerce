@@ -3,8 +3,7 @@
   <Toast />
   <ConfirmDialog />
   <router-view />
-
-  <Footer v-show="!isAuthPage" />
+  <Footer v-show="!isAuthPage && !isCheckout" />
 </template>
 
 <script setup lang="ts">
@@ -26,7 +25,10 @@ onMounted(() => {
 })
 
 const route = useRoute()
+
 const isAuthPage = computed(() =>
   route.path === '/login' || route.path === '/register'
 )
+
+const isCheckout = computed(() => route.path === '/checkout')
 </script>

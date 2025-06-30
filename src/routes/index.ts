@@ -18,7 +18,7 @@ const routes: Array<RouteRecordRaw> = [
         name: 'ViewCart',
         component: defineAsyncComponent({
             loader: () => import('../pages/hom-page/view-carts/ViewCart.vue'),
-            loadingComponent: LoadingComponent,
+            // loadingComponent: LoadingComponent,
         }),
         meta: { auth: false, loggedIn: false }
     },
@@ -36,7 +36,7 @@ const routes: Array<RouteRecordRaw> = [
         name: 'ViewFavorite',
         component: defineAsyncComponent({
             loader: () => import('../pages/hom-page/favoritevs/ViewFavorite.vue'),
-            loadingComponent: LoadingComponent,
+            // loadingComponent: LoadingComponent,
         }),
         meta: { auth: false, loggedIn: false }
     },
@@ -54,7 +54,7 @@ const routes: Array<RouteRecordRaw> = [
         name: 'MyOrders',
         component: defineAsyncComponent({
             loader: () => import('../pages/orders/MyOrders.vue'),
-            loadingComponent: LoadingComponent,
+            // loadingComponent: LoadingComponent,
         }),
         meta: { auth: false, loggedIn: true }
     },
@@ -72,7 +72,7 @@ const routes: Array<RouteRecordRaw> = [
         name: 'MyAccount',
         component: defineAsyncComponent({
             loader: () => import('../pages/myacount/MyAccount.vue'),
-            loadingComponent: LoadingComponent,
+            // loadingComponent: LoadingComponent,
         }),
         meta: { auth: true, loggedIn: true }
     },

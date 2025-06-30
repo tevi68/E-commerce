@@ -1,7 +1,7 @@
 <template>
 	<nav class="bg-white shadow-lg sticky top-0 z-50 border-b border-gray-100">
 		<!-- Top promotional banner -->
-		<!-- <div class="bg-gradient-to-r from-orange-500 to-red-500 text-white text-center py-2 text-sm font-medium">
+		<!-- <div class="bg-gradient-to-r from-orange-500 to-red-500 text-white text-center py-2 text-sm font-medium xl:hidden">
 			<div class="container mx-auto px-4 flex items-center justify-center space-x-4">
 				<i class="pi pi-gift animate-pulse"></i>
 				<span>🎉 Free shipping on orders over $50! Limited time offer</span>
@@ -368,23 +368,23 @@
 
 					<!-- Navigation Links -->
 					<div class="space-y-2">
-						<router-link to="/" class="nav-link-mobile flex items-center p-4 rounded-xl hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
+						<router-link @click="closeMobileMenu" to="/" class="nav-link-mobile flex items-center p-4 rounded-xl hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
 							<i class="pi pi-home mr-4 text-lg group-hover:scale-110 transition-transform duration-200"></i> 
 							<span class="font-medium">Home</span>
 						</router-link>
-						<router-link to="/shopcard" class="nav-link-mobile flex items-center p-4 rounded-xl hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
+						<router-link @click="closeMobileMenu" to="/shopcard" class="nav-link-mobile flex items-center p-4 rounded-xl hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
 							<i class="pi pi-shopping-cart mr-4 text-lg group-hover:scale-110 transition-transform duration-200"></i> 
 							<span class="font-medium">Shop</span>
 						</router-link>
-						<router-link to="/blog" class="nav-link-mobile flex items-center p-4 rounded-xl hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
+						<router-link @click="closeMobileMenu" to="/blog" class="nav-link-mobile flex items-center p-4 rounded-xl hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
 							<i class="pi pi-book mr-4 text-lg group-hover:scale-110 transition-transform duration-200"></i> 
 							<span class="font-medium">Blog</span>
 						</router-link>
-						<router-link to="/about" class="nav-link-mobile flex items-center p-4 rounded-xl hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
+						<router-link @click="closeMobileMenu" to="/about" class="nav-link-mobile flex items-center p-4 rounded-xl hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
 							<i class="pi pi-info-circle mr-4 text-lg group-hover:scale-110 transition-transform duration-200"></i> 
 							<span class="font-medium">About</span>
 						</router-link>
-						<router-link to="/contact" class="nav-link-mobile flex items-center p-4 rounded-xl hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
+						<router-link @click="closeMobileMenu" to="/contact" class="nav-link-mobile flex items-center p-4 rounded-xl hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
 							<i class="pi pi-envelope mr-4 text-lg group-hover:scale-110 transition-transform duration-200"></i> 
 							<span class="font-medium">Contact</span>
 						</router-link>
@@ -397,23 +397,23 @@
 							<span>Categories</span>
 						</div>
 						<div class="space-y-2 pl-6">
-							<router-link to="/electronics" class="nav-link-mobile flex items-center p-3 rounded-lg hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
+							<router-link @click="closeMobileMenu" to="/electronics" class="nav-link-mobile flex items-center p-3 rounded-lg hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
 								<i class="pi pi-mobile mr-3 text-orange-400 group-hover:scale-110 transition-transform duration-200"></i> 
 								<span>Electronics</span>
 							</router-link>
-							<router-link to="/clothing" class="nav-link-mobile flex items-center p-3 rounded-lg hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
+							<router-link @click="closeMobileMenu" to="/clothing" class="nav-link-mobile flex items-center p-3 rounded-lg hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
 								<i class="pi pi-shopping-bag mr-3 text-orange-400 group-hover:scale-110 transition-transform duration-200"></i> 
 								<span>Fashion & Clothing</span>
 							</router-link>
-							<router-link to="/home-garden" class="nav-link-mobile flex items-center p-3 rounded-lg hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
+							<router-link @click="closeMobileMenu" to="/home-garden" class="nav-link-mobile flex items-center p-3 rounded-lg hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
 								<i class="pi pi-home mr-3 text-orange-400 group-hover:scale-110 transition-transform duration-200"></i> 
 								<span>Home & Garden</span>
 							</router-link>
-							<router-link to="/beauty" class="nav-link-mobile flex items-center p-3 rounded-lg hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
+							<router-link @click="closeMobileMenu" to="/beauty" class="nav-link-mobile flex items-center p-3 rounded-lg hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
 								<i class="pi pi-star mr-3 text-orange-400 group-hover:scale-110 transition-transform duration-200"></i> 
 								<span>Beauty & Health</span>
 							</router-link>
-							<router-link to="/toys" class="nav-link-mobile flex items-center p-3 rounded-lg hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
+							<router-link @click="closeMobileMenu" to="/toys" class="nav-link-mobile flex items-center p-3 rounded-lg hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
 								<i class="pi pi-gift mr-3 text-orange-400 group-hover:scale-110 transition-transform duration-200"></i> 
 								<span>Toys & Games</span>
 							</router-link>
@@ -423,15 +423,15 @@
 					<!-- Account Section -->
 					<div class="border-t border-gray-200 pt-4">
 						<div class="space-y-2">
-							<router-link to="/myaccount" class="nav-link-mobile flex items-center p-4 rounded-xl hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
+							<router-link @click="closeMobileMenu" to="/myaccount" class="nav-link-mobile flex items-center p-4 rounded-xl hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
 								<i class="pi pi-user mr-4 text-lg group-hover:scale-110 transition-transform duration-200"></i> 
 								<span class="font-medium">My Account</span>
 							</router-link>
-							<router-link to="/myorders" class="nav-link-mobile flex items-center p-4 rounded-xl hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
+							<router-link @click="closeMobileMenu" to="/myorders" class="nav-link-mobile flex items-center p-4 rounded-xl hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 transition-all duration-200 group">
 								<i class="pi pi-shopping-cart mr-4 text-lg group-hover:scale-110 transition-transform duration-200"></i> 
 								<span class="font-medium">My Orders</span>
 							</router-link>
-							<router-link to="/viewfavorite" class="nav-link-mobile flex items-center p-4 rounded-xl hover:bg-gradient-to-r hover:from-red-50 hover:to-pink-50 hover:text-red-600 transition-all duration-200 group">
+							<router-link @click="closeMobileMenu" to="/viewfavorite" class="nav-link-mobile flex items-center p-4 rounded-xl hover:bg-gradient-to-r hover:from-red-50 hover:to-pink-50 hover:text-red-600 transition-all duration-200 group">
 								<i class="pi pi-heart mr-4 text-lg group-hover:scale-110 transition-transform duration-200"></i> 
 								<span class="font-medium">Wishlist</span>
 								<span v-if="favorites.length > 0" class="ml-auto bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full px-2 py-1 font-semibold">
@@ -633,6 +633,9 @@ const signOut = () => {
 	console.log('Signing out...');
 	isOpen.value = false;
 };
+function closeMobileMenu() {
+  mobileMenuOpen.value = false;
+}
 </script>
 
 

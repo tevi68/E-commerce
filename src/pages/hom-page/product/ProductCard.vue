@@ -68,8 +68,8 @@
                         <p v-if="product.originalPrice" class="text-gray-400 text-sm line-through">${{ product.originalPrice.toFixed(2) }}</p>
                     </div>
                 
-                    <button  @click.stop="$emit('view-product', product)" class="bg-orange-500 hover:bg-orange-600 text-white p-1 inline-block size-8 rounded-full ring-2 ring-orange-500">
-                        <i class="pi pi-shopping-cart"></i>
+                    <button  @click.stop="$emit('view-product', product)" class="bg-orange-500 hover:bg-orange-600 text-white p-1 inline-block size-9 rounded-full ring-2 ring-orange-500">
+                        <i class="pi pi-shopping-cart" style="font-size: 1.3rem;"></i>
                     </button>
                 </div>
             </div>

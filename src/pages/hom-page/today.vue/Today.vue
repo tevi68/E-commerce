@@ -41,6 +41,7 @@
                         <div class="relative overflow-hidden aspect-square">
                             <img
                                 :src="slotProps.data.image"
+                                @click="openView(slotProps.data)"
                                 class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500"
                                 :alt="slotProps.data.title"
                             />
@@ -86,7 +87,7 @@
                                     </div>
                                     <button 
                                         class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm transition-all duration-300 flex items-center shadow-md hover:shadow-lg"
-                                        @click="addToCart(slotProps.data)"
+                                        @click="openView(slotProps.data)"
                                     >
                                         <span class="pi pi-shopping-cart mr-2"></span> Buy Now
                                     </button>
@@ -101,6 +102,12 @@
             <div v-else class="text-center py-12">
                 <p class="text-gray-500">No deals available today. Check back later!</p>
             </div>
+            <ViewDetail
+                v-if="showViewDetail && viewProduct"
+                :product="viewProduct"
+                @close="closeView"
+                @add-to-cart="addToCart"
+            />
         </div>
     </section>
 </template>
@@ -108,8 +115,15 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import Carousel from 'primevue/carousel'
+import ViewDetail from '../product/ViewDetail.vue'
 import { products } from '../../../store/storeProduct'
 import type { Product } from '../../../store/storeProduct'
+import { useCartStore } from '../../../store/cartStore'
+
+
+const showViewDetail = ref(false)
+const viewProduct = ref<Product | null>(null)
+const cartStore = useCartStore()
 
 const cambodiaTime = ref('')
 
@@ -130,11 +144,6 @@ function updateCambodiaTime() {
     cambodiaTime.value = new Date().toLocaleTimeString('en-US', options)
 }
 
-// Add to cart function
-const addToCart = (product: Product) => {
-    console.log('Added to cart:', product)
-}
-
 let interval: ReturnType<typeof setInterval>
 
 onMounted(() => {
@@ -145,6 +154,19 @@ onMounted(() => {
 onBeforeUnmount(() => {
     clearInterval(interval)
 })
+
+const addToCart = (product: Product, quantity = 1) => {
+  cartStore.addToCart(product, quantity)
+}
+
+const openView = (product: Product) => {
+  viewProduct.value = product
+  showViewDetail.value = true
+}
+
+const closeView = () => {
+  showViewDetail.value = false
+}
 
 const responsiveOptions = [
     {
@@ -171,4 +193,12 @@ const responsiveOptions = [
 </script>
 
 <style scoped>
+@media (max-width: 768px) {
+  /* Hide prev/next carousel buttons on small screens */
+  ::v-deep(.p-carousel-prev-button),
+  ::v-deep(.p-carousel-next-button) {
+    display: none !important;
+  }
+}
+
 </style>
