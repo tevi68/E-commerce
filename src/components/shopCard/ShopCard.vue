@@ -3,15 +3,15 @@
         <!-- Mobile toggle button (outside sidebar) -->
 
         <!-- Filter Sidebar -->
-        <aside class="w-full lg:w-80 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 dark:border-gray-700/50 p-6 mb-6 lg:mb-0 transition-all duration-500 hover:shadow-3xl"
+        <aside class="w-full lg:w-80 bg-white rounded-2xl shadow-lg border border-gray-200 p-6 mb-6 lg:mb-0 transition-all duration-500 hover:shadow-xl"
             :class="{ 
                 'hidden lg:block': !showMobileFilters, 
-                'fixed inset-0 z-[100] h-screen w-screen overflow-y-auto bg-white dark:bg-gray-900 lg:static lg:inset-auto lg:h-auto lg:w-80': showMobileFilters 
+                'fixed inset-0 z-[100] h-screen w-screen overflow-y-auto bg-white lg:static lg:inset-auto lg:h-auto lg:w-80': showMobileFilters 
             }">
             
             <!-- Header with close button (mobile only) -->
-            <div class="flex justify-between items-center mb-8 pb-6 border-b border-gradient-to-r from-orange-200/30 to-pink-200/30 dark:from-orange-700/30 dark:to-pink-700/30">
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-3">
+            <div class="flex justify-between items-center mb-8 pb-6 border-b border-gray-200">
+                <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-3">
                     <div class="w-10 h-10 bg-gradient-to-br from-orange-400 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
                         <span class="pi pi-filter text-white text-lg"></span>
                     </div>
@@ -20,13 +20,13 @@
                     </span>
                 </h2>
                 <button @click="showMobileFilters = false" 
-                        class="lg:hidden group w-10 h-10 bg-gray-100 dark:bg-gray-800 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-all duration-300 flex items-center justify-center">
+                        class="lg:hidden group w-10 h-10 bg-gray-100 hover:bg-red-50 rounded-xl transition-all duration-300 flex items-center justify-center">
                     <span class="pi pi-times text-gray-500 group-hover:text-red-500 transition-colors"></span>
                 </button>
             </div>
             <!-- Category Filter -->
             <div class="mb-8 group">
-                <label class="flex items-center gap-2 text-gray-700 dark:text-gray-300 font-semibold mb-4 text-sm uppercase tracking-wider">
+                <label class="flex items-center gap-2 text-gray-700 font-semibold mb-4 text-sm uppercase tracking-wider">
                     <div class="w-6 h-6 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-lg flex items-center justify-center">
                         <span class="pi pi-tag text-white text-xs"></span>
                     </div>
@@ -39,11 +39,11 @@
                             placeholder="Select Category"
                             class="w-full transform transition-all duration-300 hover:scale-[1.02]"
                             :pt="{
-                                root: { class: 'border-2 border-gray-200/50 dark:border-gray-600/50 rounded-xl shadow-sm hover:shadow-md hover:border-orange-300 dark:hover:border-orange-500 transition-all duration-300' },
-                                input: { class: 'py-3.5 px-4 text-sm bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm' },
+                                root: { class: 'border-2 border-gray-200 rounded-xl shadow-sm hover:shadow-md hover:border-orange-300 transition-all duration-300' },
+                                input: { class: 'py-3.5 px-4 text-sm bg-white' },
                                 trigger: { class: 'text-orange-500' },
-                                panel: { class: 'bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border-2 border-gray-200/50 dark:border-gray-700/50 shadow-2xl rounded-xl mt-2' },
-                                item: { class: 'text-sm hover:bg-gradient-to-r hover:from-orange-50 hover:to-pink-50 dark:hover:from-orange-900/20 dark:hover:to-pink-900/20 transition-all duration-200 px-4 py-3' }
+                                panel: { class: 'bg-white border-2 border-gray-200 shadow-xl rounded-xl mt-2' },
+                                item: { class: 'text-sm hover:bg-gradient-to-r hover:from-orange-50 hover:to-pink-50 transition-all duration-200 px-4 py-3' }
                             }">
                         <template #value="slotProps">
                             <div v-if="slotProps.value" class="flex items-center gap-3">
@@ -64,13 +64,13 @@
 
             <!-- Price Filter -->
             <div class="mb-8">
-                <label class="flex items-center gap-2 text-gray-700 dark:text-gray-300 font-semibold mb-4 text-sm uppercase tracking-wider">
+                <label class="flex items-center gap-2 text-gray-700 font-semibold mb-4 text-sm uppercase tracking-wider">
                     <div class="w-6 h-6 bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg flex items-center justify-center">
                         <span class="pi pi-dollar text-white text-xs"></span>
                     </div>
                     Price Range
                 </label>
-                <div class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 rounded-xl p-5 border border-gray-200/50 dark:border-gray-600/50">
+                <div class="bg-gray-50 rounded-xl p-5 border border-gray-200">
                     <Slider v-model="priceRange"
                         :min="0"
                         :max="1000"
@@ -83,12 +83,12 @@
                             handle: { class: 'w-5 h-5 bg-white border-3 border-orange-400 shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-200 rounded-full' }
                         }" />
                     <div class="flex items-center justify-between">
-                        <div class="bg-white dark:bg-gray-800 px-3 py-1.5 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600">
-                            <span class="text-sm font-semibold text-green-600 dark:text-green-400">${{ priceRange[0] }}</span>
+                        <div class="bg-white px-3 py-1.5 rounded-lg shadow-sm border border-gray-200">
+                            <span class="text-sm font-semibold text-green-600">${{ priceRange[0] }}</span>
                         </div>
                         <div class="flex-1 mx-3 h-px bg-gradient-to-r from-gray-300 via-orange-200 to-gray-300"></div>
-                        <div class="bg-white dark:bg-gray-800 px-3 py-1.5 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600">
-                            <span class="text-sm font-semibold text-green-600 dark:text-green-400">${{ priceRange[1] }}</span>
+                        <div class="bg-white px-3 py-1.5 rounded-lg shadow-sm border border-gray-200">
+                            <span class="text-sm font-semibold text-green-600">${{ priceRange[1] }}</span>
                         </div>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
 
             <!-- Rating Filter -->
             <div class="mb-8">
-                <label class="flex items-center gap-2 text-gray-700 dark:text-gray-300 font-semibold mb-4 text-sm uppercase tracking-wider">
+                <label class="flex items-center gap-2 text-gray-700 font-semibold mb-4 text-sm uppercase tracking-wider">
                     <div class="w-6 h-6 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-lg flex items-center justify-center">
                         <span class="pi pi-star-fill text-white text-xs"></span>
                     </div>
@@ -108,8 +108,8 @@
                         @click="minRating = rating"
                         class="group flex items-center gap-4 p-3 rounded-xl cursor-pointer transition-all duration-300 hover:scale-[1.02]"
                         :class="{
-                            'bg-gradient-to-r from-orange-50 to-pink-50 dark:from-orange-900/30 dark:to-pink-900/30 border-2 border-orange-200 dark:border-orange-700 shadow-md': minRating === rating,
-                            'bg-white/50 dark:bg-gray-800/50 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 dark:hover:from-gray-700 dark:hover:to-gray-600 border border-gray-200/50 dark:border-gray-600/50': minRating !== rating
+                            'bg-gradient-to-r from-orange-50 to-pink-50 border-2 border-orange-200 shadow-md': minRating === rating,
+                            'bg-white hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 border border-gray-200': minRating !== rating
                         }">
                         <Rating :modelValue="rating" 
                             :readonly="true" 
@@ -117,9 +117,9 @@
                             class="text-lg"
                             :pt="{
                                 onIcon: { class: 'text-yellow-400 drop-shadow-sm' },
-                                offIcon: { class: 'text-gray-300 dark:text-gray-600' }
+                                offIcon: { class: 'text-gray-300' }
                             }" />
-                        <span class="text-sm font-medium text-gray-600 dark:text-gray-300 group-hover:text-gray-800 dark:group-hover:text-white transition-colors">
+                        <span class="text-sm font-medium text-gray-600 group-hover:text-gray-800 transition-colors">
                             {{ rating }}+ Stars
                         </span>
                         <div v-if="minRating === rating" 
@@ -130,13 +130,13 @@
                     <div @click="minRating = 0"
                         class="group flex items-center gap-4 p-3 rounded-xl cursor-pointer transition-all duration-300 hover:scale-[1.02]"
                         :class="{
-                            'bg-gradient-to-r from-orange-50 to-pink-50 dark:from-orange-900/30 dark:to-pink-900/30 border-2 border-orange-200 dark:border-orange-700 shadow-md': minRating === 0,
-                            'bg-white/50 dark:bg-gray-800/50 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 dark:hover:from-gray-700 dark:hover:to-gray-600 border border-gray-200/50 dark:border-gray-600/50': minRating !== 0
+                            'bg-gradient-to-r from-orange-50 to-pink-50 border-2 border-orange-200 shadow-md': minRating === 0,
+                            'bg-white hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 border border-gray-200': minRating !== 0
                         }">
                         <div class="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-gray-400 to-gray-500 rounded-lg">
                             <span class="pi pi-star text-white text-sm"></span>
                         </div>
-                        <span class="text-sm font-medium text-gray-600 dark:text-gray-300 group-hover:text-gray-800 dark:group-hover:text-white transition-colors">
+                        <span class="text-sm font-medium text-gray-600 group-hover:text-gray-800 transition-colors">
                             Any Rating
                         </span>
                         <div v-if="minRating === 0" 
@@ -149,45 +149,45 @@
 
             <!-- Availability Filter -->
             <div class="mb-10">
-                <label class="flex items-center gap-2 text-gray-700 dark:text-gray-300 font-semibold mb-4 text-sm uppercase tracking-wider">
+                <label class="flex items-center gap-2 text-gray-700 font-semibold mb-4 text-sm uppercase tracking-wider">
                     <div class="w-6 h-6 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-lg flex items-center justify-center">
                         <span class="pi pi-box text-white text-xs"></span>
                     </div>
                     Availability
                 </label>
                 <div class="space-y-3">
-                    <div class="group flex items-center gap-4 p-3 bg-white/50 dark:bg-gray-800/50 rounded-xl border border-gray-200/50 dark:border-gray-600/50 hover:bg-gradient-to-r hover:from-green-50 hover:to-emerald-50 dark:hover:from-green-900/20 dark:hover:to-emerald-900/20 transition-all duration-300">
+                    <div class="group flex items-center gap-4 p-3 bg-white rounded-xl border border-gray-200 hover:bg-gradient-to-r hover:from-green-50 hover:to-emerald-50 transition-all duration-300">
                         <Checkbox v-model="inStockOnly"
                                 inputId="inStock"
                                 :binary="true"
                                 class="transform transition-all duration-200 hover:scale-110"
                                 :pt="{
                                     root: { class: 'relative' },
-                                    box: { class: 'w-5 h-5 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 transition-all duration-200' },
+                                    box: { class: 'w-5 h-5 border-2 border-gray-300 rounded-lg bg-white transition-all duration-200' },
                                     input: { class: 'peer' },
                                     icon: { class: 'text-white text-sm' }
                                 }" />
                         <div class="flex items-center gap-2">
                             <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                            <label for="inStock" class="text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+                            <label for="inStock" class="text-sm font-medium text-gray-700 cursor-pointer group-hover:text-green-600 transition-colors">
                                 In Stock Only
                             </label>
                         </div>
                     </div>
-                    <div class="group flex items-center gap-4 p-3 bg-white/50 dark:bg-gray-800/50 rounded-xl border border-gray-200/50 dark:border-gray-600/50 hover:bg-gradient-to-r hover:from-red-50 hover:to-rose-50 dark:hover:from-red-900/20 dark:hover:to-rose-900/20 transition-all duration-300">
+                    <div class="group flex items-center gap-4 p-3 bg-white rounded-xl border border-gray-200 hover:bg-gradient-to-r hover:from-red-50 hover:to-rose-50 transition-all duration-300">
                         <Checkbox v-model="includeOutOfStock"
                                 inputId="outOfStock"
                                 :binary="true"
                                 class="transform transition-all duration-200 hover:scale-110"
                                 :pt="{
                                     root: { class: 'relative' },
-                                    box: { class: 'w-5 h-5 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 transition-all duration-200' },
+                                    box: { class: 'w-5 h-5 border-2 border-gray-300 rounded-lg bg-white transition-all duration-200' },
                                     input: { class: 'peer' },
                                     icon: { class: 'text-white text-sm' }
                                 }" />
                         <div class="flex items-center gap-2">
                             <div class="w-3 h-3 bg-red-400 rounded-full"></div>
-                            <label for="outOfStock" class="text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                            <label for="outOfStock" class="text-sm font-medium text-gray-700 cursor-pointer group-hover:text-red-600 transition-colors">
                                 Include Out of Stock
                             </label>
                         </div>
@@ -196,10 +196,10 @@
             </div>
 
             <!-- Sticky action buttons at bottom (mobile only) -->
-            <div class="bottom-0 left-0 right-0 bg-gradient-to-t pt-6 pb-4 px-6 -mx-6 -mb-6 border-t border-gray-200/50 dark:border-gray-700/50">
+            <div class="bottom-0 left-0 right-0 bg-gradient-to-t from-white to-white/90 pt-6 pb-4 px-6 -mx-6 -mb-6 border-t border-gray-200">
                 <div class="flex flex-col gap-3">
                     <button @click="applyFilters"
-                            class="group relative w-full bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 hover:from-orange-600 hover:via-pink-600 hover:to-purple-700 text-white py-4 rounded-xl font-semibold text-sm transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-[1.02] overflow-hidden">
+                            class="group relative w-full bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 hover:from-orange-600 hover:via-pink-600 hover:to-purple-700 text-white py-4 rounded-xl font-semibold text-sm transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02] overflow-hidden">
                         <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         <div class="relative flex items-center justify-center gap-3">
                             <div class="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
@@ -210,7 +210,7 @@
                     </button>
                     
                     <button @click="resetFilters"
-                            class="group w-full bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 hover:from-gray-200 hover:to-gray-300 dark:hover:from-gray-600 dark:hover:to-gray-500 text-gray-800 dark:text-gray-200 py-3.5 rounded-xl font-medium text-sm transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-[1.02] border border-gray-300/50 dark:border-gray-500/50">
+                            class="group w-full bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-800 py-3.5 rounded-xl font-medium text-sm transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-[1.02] border border-gray-300">
                         <div class="flex items-center justify-center gap-3">
                             <div class="w-5 h-5 bg-gray-400/20 rounded-full flex items-center justify-center group-hover:rotate-180 transition-transform duration-500">
                                 <span class="pi pi-refresh text-xs"></span>

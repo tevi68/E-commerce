@@ -183,10 +183,16 @@
 							/>
 						</div>
 						
+						
 						<!-- Enhanced Search Button -->
-						<button @click="executeSearch" class="absolute right-0 top-0 h-full px-6 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-r-xl hover:from-orange-600 hover:to-red-600 transition-all duration-200 shadow-lg hover:shadow-xl">
-						<i class="pi pi-search text-lg"></i>
-						</button>
+						<router-link
+							to="/shopcard"
+							class="absolute right-0 top-0 h-full px-6 flex items-center justify-center bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-r-xl hover:from-orange-600 hover:to-red-600 transition-all duration-300 ease-in-out shadow-md hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2"
+							aria-label="Search"
+						>
+							<i class="pi pi-search text-xl"></i>
+						</router-link>
+
 						
 						<!-- Enhanced Search Recommendations Dropdown -->
 						<div v-if="searchActive"

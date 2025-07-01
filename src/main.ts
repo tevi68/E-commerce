@@ -34,6 +34,9 @@ import Toast from 'primevue/toast';
 import Image from 'primevue/image';
 import InputMask from 'primevue/inputmask'
 
+import VirtualScroller from 'primevue/virtualscroller';
+
+
 import ConfirmDialog from 'primevue/confirmdialog';
 import ConfirmationService from 'primevue/confirmationservice'
 
@@ -79,6 +82,8 @@ app.component('Tag', Tag);
 app.component('Tabs', Tabs);
 app.component('Image', Image);
 app.component('InputMask', InputMask);
+
+app.component('VirtualScroller', VirtualScroller);
 
 
 app.use(ToastService);
