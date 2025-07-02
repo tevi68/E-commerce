@@ -1,11 +1,16 @@
 <template>
   <Navbar v-show="!isAuthPage" />
   <Toast position="top-center" class="w-full max-w-[95vw] md:max-w-md" />
-  <ConfirmDialog 
+ <ConfirmDialog
+    class="confirm-dialog-container"
     position="center"
-    :breakpoints="{'640px': '90vw', '1024px': '50vw'}"
-    :style="{width: '95vw', maxWidth: '500px'}"
+    :breakpoints="{
+      '640px': '90vw',
+      '1024px': '60vw'
+    }"
+    :style="{ width: '95vw', maxWidth: '500px' }"
   />
+
   <router-view />
   <Footer v-show="!isAuthPage && !isCheckout" />
 </template>
@@ -55,10 +60,10 @@ const isCheckout = computed(() => route.path === '/checkout')
   }
 }
 
-.confirm-dialog-container .p-dialog {
-  width: 95vw !important;
-  max-width: 500px !important;
-  margin: 0 auto !important;
+.p-dialog {
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 1rem;
 }
 
 @media (min-width: 640px) {

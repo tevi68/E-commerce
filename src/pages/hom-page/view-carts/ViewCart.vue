@@ -231,7 +231,6 @@ const totalPrice = computed(() => {
 function increaseQty(item: { product: any; quantity: number }) {
   if (item.quantity < item.product.stock) {
     cartStore.addToCart(item.product, 1)
-    showToast('success', 'Quantity increased', `${item.product.title} quantity updated`)
   }
 }
 
@@ -239,14 +238,13 @@ function decreaseQty(item: { product: any; quantity: number }) {
   if (item.quantity > 1) {
     item.quantity--
     cartStore.saveCart()
-    showToast('success', 'Quantity decreased', `${item.product.title} quantity updated`)
   }
 }
 
 async function confirmDelete(productId: number) {
   confirm.require({
     message: 'Are you sure you want to remove this item from your cart?',
-    header: 'Delete Confirmation',
+    header: 'Delete',
     icon: 'pi pi-exclamation-triangle',
     acceptClass: 'p-button-danger',
     rejectClass: 'p-button-secondary p-button-text',
@@ -263,9 +261,6 @@ async function confirmDelete(productId: number) {
         deletingItemId.value = null
       }
     },
-    reject: () => {
-      showToast('info', 'Cancelled', 'Delete operation cancelled')
-    }
   })
 }
 
