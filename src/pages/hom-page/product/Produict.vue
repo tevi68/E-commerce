@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto px-4 py-8">
+    <div class="bg-white py-4 px-4 sm:px-6 max-w-7xl mx-auto">
         <!-- Section Title -->
         <div class="text-center mb-10">
             <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 relative inline-block">

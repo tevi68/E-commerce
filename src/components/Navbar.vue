@@ -167,137 +167,137 @@
 
 				<!-- Enhanced Search Bar Component -->
 				<div class="flex flex-1 mx-12">
-					<div @mouseenter="isHoveringSearch = true" 
-						@mouseleave="handleSearchMouseLeave" 
-						class="relative w-full group">
+					<div @mouseenter="isHoveringSearch = true" @mouseleave="handleSearchMouseLeave" class="relative w-full group">
 						
-						<!-- Enhanced Search Input -->
+						<!-- Search Input -->
 						<div class="relative transform transition-all duration-300 group-hover:scale-[1.02]">
-							<input
-								type="text"
-								placeholder="Search for products, brands and more..."
-								class="w-full py-3 px-6 border-2 border-gray-200 rounded-l-xl focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-100 transition-all duration-200 bg-gray-50 focus:bg-white text-gray-700 placeholder-gray-500"
-								v-model="searchQuery"
-								@focus="searchActive = true"
-								ref="searchInput"
-							/>
+						<input
+							type="text"
+							placeholder="Search for products, brands and more..."
+							class="w-full py-3 px-6 border-2 border-gray-200 rounded-l-xl focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-100 transition-all duration-200 bg-gray-50 focus:bg-white text-gray-700 placeholder-gray-500"
+							v-model="searchQuery"
+							@focus="searchActive = true"
+							ref="searchInput"
+						/>
 						</div>
 						
-						
-						<!-- Enhanced Search Button -->
-						<router-link
-							to="/shopcard"
-							class="absolute right-0 top-0 h-full px-6 flex items-center justify-center bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-r-xl hover:from-orange-600 hover:to-red-600 transition-all duration-300 ease-in-out shadow-md hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2"
+						<!-- Search Button -->
+						<router-link to="/shopcard" class="absolute right-0 top-0 h-full px-6 flex items-center justify-center bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-r-xl hover:from-orange-600 hover:to-red-600 transition-all duration-300 ease-in-out shadow-md hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2"
 							aria-label="Search"
 						>
 							<i class="pi pi-search text-xl"></i>
 						</router-link>
 
+						<!-- Search Dropdown -->
+						<div v-if="searchActive" class="absolute z-50 w-full mt-3 bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-100 overflow-hidden animate-fade-in-up max-h-[80vh] flex flex-col">
 						
-						<!-- Enhanced Search Recommendations Dropdown -->
-						<div v-if="searchActive"
-							class="absolute z-50 w-full mt-3 bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-100 overflow-hidden animate-fade-in-up">
-							
-							<!-- Glassmorphism Header -->
+							<!-- Header Section -->
 							<div class="bg-gradient-to-r from-orange-500/10 to-red-500/10 p-1">
 								<div class="bg-white/80 backdrop-blur-sm rounded-t-3xl p-6">
-									
-									<!-- Recent Searches Section -->
-									<div v-if="recentSearches.length > 0" class="mb-6">
-										<div class="flex justify-between items-center mb-4">
-											<h3 class="text-sm font-bold text-gray-700 flex items-center">
-												<i class="pi pi-clock text-orange-500 mr-2"></i>
-												RECENT SEARCHES
-											</h3>
-											<button @click="clearRecentSearches" 
-													class="text-xs text-orange-500 hover:text-orange-600 font-medium hover:underline transition-all duration-200">
-												Clear all
-											</button>
-										</div>
-										<ul class="space-y-1">
-											<li v-for="(search, index) in recentSearches" 
-												:key="index"
-												class="flex justify-between items-center py-3 px-4 hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 rounded-xl cursor-pointer transition-all duration-200 group">
-												<span @click="selectRecentSearch(search)" class="flex-1 flex items-center">
-													<i class="pi pi-history text-gray-400 mr-3 group-hover:text-orange-500 transition-colors duration-200"></i>
-													<span class="text-gray-700 group-hover:text-gray-900 font-medium">{{ search }}</span>
-												</span>
-												<button @click.stop="removeRecentSearch(index)" 
-														class="text-gray-400 hover:text-red-500 p-1 rounded-full hover:bg-red-50 transition-all duration-200">
-													<i class="pi pi-times text-sm"></i>
-												</button>
-											</li>
-										</ul>
+								
+								<!-- Recent Searches -->
+								<div v-if="recentSearches.length > 0" class="mb-6">
+									<div class="flex justify-between items-center mb-4">
+									<h3 class="text-sm font-bold text-gray-700 flex items-center">
+										<i class="pi pi-clock text-orange-500 mr-2"></i>
+										RECENT SEARCHES
+									</h3>
+									<button @click="clearRecentSearches" 
+											class="text-xs text-orange-500 hover:text-orange-600 font-medium hover:underline transition-all duration-200">
+										Clear all
+									</button>
 									</div>
-									
-									<!-- Popular Suggestions Section -->
-									<div class="mb-6">
-										<h3 class="text-sm font-bold text-gray-700 mb-4 flex items-center">
-											<i class="pi pi-star text-orange-500 mr-2"></i>
-											POPULAR SUGGESTIONS
-										</h3>
-										<div class="flex flex-wrap gap-3">
-											<span v-for="(suggestion, index) in popularSuggestions" 
-												:key="'suggestion-'+index"
-												@click="selectSuggestion(suggestion)"
-												class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-gray-100 to-gray-50 hover:from-orange-100 hover:to-red-100 rounded-full text-sm cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-md font-medium text-gray-700 hover:text-gray-900 border border-gray-200 hover:border-orange-300">
-												<i class="pi pi-hashtag text-xs mr-1 opacity-60"></i>
-												{{ suggestion }}
-											</span>
-										</div>
+									<div class="max-h-48 overflow-y-auto custom-scrollbar">
+									<ul class="space-y-1 pr-2">
+										<li v-for="(search, index) in recentSearches" 
+										:key="index"
+										class="flex justify-between items-center py-3 px-4 hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 rounded-xl cursor-pointer transition-all duration-200 group">
+										<span @click="selectRecentSearch(search)" class="flex-1 flex items-center">
+											<i class="pi pi-history text-gray-400 mr-3 group-hover:text-orange-500 transition-colors duration-200"></i>
+											<span class="text-gray-700 group-hover:text-gray-900 font-medium">{{ search }}</span>
+										</span>
+										<button @click.stop="removeRecentSearch(index)" 
+												class="text-gray-400 hover:text-red-500 p-1 rounded-full hover:bg-red-50 transition-all duration-200">
+											<i class="pi pi-times text-sm"></i>
+										</button>
+										</li>
+									</ul>
 									</div>
-									
-									<!-- Featured Products Section -->
-									<div>
-										<div class="flex justify-between items-center mb-4">
-											<h3 class="text-sm font-bold text-gray-700 flex items-center">
-												<i class="pi pi-heart text-orange-500 mr-2"></i>
-												FEATURED PRODUCTS
-											</h3>
-											<button @click="showMoreRecommendations"
-													class="text-sm text-orange-500 hover:text-orange-600 flex items-center cursor-pointer font-medium hover:underline transition-all duration-200">
-												<span>Other recommendations</span>
-												<i class="pi pi-arrow-right ml-1 text-xs"></i>
-											</button>
-										</div>
-										
-										<div class="grid grid-cols-5 gap-4">
-											<div v-for="(product, index) in visibleFeaturedProducts"
-												:key="'product-'+index"
-												@click="selectSuggestion(product.title)"
-												class="p-3 border border-gray-100 rounded-2xl hover:bg-gradient-to-br hover:from-orange-50 hover:to-red-50 cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg group">
-												
-												<div class="w-full h-24 mb-3 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl overflow-hidden relative">
-													<img :src="product.image" 
-														:alt="product.title"
-														class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-														@error="handleImageError"/>
-													<div class="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-												</div>
-												
-												<div class="font-semibold text-sm line-clamp-2 text-gray-700 group-hover:text-gray-900 transition-colors duration-200">
-													{{ product.title }}
-												</div>
-											</div>
-										</div>
+								</div>
+								
+								<!-- Popular Suggestions -->
+								<div class="mb-6">
+									<h3 class="text-sm font-bold text-gray-700 mb-4 flex items-center">
+									<i class="pi pi-star text-orange-500 mr-2"></i>
+									POPULAR SUGGESTIONS
+									</h3>
+									<div class="max-h-40 overflow-y-auto custom-scrollbar">
+									<div class="flex flex-wrap gap-3 pr-2">
+										<span v-for="(suggestion, index) in popularSuggestions" 
+										:key="'suggestion-'+index"
+										@click="selectSuggestion(suggestion)"
+										class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-gray-100 to-gray-50 hover:from-orange-100 hover:to-red-100 rounded-full text-sm cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-md font-medium text-gray-700 hover:text-gray-900 border border-gray-200 hover:border-orange-300">
+										<i class="pi pi-hashtag text-xs mr-1 opacity-60"></i>
+										{{ suggestion }}
+										</span>
 									</div>
+									</div>
+								</div>
 								</div>
 							</div>
 							
-							<!-- Enhanced Discover More Section -->
-							<div class="bg-gradient-to-r from-gray-50 to-white p-6 border-t border-gray-100">
+							<!-- Scrollable Main Content -->
+							<div class="flex-1 overflow-y-auto custom-scrollbar">
+								<!-- Featured Products -->
+								<div class="p-6">
+								<div class="flex justify-between items-center mb-4">
+									<h3 class="text-sm font-bold text-gray-700 flex items-center">
+									<i class="pi pi-heart text-orange-500 mr-2"></i>
+									FEATURED PRODUCTS
+									</h3>
+									<button @click="showMoreRecommendations"
+											class="text-sm text-orange-500 hover:text-orange-600 flex items-center cursor-pointer font-medium hover:underline transition-all duration-200">
+									<span>Other recommendations</span>
+									<i class="pi pi-arrow-right ml-1 text-xs"></i>
+									</button>
+								</div>
+								
+								<div class="grid grid-cols-5 gap-4 pr-2">
+									<div v-for="(product, index) in visibleFeaturedProducts"
+									:key="'product-'+index"
+									@click="selectSuggestion(product.title)"
+									class="p-3 border border-gray-100 rounded-2xl hover:bg-gradient-to-br hover:from-orange-50 hover:to-red-50 cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg group">
+									
+									<div class="w-full h-24 mb-3 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl overflow-hidden relative">
+										<img :src="product.image" 
+										:alt="product.title"
+										class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+										@error="handleImageError"/>
+										<div class="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+									</div>
+									
+									<div class="font-semibold text-sm line-clamp-2 text-gray-700 group-hover:text-gray-900 transition-colors duration-200">
+										{{ product.title }}
+									</div>
+									</div>
+								</div>
+								</div>
+
+								<!-- Discover More -->
+								<div class="bg-gradient-to-r from-gray-50 to-white p-6 border-t border-gray-100">
 								<h3 class="text-sm font-bold text-gray-700 mb-4 flex items-center">
 									<i class="pi pi-compass text-orange-500 mr-2"></i>
 									DISCOVER MORE
 								</h3>
-								<div class="flex flex-wrap gap-3">
+								<div class="flex flex-wrap gap-3 pr-2">
 									<span v-for="(item, index) in discoverMoreItems"
-										:key="'discover-'+index"
-										@click="selectSuggestion(item)"
-										class="inline-flex items-center px-4 py-2 bg-white hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 rounded-full text-sm cursor-pointer border border-gray-200 hover:border-orange-300 transition-all duration-300 hover:scale-105 hover:shadow-md font-medium text-gray-600 hover:text-gray-900">
-										<i class="pi pi-search text-xs mr-1 opacity-60"></i>
-										{{ item }}
+									:key="'discover-'+index"
+									@click="selectSuggestion(item)"
+									class="inline-flex items-center px-4 py-2 bg-white hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 rounded-full text-sm cursor-pointer border border-gray-200 hover:border-orange-300 transition-all duration-300 hover:scale-105 hover:shadow-md font-medium text-gray-600 hover:text-gray-900">
+									<i class="pi pi-search text-xs mr-1 opacity-60"></i>
+									{{ item }}
 									</span>
+								</div>
 								</div>
 							</div>
 						</div>
@@ -403,64 +403,103 @@
 			</div>
 
 			<!-- Navigation Links -->
-			<div class="flex items-center py-4 space-x-8 border-t border-gray-100">
-				<!-- Categories Dropdown -->
-				<div class="relative" @keydown.esc="isCategoryOpen = false" @focusout="isCategoryOpen = false">
-					<button @click="toggleCategory" :aria-expanded="isCategoryOpen" class="flex items-center text-gray-700 hover:text-orange-500 p-3 focus:outline-none rounded-lg hover:bg-orange-50 transition-all duration-200 group" tabindex="0">
-						<i class="pi pi-list text-lg group-hover:scale-110 transition-transform duration-200"></i>
-						<span class="ml-2 font-medium">Categories</span>
-						<i class="pi pi-chevron-down ml-2 text-xs transition-transform duration-200" :class="{ 'rotate-180': isCategoryOpen }"></i>
-					</button>
+			<div class="flex items-center justify-between py-4 border-t border-gray-100">
+				<!-- Left Section - Main Navigation -->
+				<div class="flex items-center space-x-8">
+					<!-- Categories Dropdown -->
+					<div class="relative" @keydown.esc="isCategoryOpen = false" @focusout="isCategoryOpen = false">
+						<button @click="toggleCategory" :aria-expanded="isCategoryOpen" class="flex items-center text-gray-700 hover:text-orange-500 p-3 focus:outline-none rounded-lg hover:bg-orange-50 transition-all duration-200 group" tabindex="0">
+							<i class="pi pi-list text-lg group-hover:scale-110 transition-transform duration-200"></i>
+								<span class="ml-2 font-medium">Categories</span>
+							<i class="pi pi-chevron-down ml-2 text-xs transition-transform duration-200" :class="{ 'rotate-180': isCategoryOpen }"></i>
+						</button>
 
-					<Transition
-						enter-active-class="transition-all duration-200 ease-out"
-						enter-from-class="opacity-0 transform scale-95 translate-y-2"
-						enter-to-class="opacity-100 transform scale-100 translate-y-0"
-						leave-active-class="transition-all duration-150 ease-in"
-						leave-from-class="opacity-100 transform scale-100 translate-y-0"
-						leave-to-class="opacity-0 transform scale-95 translate-y-2"
-					>
-						<div v-if="isCategoryOpen" class="absolute left-0 mt-2 w-64 bg-white rounded-xl shadow-lg py-3 z-50 border border-gray-100" role="menu" aria-label="Category menu">
-							<router-link to="/electronics" class="px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 flex items-center transition-all duration-200 group" @click="isCategoryOpen = false" role="menuitem">
-								<i class="pi pi-mobile mr-3 text-lg text-orange-400 group-hover:scale-110 transition-transform duration-200"></i> Electronics
-							</router-link>
-							<router-link to="/clothing" class="px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 flex items-center transition-all duration-200 group" @click="isCategoryOpen = false" role="menuitem">
-								<i class="pi pi-shopping-bag mr-3 text-lg text-orange-400 group-hover:scale-110 transition-transform duration-200"></i> Fashion & Clothing
-							</router-link>
-							<router-link to="/home-garden" class="px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 flex items-center transition-all duration-200 group" @click="isCategoryOpen = false" role="menuitem">
-								<i class="pi pi-home mr-3 text-lg text-orange-400 group-hover:scale-110 transition-transform duration-200"></i> Home & Garden
-							</router-link>
-							<router-link to="/beauty" class="px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 flex items-center transition-all duration-200 group" @click="isCategoryOpen = false" role="menuitem">
-								<i class="pi pi-star mr-3 text-lg text-orange-400 group-hover:scale-110 transition-transform duration-200"></i> Beauty & Health
-							</router-link>
-							<router-link to="/toys" class="px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 flex items-center transition-all duration-200 group" @click="isCategoryOpen = false" role="menuitem">
-								<i class="pi pi-gift mr-3 text-lg text-orange-400 group-hover:scale-110 transition-transform duration-200"></i> Toys & Games
-							</router-link>
-						</div>
-					</Transition>
+						<Transition
+							enter-active-class="transition-all duration-200 ease-out"
+							enter-from-class="opacity-0 transform scale-95 translate-y-2"
+							enter-to-class="opacity-100 transform scale-100 translate-y-0"
+							leave-active-class="transition-all duration-150 ease-in"
+							leave-from-class="opacity-100 transform scale-100 translate-y-0"
+							leave-to-class="opacity-0 transform scale-95 translate-y-2"
+						>
+							<div v-if="isCategoryOpen" class="absolute left-0 mt-2 w-64 bg-white rounded-xl shadow-lg py-3 z-50 border border-gray-100" role="menu" aria-label="Category menu">
+								<router-link to="/electronics" class="px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 flex items-center transition-all duration-200 group" @click="isCategoryOpen = false" role="menuitem">
+									<i class="pi pi-mobile mr-3 text-lg text-orange-400 group-hover:scale-110 transition-transform duration-200"></i> Electronics
+								</router-link>
+								<router-link to="/clothing" class="px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 flex items-center transition-all duration-200 group" @click="isCategoryOpen = false" role="menuitem">
+									<i class="pi pi-shopping-bag mr-3 text-lg text-orange-400 group-hover:scale-110 transition-transform duration-200"></i> Fashion & Clothing
+								</router-link>
+								<router-link to="/home-garden" class="px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 flex items-center transition-all duration-200 group" @click="isCategoryOpen = false" role="menuitem">
+									<i class="pi pi-home mr-3 text-lg text-orange-400 group-hover:scale-110 transition-transform duration-200"></i> Home & Garden
+								</router-link>
+								<router-link to="/beauty" class="px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 flex items-center transition-all duration-200 group" @click="isCategoryOpen = false" role="menuitem">
+									<i class="pi pi-star mr-3 text-lg text-orange-400 group-hover:scale-110 transition-transform duration-200"></i> Beauty & Health
+								</router-link>
+								<router-link to="/toys" class="px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-600 flex items-center transition-all duration-200 group" @click="isCategoryOpen = false" role="menuitem">
+									<i class="pi pi-gift mr-3 text-lg text-orange-400 group-hover:scale-110 transition-transform duration-200"></i> Toys & Games
+								</router-link>
+							</div>
+						</Transition>
+					</div>
+
+					<!-- Navigation Links -->
+					<router-link to="/" class="nav-link font-medium text-gray-700 hover:text-orange-500 transition-all duration-200 px-4 py-2 rounded-lg hover:bg-orange-50 relative group">
+						Home
+						<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-red-500 group-hover:w-full transition-all duration-300"></span>
+					</router-link>
+					<router-link to="/shopcard" class="nav-link font-medium text-gray-700 hover:text-orange-500 transition-all duration-200 px-4 py-2 rounded-lg hover:bg-orange-50 relative group">
+						Shop
+						<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-red-500 group-hover:w-full transition-all duration-300"></span>
+					</router-link>
+					<router-link to="/blog" class="nav-link font-medium text-gray-700 hover:text-orange-500 transition-all duration-200 px-4 py-2 rounded-lg hover:bg-orange-50 relative group">
+						Blog
+						<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-red-500 group-hover:w-full transition-all duration-300"></span>
+					</router-link>
+					<router-link to="/about" class="nav-link font-medium text-gray-700 hover:text-orange-500 transition-all duration-200 px-4 py-2 rounded-lg hover:bg-orange-50 relative group">
+						About
+						<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-red-500 group-hover:w-full transition-all duration-300"></span>
+					</router-link>
+					<router-link to="/contact" class="nav-link font-medium text-gray-700 hover:text-orange-500 transition-all duration-200 px-4 py-2 rounded-lg hover:bg-orange-50 relative group">
+						Contact
+						<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-red-500 group-hover:w-full transition-all duration-300"></span>
+					</router-link>
 				</div>
 
-				<!-- Navigation Links -->
-				<router-link to="/" class="nav-link font-medium text-gray-700 hover:text-orange-500 transition-all duration-200 px-4 py-2 rounded-lg hover:bg-orange-50 relative group">
-					Home
-					<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-red-500 group-hover:w-full transition-all duration-300"></span>
-				</router-link>
-				<router-link to="/shopcard" class="nav-link font-medium text-gray-700 hover:text-orange-500 transition-all duration-200 px-4 py-2 rounded-lg hover:bg-orange-50 relative group">
-					Shop
-					<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-red-500 group-hover:w-full transition-all duration-300"></span>
-				</router-link>
-				<router-link to="/blog" class="nav-link font-medium text-gray-700 hover:text-orange-500 transition-all duration-200 px-4 py-2 rounded-lg hover:bg-orange-50 relative group">
-					Blog
-					<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-red-500 group-hover:w-full transition-all duration-300"></span>
-				</router-link>
-				<router-link to="/about" class="nav-link font-medium text-gray-700 hover:text-orange-500 transition-all duration-200 px-4 py-2 rounded-lg hover:bg-orange-50 relative group">
-					About
-					<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-red-500 group-hover:w-full transition-all duration-300"></span>
-				</router-link>
-				<router-link to="/contact" class="nav-link font-medium text-gray-700 hover:text-orange-500 transition-all duration-200 px-4 py-2 rounded-lg hover:bg-orange-50 relative group">
-					Contact
-					<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-red-500 group-hover:w-full transition-all duration-300"></span>
-				</router-link>
+				<!-- Right Section - Support Contacts -->
+				<div class="flex items-center space-x-6">
+					<!-- Enhanced Support Contact -->
+					<div class="relative group">
+						<a href="tel:+1234567890" class="flex items-center px-4 py-3 hover:-translate-y-0.5">
+							<!-- Animated Icon Container -->
+							<div class="relative mr-4">
+								<div class="w-12 h-12 rounded-full bg-gradient-to-br from-orange-100 to-red-100 flex items-center justify-center group-hover:from-orange-200 group-hover:to-red-200 transition-all duration-300">
+								<i class="pi pi-headphones text-orange-500 group-hover:text-orange-600 transition-all duration-300" style="font-size: 1.5rem;"></i>
+								</div>
+								<!-- Pulsing Animation -->
+								<div class="absolute inset-0 rounded-full border-2 border-orange-200 opacity-0 group-hover:opacity-100 group-hover:animate-ping-slow transition-opacity duration-300"></div>
+							</div>
+							
+							<!-- Contact Info -->
+							<div class="text-left">
+								<div class="text-xs font-medium text-gray-500 mb-1">24/7 SUPPORT</div>
+								<div class="text-lg font-semibold text-gray-800 group-hover:text-orange-600 transition-colors duration-300">
+								(123) 456-7890
+								</div>
+							</div>
+							
+							<!-- Call Now Badge -->
+							<div class="ml-6 px-3 py-1 bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs font-bold rounded-full shadow-sm transform group-hover:scale-105 transition-transform duration-300">
+								CALL NOW
+							</div>
+						</a>
+						
+						<!-- Tooltip -->
+						<div class="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-3 py-1.5 bg-gray-800 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+							Click to call our support team
+							<div class="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-b-0 border-t-4 border-gray-800 border-l-transparent border-r-transparent"></div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -887,4 +926,5 @@ watch(isHoveringSearch, (hovering) => {
 		transform: translateY(0);
 	}
 }
+
 </style>

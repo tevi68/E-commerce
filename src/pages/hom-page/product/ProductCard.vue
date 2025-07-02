@@ -8,7 +8,7 @@
                     @click.stop="$emit('view-product', product)"
                     :src="product.image"
                     :alt="product.title"
-                    class="w-full h-48 sm:h-64 object-cover transform group-hover:scale-105 transition duration-500 cursor-pointer"
+                    class="w-full h-48 sm:h-58 object-cover transform group-hover:scale-105 transition duration-500 cursor-pointer"
                 />
 
                 <!-- Sale Badge -->
@@ -43,7 +43,7 @@
                         VIEW PRODUCT
                     </button>
                 </div>
-                </div>
+            </div>
 
 
             <!-- Product Details -->
@@ -68,8 +68,8 @@
                         <p v-if="product.originalPrice" class="text-gray-400 text-sm line-through">${{ product.originalPrice.toFixed(2) }}</p>
                     </div>
                 
-                    <button  @click.stop="$emit('view-product', product)" class="bg-orange-500 hover:bg-orange-600 text-white p-1 inline-block size-9 rounded-full ring-2 ring-orange-500">
-                        <i class="pi pi-shopping-cart" style="font-size: 1.3rem;"></i>
+                    <button  @click.stop="$emit('view-product', product)" class="bg-orange-500 hover:bg-orange-600 text-white p-2 inline-block size-10 rounded-full ring-2 ring-orange-500">
+                        <i class="pi pi-cart-arrow-down" style="font-size: 1.4rem;"></i>
                     </button>
                 </div>
             </div>

@@ -1,7 +1,11 @@
 <template>
   <Navbar v-show="!isAuthPage" />
-  <Toast />
-  <ConfirmDialog />
+  <Toast position="top-center" class="w-full max-w-[95vw] md:max-w-md" />
+  <ConfirmDialog 
+    position="center"
+    :breakpoints="{'640px': '90vw', '1024px': '50vw'}"
+    :style="{width: '95vw', maxWidth: '500px'}"
+  />
   <router-view />
   <Footer v-show="!isAuthPage && !isCheckout" />
 </template>
@@ -12,7 +16,6 @@ import { useRoute } from 'vue-router'
 import Navbar from './components/Navbar.vue'
 import Footer from './components/Footer.vue'
 import Toast from 'primevue/toast'
-
 import { useCartStore } from './store/cartStore'
 import { useOrderStore } from './store/orderStore'
 
@@ -27,8 +30,46 @@ onMounted(() => {
 const route = useRoute()
 
 const isAuthPage = computed(() =>
-  route.path === '/login' || route.path === '/register'
+  route.path === '/login' || route.path === '/register' || route.path === '/dashboard'
 )
 
 const isCheckout = computed(() => route.path === '/checkout')
 </script>
+
+<style>
+/* Custom toast styling */
+.p-toast {
+  width: 60vw !important;
+  max-width: 20rem !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+
+.p-toast .p-toast-message {
+  margin-bottom: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .p-toast {
+    width: auto !important;
+  }
+}
+
+.confirm-dialog-container .p-dialog {
+  width: 95vw !important;
+  max-width: 500px !important;
+  margin: 0 auto !important;
+}
+
+@media (min-width: 640px) {
+  .confirm-dialog-container .p-dialog {
+    width: 80vw !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .confirm-dialog-container .p-dialog {
+    width: 50vw !important;
+  }
+}
+</style>

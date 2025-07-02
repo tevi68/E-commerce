@@ -1,5 +1,5 @@
 <template>
-    <div class="max-w-5xl mx-auto py-8 px-4">
+    <div class="max-w-5xl mx-auto py-15 px-4">
         <h1 class="text-2xl font-bold mb-6 text-orange-500 flex items-center gap-2">
             <i class="pi pi-heart-fill text-red-500"></i>
             Wishlist
@@ -95,6 +95,9 @@
               </Column>
           </DataTable>
         </div>
+    </div>
+    <div class="py-20">
+
     </div>
 </template>
 

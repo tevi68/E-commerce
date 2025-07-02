@@ -104,6 +104,15 @@ const routes: Array<RouteRecordRaw> = [
         meta: { auth: false, loggedIn: false }
     },
     {
+        path: '/dashboard',
+        name: 'Dashboard',
+        component: defineAsyncComponent({
+            loader: () => import('../dashboard/Dashboard.vue'),
+            loadingComponent: LoadingComponent,
+        }),
+        meta: { auth: true, loggedIn: true }
+    },
+    {
         path: '/login',
         name: 'Login',
         component: defineAsyncComponent({

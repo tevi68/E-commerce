@@ -1,14 +1,15 @@
 <template>
-    <section class="py-12 px-4 sm:px-6 bg-white max-w-7xl mx-auto relative">
+    <section class="bg-white py-4 px-4 sm:px-6 max-w-7xl mx-auto"> <!-- Changed container classes to match Product.vue -->
         <!-- Section Title -->
-        <div class="text-center mb-12 relative">
+        <div class="text-center mb-10 relative"> <!-- Changed mb-12 to mb-10 to match -->
             <!-- Title -->
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 flex justify-center items-center gap-2">
+            <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 relative inline-block"> <!-- Changed font-extrabold to font-bold -->
+                <span class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 to-red-500 transform translate-y-1"></span>
                 <span class="text-orange-500 animate-pulse">🔥</span> Today's Deals
             </h2>
 
             <!-- Subtitle -->
-            <p class="text-gray-500 mt-2 text-base sm:text-lg max-w-xl mx-auto">
+            <p class="text-gray-500 mt-4 max-w-lg mx-auto"> <!-- Changed mt-2 to mt-4 and added max-w-lg -->
                 Limited-time offers ending soon! Hurry, deals expire at midnight Cambodia time.
             </p>
 
@@ -37,8 +38,8 @@
             >
                 <template #item="slotProps">
                     <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden group mx-1 sm:mx-2 h-full border border-gray-200 hover:border-orange-300">
-                        <!-- Product Image -->
-                        <div class="relative overflow-hidden aspect-square">
+                        <!-- Product Image - Fixed height container -->
+                        <div class="relative overflow-hidden h-48 w-full">
                             <img
                                 :src="slotProps.data.image"
                                 @click="openView(slotProps.data)"
@@ -59,10 +60,10 @@
                             </div>
                         </div>
 
-                        <!-- Product Info -->
-                        <div class="p-4 flex flex-col flex-grow">
-                            <!-- Title -->
-                            <h3 class="font-bold text-lg text-gray-900 line-clamp-2 mb-2 h-14">
+                        <!-- Product Info - Fixed height container -->
+                        <div class="p-4 flex flex-col" style="height: 180px;">
+                            <!-- Title - Fixed height with line clamp -->
+                            <h3 class="font-bold text-lg text-gray-900 line-clamp-2 mb-2" style="height: 3.5rem;">
                                 {{ slotProps.data.title }}
                             </h3>
 
@@ -78,7 +79,7 @@
                                 <span class="text-xs text-gray-500">({{ slotProps.data.reviewCount }})</span>
                             </div>
 
-                            <!-- Price -->
+                            <!-- Price - Fixed at bottom -->
                             <div class="mt-auto">
                                 <div class="flex items-center justify-between">
                                     <div>
