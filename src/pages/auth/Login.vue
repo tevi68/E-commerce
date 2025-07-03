@@ -103,16 +103,15 @@
           <!-- Submit Button -->
           <Button 
             type="submit"
-            :loading="loginLoading"
             :disabled="loginLoading"
-            class="w-full bg-gradient-to-r from-pink-500 to-violet-500 hover:from-pink-600 hover:to-violet-600 border-0 py-3 rounded-xl text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0"
+            class="w-full..."
           >
             <template #default>
-              <span>Sign In to ShopLux</span>
-            </template>
-            <template #loading>
-              <i class="pi pi-spin pi-spinner mr-2"></i>
-              <span>Signing in...</span>
+              <span v-if="!loginLoading">Sign In to ShopLux</span>
+              <span v-else class="flex items-center">
+                <i class="pi pi-spin pi-spinner mr-2"></i>
+                <span>Signing in...</span>
+              </span>
             </template>
           </Button>
 
@@ -259,7 +258,7 @@ const handleLogin = async () => {
       })
       
       // Redirect to home after login
-      setTimeout(() => router.push('/'), 500)
+      setTimeout(() => router.push('/dashboard'), 500)
       
       // Store login state if remember me is checked
       if (loginForm.remember) {
