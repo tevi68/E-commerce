@@ -182,6 +182,10 @@
         </div>
       </div>
     </div>
+    <CheckoutInfoModal
+      v-model:visible="showCheckoutModal"
+      @submit="onModalSubmit"
+    />
   </div>
   
 </template>
@@ -194,8 +198,8 @@ import { useConfirm } from 'primevue/useconfirm'
 import { useRouter } from 'vue-router'
 import { useToast } from 'primevue/usetoast'
 import ProgressSpinner from 'primevue/progressspinner'
-
-import Button from 'primevue/button';
+import BigNumber from 'bignumber.js'
+import CheckoutInfoModal from '../view-carts/checkout/CustomerInfoForm.vue'
 
 
 const router = useRouter()
@@ -205,6 +209,10 @@ const cartStore = useCartStore()
 const { items: cartItems } = storeToRefs(cartStore)
 const loading = ref(true)
 const deletingItemId = ref<number | null>(null)
+const showCheckoutModal = ref(false)
+
+
+
 
 onMounted(async () => {
   try {
@@ -224,9 +232,21 @@ onMounted(async () => {
 
 const totalPrice = computed(() => {
   return cartItems.value.reduce((sum, item) => {
-    return sum + (item.product.price * item.quantity) || 0
-  }, 0)
+    const price = new BigNumber(item.product.price || 0)
+    const quantity = new BigNumber(item.quantity || 0)
+    return sum.plus(price.multipliedBy(quantity))
+  }, new BigNumber(0)).toNumber()
 })
+
+
+function showToast(severity: string, summary: string, detail: string) {
+  toast.add({
+    severity,
+    summary,
+    detail,
+    life: 3000
+  })
+}
 
 function increaseQty(item: { product: any; quantity: number }) {
   if (item.quantity < item.product.stock) {
@@ -264,19 +284,43 @@ async function confirmDelete(productId: number) {
   })
 }
 
+// function proceedToCheckout() {
+//   if (cartItems.value.length > 0) {
+//     router.push('/checkout')
+//   } else {
+//     showToast('warn', 'Empty Cart', 'Your cart is empty')
+//   }
+// }
+
 function proceedToCheckout() {
   if (cartItems.value.length > 0) {
-    router.push('/checkout')
+    showCheckoutModal.value = true
   } else {
     showToast('warn', 'Empty Cart', 'Your cart is empty')
   }
 }
+type CustomerInfo = {
+  name: string
+  email: string
+  phone: string
+  country: string
+  province: string
+  city: string
+  zip: string
+  address: string
+}
+const userInfo = ref<CustomerInfo>({
+  name: '', email: '', phone: '', country: '', province: '', city: '', zip: '', address: ''
+})
 
-function showToast(severity: string, summary: string, detail: string) {
+function onModalSubmit(info: CustomerInfo) {
+  console.log('Customer Info:', info)
+  userInfo.value = info
+  router.push('/checkout')
   toast.add({
-    severity,
-    summary,
-    detail,
+    severity: 'success',
+    summary: 'Success',
+    detail: 'Checkout information saved successfully',
     life: 3000
   })
 }

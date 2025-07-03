@@ -869,62 +869,82 @@ watch(isHoveringSearch, (hovering) => {
 
 
 <style scoped>
-
 .nav-link {
-	display: flex;
-	align-items: center;
-	padding: 0.5rem 0;
-	color: #4b5563;
-	font-weight: 500;
-	transition: all 0.2s ease;
-	white-space: nowrap;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0;
+  color: #4b5563;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  white-space: nowrap;
+  position: relative;
 }
 
 .nav-link:hover {
-	color: #f97316;
-	transform: translateY(-1px);
+  color: #ea580c;
 }
 
 .nav-link.router-link-active {
-	color: #f97316;
-	border-bottom: 2px solid #f97316;
+  color: #ea580c;
+  font-weight: 600;
+}
+
+.nav-link.router-link-active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #ea580c;
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform 0.3s ease;
 }
 
 .nav-link-mobile {
-	padding: 0.75rem 0.5rem;
-	color: #4b5563;
-	display: flex;
-	align-items: center;
-	border-radius: 0.375rem;
-	transition: all 0.2s ease;
+  padding: 0.75rem 1rem;
+  color: #4b5563;
+  display: flex;
+  align-items: center;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-in-out;
+  margin: 0.25rem 0;
 }
 
 .nav-link-mobile:hover {
-	color: #f97316;
-	background-color: #fff7ed;
+  color: #ea580c;
+  background-color: #ffedd5;
+  transform: translateX(2px);
 }
 
 .nav-link-mobile.router-link-active {
-	color: #f97316;
-	font-weight: 500;
-	background-color: #fff7ed;
+  color: #fff;
+  font-weight: 600;
+  background-color: #ea580c;
+  box-shadow: 0 2px 4px rgba(234, 88, 12, 0.2);
 }
 
-/* Smooth transitions for dropdowns */
+/* Enhanced dropdown animations */
 .group:hover .group-hover\:block {
-	display: block;
-	animation: fadeIn 0.2s ease-out;
+  display: block;
+  animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes fadeIn {
-	from {
-		opacity: 0;
-		transform: translateY(-5px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
+/* Add a subtle scale effect on hover for better interactivity */
+.nav-item:hover {
+  transform: scale(1.02);
+  transition: transform 0.2s ease;
+}
 </style>

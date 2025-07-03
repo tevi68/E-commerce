@@ -47,8 +47,17 @@ const routes: Array<RouteRecordRaw> = [
             loader: () => import('../pages/checkout/Checkout.vue'),
             loadingComponent: LoadingComponent,
         }),
-        meta: { auth: false, loggedIn: false }
+        meta: { auth: false, loggedIn: true }
     },
+    // {
+    //     path: '/customerInFormation',
+    //     name: 'CustomerInFormation',
+    //     component: defineAsyncComponent({
+    //         loader: () => import('../pages/hom-page/view-carts/checkout/CustomerInfoForm.vue'),
+    //         loadingComponent: LoadingComponent,
+    //     }),
+    //     meta: { auth: false, loggedIn: true }
+    // },
     {
         path: '/myorders',
         name: 'MyOrders',
