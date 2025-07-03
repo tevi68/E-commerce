@@ -133,7 +133,7 @@ const router = createRouter({
 })
 
 // Authentication guard
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
     const isAuthenticated = localStorage.getItem('authToken')
     const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
     
