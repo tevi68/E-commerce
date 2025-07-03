@@ -60,11 +60,19 @@
 
                 <!-- Order Items Card -->
                 <div class="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl border border-white/20 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-gray-100">
-                        <h3 class="text-lg font-bold text-gray-800 flex items-center">
+                    <div class="px-6 py-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                        <h3 class="text-lg font-bold text-gray-800 flex items-center mb-4 sm:mb-0">
                             <i class="pi pi-shopping-cart text-blue-500 mr-2"></i>
                             Order Items
                         </h3>
+                        <div>
+                            <button
+                                class="cursor-pointer inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 transform hover:scale-105"
+                            >
+                                <i class="pi pi-download mr-2"></i>
+                                Download & Print
+                            </button>
+                        </div>
                     </div>
                     <div class="divide-y divide-gray-100">
                         <div v-for="item in order.items" :key="item.product.id" class="p-6 hover:bg-blue-50/50 transition-all duration-300 group" >

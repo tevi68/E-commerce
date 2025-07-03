@@ -1,7 +1,8 @@
 <template>
-  <Navbar v-show="!isAuthPage" />
+  
+  <Navbar v-show="!isAuthPage && !isDashboardRoute" />
   <Toast position="top-center" class="w-full max-w-[95vw] md:max-w-md" />
- <ConfirmDialog
+  <ConfirmDialog
     class="confirm-dialog-container"
     position="center"
     :breakpoints="{
@@ -12,7 +13,7 @@
   />
 
   <router-view />
-  <Footer v-show="!isAuthPage && !isCheckout" />
+  <Footer v-show="!isAuthPage && !isCheckout && !isDashboardRoute" />
 </template>
 
 <script setup lang="ts">
@@ -35,10 +36,12 @@ onMounted(() => {
 const route = useRoute()
 
 const isAuthPage = computed(() =>
-  route.path === '/login' || route.path === '/register' || route.path === '/dashboard'
+  route.path === '/login' || route.path === '/register'
 )
 
 const isCheckout = computed(() => route.path === '/checkout')
+
+const isDashboardRoute = computed(() => route.path.startsWith('/dashboard'))
 </script>
 
 <style>
