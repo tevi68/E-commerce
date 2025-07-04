@@ -3,10 +3,10 @@
         <!-- Mobile toggle button (outside sidebar) -->
 
         <!-- Filter Sidebar -->
-        <aside class="w-full lg:w-80 bg-white rounded-2xl shadow-lg border border-gray-200 mb-6 lg:mb-0 overflow-hidden h-[calc(100vh-140px)] lg:h-[calc(100vh-32px)] sticky top-4"
-            :class="{ 
-                'hidden lg:block': !showMobileFilters, 
-                'fixed inset-0 z-[100] h-screen w-screen bg-white lg:static lg:inset-auto lg:h-auto lg:w-80': showMobileFilters 
+        <aside class="w-full lg:w-80 bg-white rounded-2xl shadow-lg border border-gray-200 mb-6 lg:mb-0 overflow-hidden transition-all duration-300 ease-in-out"
+            :class="{
+                'hidden lg:block': !showMobileFilters,
+                'fixed inset-0 z-[100] h-screen w-screen bg-white lg:static lg:inset-auto lg:h-auto lg:w-80': showMobileFilters
             }">
             
             <!-- Scrollable container with max height -->
@@ -199,31 +199,30 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Sticky action buttons at bottom -->
-                <div class="flex-shrink-0 bottom-0 left-0 right-0 bg-gradient-to-t from-white to-white/90 pt-6 pb-4 px-6 border-t border-gray-200">
-                    <div class="flex flex-col gap-3">
-                        <button @click="applyFilters"
-                                class="group relative w-full bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 hover:from-orange-600 hover:via-pink-600 hover:to-purple-700 text-white py-4 rounded-xl font-semibold text-sm transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02] overflow-hidden">
-                            <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                            <div class="relative flex items-center justify-center gap-3">
-                                <div class="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
-                                    <span class="pi pi-check text-xs"></span>
+                    <!-- Sticky action buttons at bottom -->
+                    <div class="flex-shrink-0 bottom-0 left-0 right-0 bg-gradient-to-t from-white to-white/90 pt-6 pb-4 px-6 border-t border-gray-200">
+                        <div class="flex flex-col gap-3">
+                            <button @click="applyFilters"
+                                    class="group relative w-full bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 hover:from-orange-600 hover:via-pink-600 hover:to-purple-700 text-white py-4 rounded-xl font-semibold text-sm transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02] overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                <div class="relative flex items-center justify-center gap-3">
+                                    <div class="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
+                                        <span class="pi pi-check text-xs"></span>
+                                    </div>
+                                    <span>Apply Filters</span>
                                 </div>
-                                <span>Apply Filters</span>
-                            </div>
-                        </button>
-                        
-                        <button @click="resetFilters"
-                                class="group w-full bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-800 py-3.5 rounded-xl font-medium text-sm transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-[1.02] border border-gray-300">
-                            <div class="flex items-center justify-center gap-3">
-                                <div class="w-5 h-5 bg-gray-400/20 rounded-full flex items-center justify-center group-hover:rotate-180 transition-transform duration-500">
-                                    <span class="pi pi-refresh text-xs"></span>
+                            </button>
+                            
+                            <button @click="resetFilters"
+                                    class="group w-full bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-800 py-3.5 rounded-xl font-medium text-sm transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-[1.02] border border-gray-300">
+                                <div class="flex items-center justify-center gap-3">
+                                    <div class="w-5 h-5 bg-gray-400/20 rounded-full flex items-center justify-center group-hover:rotate-180 transition-transform duration-500">
+                                        <span class="pi pi-refresh text-xs"></span>
+                                    </div>
+                                    <span>Reset All Filters</span>
                                 </div>
-                                <span>Reset All Filters</span>
-                            </div>
-                        </button>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

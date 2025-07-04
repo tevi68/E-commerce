@@ -52,7 +52,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  orders: Array<{
+    orders: Array<{
     id: string
     customer: string
     date: string

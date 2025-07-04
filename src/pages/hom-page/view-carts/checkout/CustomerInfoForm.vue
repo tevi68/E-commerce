@@ -296,7 +296,7 @@
           />
           
           <Button 
-            label="Submit Information" 
+            label="Submit" 
             icon="pi pi-send" 
             class="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 border-none shadow-md hover:shadow-lg transition-all"
             :disabled="false"

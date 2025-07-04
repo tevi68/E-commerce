@@ -9,62 +9,62 @@ export const dashboardRoutes: RouteRecordRaw[] = [
             loader: () => import('../dashboard/DashboardLayout.vue'),
             loadingComponent: LoadingComponent,
         }),
-        meta: { requiresAuth: true },
+        meta: { auth: false, logedIn: true },
         children: [
             {
                 path: '',
                 name: 'DashboardHome',
                 component: defineAsyncComponent({
-                loader: () => import('../dashboard/views/DashboardHome.vue'),
-                loadingComponent: LoadingComponent,
+                    loader: () => import('../dashboard/views/DashboardHome.vue'),
+                    loadingComponent: LoadingComponent,
                 }),
-                meta: { title: 'Dashboard Overview' }
+                meta: { auth: false, logedIn: true }
             },
             {
                 path: 'products',
                 name: 'DashboardProducts',
                 component: defineAsyncComponent({
-                loader: () => import('../dashboard/views/Products/ProductsList.vue'),
-                loadingComponent: LoadingComponent,
+                    loader: () => import('../dashboard/views/Products/ProductsList.vue'),
+                    loadingComponent: LoadingComponent,
                 }),
-                meta: { title: 'Product Management' }
+                meta: { auth: false, logedIn: true }
             },
             {
                 path: 'products/new',
                 name: 'ProductCreate',
                 component: defineAsyncComponent({
-                loader: () => import('../dashboard/views/Products/ProductForm.vue'),
-                loadingComponent: LoadingComponent,
+                    loader: () => import('../dashboard/views/Products/ProductForm.vue'),
+                    loadingComponent: LoadingComponent,
                 }),
-                meta: { title: 'Create Product' }
+                meta: { auth: false, logedIn: true }
             },
             {
                 path: 'products/:id',
                 name: 'ProductEdit',
                 component: defineAsyncComponent({
-                loader: () => import('../dashboard/views/Products/ProductForm.vue'),
-                loadingComponent: LoadingComponent,
+                    loader: () => import('../dashboard/views/Products/ProductForm.vue'),
+                    loadingComponent: LoadingComponent,
                 }),
                 props: true,
-                meta: { title: 'Edit Product' }
+                meta: { auth: false, logedIn: true }
             },
             {
                 path: 'orders',
                 name: 'DashboardOrders',
                 component: defineAsyncComponent({
-                loader: () => import('../dashboard/views/Orders/OrdersList.vue'),
-                loadingComponent: LoadingComponent,
+                    loader: () => import('../dashboard/views/Orders/OrdersList.vue'),
+                    loadingComponent: LoadingComponent,
                 }),
-                meta: { title: 'Order Management' }
+                meta: { auth: false, logedIn: true }
             },
             {
                 path: 'customers',
                 name: 'DashboardCustomers',
                 component: defineAsyncComponent({
-                loader: () => import('../dashboard/views/Customers/CustomersList.vue'),
-                loadingComponent: LoadingComponent,
+                    loader: () => import('../dashboard/views/Customers/CustomersList.vue'),
+                    loadingComponent: LoadingComponent,
                 }),
-                meta: { title: 'Customer Management' }
+                meta: { auth: false, logedIn: true }
             },
         ]
     }

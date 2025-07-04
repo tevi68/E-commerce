@@ -31,7 +31,12 @@
             </div>
 
             <!-- Order Content -->
-            <div v-else-if="order" class="space-y-6">
+            <div v-else-if="order" class="space-y-6" ref="printSection">
+                <!-- Company Logo for Print -->
+                <!-- <div class="flex justify-center mb-6 print:mb-8">
+                  <img src="/banner/banner-hero.png" alt="Company Logo" class="h-20 w-auto mx-auto print:mb-4 print:block" style="max-height:80px;" />
+                </div> -->
+
                 <!-- Order Header Card -->
                 <div class="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl border border-white/20 overflow-hidden">
                     <div class="bg-gradient-to-r from-blue-500 to-purple-600 px-6 py-4">
@@ -67,7 +72,8 @@
                         </h3>
                         <div>
                             <button
-                                class="cursor-pointer inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 transform hover:scale-105"
+                                class="cursor-pointer inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 transform hover:scale-105 print:hidden"
+                                @click="printOrder"
                             >
                                 <i class="pi pi-download mr-2"></i>
                                 Download & Print
@@ -83,7 +89,7 @@
                                         v-if="item.product.image"
                                         :src="item.product.image"
                                         :alt="item.product.title"
-                                        class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover shadow-lg border-2 border-white group-hover:scale-105 transition-transform duration-300"
+                                        class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover shadow-lg border-2 border-white group-hover:scale-105 transition-transform duration-300 print:w-32 print:h-32 print:shadow-none print:border print:border-gray-300"
                                     />
                                     <div class="absolute -top-2 -right-2 bg-blue-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
                                         {{ item.quantity }}
@@ -253,6 +259,18 @@ const statusClass = computed(() => {
         'bg-red-100 text-red-800 border-red-200': order.value.status === 'Cancelled'
     }
 })
+
+// Print function
+const printSection = ref<HTMLElement | null>(null)
+function printOrder() {
+    if (!printSection.value) return
+    const printContents = printSection.value.innerHTML
+    const originalContents = document.body.innerHTML
+    document.body.innerHTML = printContents
+    window.print()
+    document.body.innerHTML = originalContents
+    window.location.reload() // reload to restore event listeners
+}
 </script>
 
 <style scoped>
@@ -264,5 +282,25 @@ const statusClass = computed(() => {
     .order-details {
         background-attachment: scroll;
     }
+}
+
+/* Hide print button and unnecessary UI during print */
+@media print {
+  .print\:hidden {
+    display: none !important;
+  }
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    page-break-inside: avoid !important;
+    display: block !important;
+    margin: 0 auto 16px auto !important;
+  }
+  body {
+    background: white !important;
+  }
+  .order-details {
+    background: white !important;
+  }
 }
 </style>

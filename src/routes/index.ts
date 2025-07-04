@@ -11,15 +11,15 @@ const mainRoutes: RouteRecordRaw[] = [
             loader: () => import('../pages/home/Home.vue'),
             loadingComponent: LoadingComponent,
         }),
-        meta: { auth: false }
+        meta: { auth: false, logedIn: true }
     },
     {
         path: '/viewcart',
         name: 'ViewCart',
         component: defineAsyncComponent({
-        loader: () => import('../pages/hom-page/view-carts/ViewCart.vue'),
+            loader: () => import('../pages/hom-page/view-carts/ViewCart.vue'),
         }),
-        meta: { auth: false }
+        meta: { auth: false, logedIn: true }
     },
     {
         path: '/shopcard',
@@ -28,7 +28,7 @@ const mainRoutes: RouteRecordRaw[] = [
             loader: () => import('../components/shopCard/ShopCard.vue'),
             loadingComponent: LoadingComponent,
         }),
-        meta: { auth: false }
+        meta: { auth: false, logedIn: true }
     },
     {
         path: '/viewfavorite',
@@ -36,7 +36,7 @@ const mainRoutes: RouteRecordRaw[] = [
         component: defineAsyncComponent({
             loader: () => import('../pages/hom-page/favoritevs/ViewFavorite.vue'),
         }),
-        meta: { auth: false }
+        meta: { auth: false, logedIn: true }
     },
     {
         path: '/checkout',
@@ -45,7 +45,7 @@ const mainRoutes: RouteRecordRaw[] = [
             loader: () => import('../pages/checkout/Checkout.vue'),
             loadingComponent: LoadingComponent,
         }),
-        meta: { auth: false }
+        meta: { auth: false, logedIn: true }
     },
     {
         path: '/myorders',
@@ -53,7 +53,7 @@ const mainRoutes: RouteRecordRaw[] = [
             component: defineAsyncComponent({
             loader: () => import('../pages/orders/MyOrders.vue'),
         }),
-        meta: { auth: false }
+        meta: { auth: false, logedIn: true }
     },
     {
         path: '/orderdetails/:id',
@@ -62,7 +62,7 @@ const mainRoutes: RouteRecordRaw[] = [
             loader: () => import('../pages/orders/OrderDetails.vue'),
             loadingComponent: LoadingComponent,
         }),
-        meta: { auth: false }
+        meta: { auth: false, logedIn: true }
     },
     {
         path: '/myaccount',
@@ -70,7 +70,7 @@ const mainRoutes: RouteRecordRaw[] = [
             component: defineAsyncComponent({
             loader: () => import('../pages/myacount/MyAccount.vue'),
         }),
-        meta: { auth: false }
+        meta: { auth: false, logedIn: true }
     },
     {
         path: '/blog',
@@ -79,7 +79,7 @@ const mainRoutes: RouteRecordRaw[] = [
             loader: () => import('../pages/blog/Blog.vue'),
             loadingComponent: LoadingComponent,
         }),
-        meta: { auth: false }
+        meta: { auth: false, logedIn: true }
     },
     {
         path: '/about',
@@ -88,7 +88,7 @@ const mainRoutes: RouteRecordRaw[] = [
             loader: () => import('../pages/about/About.vue'),
             loadingComponent: LoadingComponent,
         }),
-        meta: { auth: false }
+        meta: { auth: false, logedIn: true }
     },
     {
         path: '/contact',
@@ -97,7 +97,7 @@ const mainRoutes: RouteRecordRaw[] = [
             loader: () => import('../pages/contact/Contact.vue'),
             loadingComponent: LoadingComponent,
         }),
-        meta: { auth: false }
+        meta: { auth: false, logedIn: true }
     },
     {
         path: '/login',
@@ -106,7 +106,7 @@ const mainRoutes: RouteRecordRaw[] = [
             loader: () => import('../pages/auth/Login.vue'),
             loadingComponent: LoadingComponent,
         }),
-        meta: { auth: false }
+        meta: { auth: false, logedIn: true }
     },
     {
         path: '/register',
@@ -115,7 +115,7 @@ const mainRoutes: RouteRecordRaw[] = [
             loader: () => import('../pages/auth/Register.vue'),
             loadingComponent: LoadingComponent,
         }),
-        meta: { auth: false }
+        meta: { auth: false, logedIn: true }
     },
     {
         path: '/:pathMatch(.*)*',

@@ -425,6 +425,14 @@
                                 @click="savePreferences"
                                 class="bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 border-0 text-white px-8 py-3 rounded-xl font-semibold"
                             />
+                            <router-link to="/dashboard" class="flex items-center">
+                                <Button
+                                    label="Back to Dashboard"
+                                    icon="pi pi-spin pi-cog"
+                                    severity="secondary"
+                                    class="ml-4"
+                                />
+                            </router-link>
                         </div>
                     </div>
                 </div>
