@@ -27,26 +27,7 @@ export const dashboardRoutes: RouteRecordRaw[] = [
                     loader: () => import('../dashboard/views/Products/ProductsList.vue'),
                     loadingComponent: LoadingComponent,
                 }),
-                meta: { auth: false, logedIn: true }
-            },
-            {
-                path: 'products/new',
-                name: 'ProductCreate',
-                component: defineAsyncComponent({
-                    loader: () => import('../dashboard/views/Products/ProductForm.vue'),
-                    loadingComponent: LoadingComponent,
-                }),
-                meta: { auth: false, logedIn: true }
-            },
-            {
-                path: 'products/:id',
-                name: 'ProductEdit',
-                component: defineAsyncComponent({
-                    loader: () => import('../dashboard/views/Products/ProductForm.vue'),
-                    loadingComponent: LoadingComponent,
-                }),
-                props: true,
-                meta: { auth: false, logedIn: true }
+                meta: { auth: false, logedIn: true },
             },
             {
                 path: 'orders',

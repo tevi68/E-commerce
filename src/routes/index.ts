@@ -127,29 +127,34 @@ const mainRoutes: RouteRecordRaw[] = [
     }
 ]
 
+// Create router
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
-    routes: [...mainRoutes, ...dashboardRoutes]
+    routes: [...mainRoutes, ...dashboardRoutes],
+
+    scrollBehavior(_to, _from, savedPosition) {
+        return savedPosition || { top: 0 }
+    }
 })
 
-// Authentication guard
-router.beforeEach((to, _from, next) => {
-    const isAuthenticated = localStorage.getItem('authToken')
-    const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-    
+
+router.beforeEach((_to, _from, next) => {
+    const isAuthenticated = !!localStorage.getItem('authToken')
+    const requiresAuth = _to.matched.some(record => record.meta.requiresAuth)
+
     if (requiresAuth && !isAuthenticated) {
-        next({ name: 'Login', query: { redirect: to.fullPath } })
-    } else if ((to.name === 'Login' || to.name === 'Register') && isAuthenticated) {
+        next({ name: 'Login', query: { redirect: _to.fullPath } })
+    } else if ((_to.name === 'Login' || _to.name === 'Register') && isAuthenticated) {
         next({ name: 'DashboardHome' })
     } else {
         next()
     }
 })
 
-// Set document title
+
 router.afterEach((to) => {
-    const title = to.meta.title 
-        ? `${to.meta.title} | ShopLux Dashboard`
+    const title = to.meta.title
+        ? `${to.meta.title} | ShopLux`
         : 'ShopLux - Your Premium Shopping Experience'
     document.title = title
 })

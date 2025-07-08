@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white py-4 px-4 sm:px-6 max-w-7xl mx-auto">
+    <div class="bg-white py-8 px-4 sm:px-6 w-full lg:px-10 xl:px-36">
         <!-- Section Title -->
         <div class="text-center mb-10">
             <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 relative inline-block">
@@ -12,7 +12,7 @@
         </div>
 
         <!-- Product Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
             <ProductCard
               v-for="product in displayedProducts"
               :key="product.id"
@@ -46,6 +46,9 @@
         </div>
         
         <ViewDetail v-if="showViewDetail && viewProduct" :product="viewProduct" @close="closeView" @add-to-cart="addToCart" />
+    </div>
+    <div class="py-20">
+
     </div>
 </template>
 

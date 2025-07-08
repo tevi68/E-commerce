@@ -231,42 +231,44 @@
 										<i class="pi pi-star text-orange-500 mr-2"></i>
 										POPULAR SUGGESTIONS
 									</h3>
-									<div class="max-h-40 overflow-y-auto custom-scrollbar">
+									<div class="max-h-100 overflow-y-auto custom-scrollbar">
 										<!-- Scrollable Main Content -->
 										<div class="flex-1 overflow-y-auto custom-scrollbar">
 											<!-- Featured Products -->
 											<div class="p-6">
-											<div class="flex justify-between items-center mb-4">
-												<h3 class="text-sm font-bold text-gray-700 flex items-center">
-												<i class="pi pi-heart text-orange-500 mr-2"></i>
-												FEATURED PRODUCTS
-												</h3>
-												<button @click="showMoreRecommendations"
-														class="text-sm text-orange-500 hover:text-orange-600 flex items-center cursor-pointer font-medium hover:underline transition-all duration-200">
-												<span>Other recommendations</span>
-												<i class="pi pi-arrow-right ml-1 text-xs"></i>
-												</button>
-											</div>
-											
-											<div class="grid grid-cols-5 gap-4 pr-2">
-												<div v-for="(product, index) in visibleFeaturedProducts"
-												:key="'product-'+index"
-												@click="selectSuggestion(product.title)"
-												class="p-3 border border-gray-100 rounded-2xl hover:bg-gradient-to-br hover:from-orange-50 hover:to-red-50 cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg group">
-												
-												<div class="w-full h-24 mb-3 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl overflow-hidden relative">
-													<img :src="product.image" 
-													:alt="product.title"
-													class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-													@error="handleImageError"/>
-													<div class="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+												<div class="flex justify-between items-center mb-4">
+													<h3 class="text-sm font-bold text-gray-700 flex items-center">
+													<i class="pi pi-heart text-orange-500 mr-2"></i>
+														FEATURED PRODUCTS
+													</h3>
+													<button 
+													@click="showMoreRecommendations"
+													class="text-sm text-orange-500 hover:text-orange-600 flex items-center cursor-pointer font-medium hover:underline transition-all duration-200"
+													>
+													<span>Other recommendations</span>
+													<i class="pi pi-arrow-right ml-1 text-xs"></i>
+													</button>
 												</div>
 												
-												<div class="font-semibold text-sm line-clamp-2 text-gray-700 group-hover:text-gray-900 transition-colors duration-200">
-													{{ product.title }}
+												<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 pr-2">
+													<div 
+														v-for="product in visibleFeaturedProducts"
+														:key="product.id"
+														@click="selectSuggestion(product.title)"
+														class="p-3 border border-gray-100 rounded-2xl hover:bg-gradient-to-br hover:from-orange-50 hover:to-red-50 cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg group"
+														>
+														<div class="w-full h-24 mb-3 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl overflow-hidden relative">
+															<img 
+															:src="product.image" 
+															:alt="product.title"
+															class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+															@error="handleImageError"
+															/>
+															<div class="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+															
+														</div>
+													</div>
 												</div>
-												</div>
-											</div>
 											</div>
 
 											<!-- Discover More -->
@@ -642,17 +644,18 @@
 
 <script setup lang="ts">
 import { ref, nextTick, onMounted, onUnmounted, computed, watch } from 'vue';
-import { useCartStore } from '../store/cartStore';
 import { storeToRefs } from 'pinia';
-import useFavorites from '../store/favoritesStore';
-import { products } from '../store/storeProduct';
-import type { Product } from '../store/storeProduct';
 
 // Stores
+import { useCartStore } from '../store/cartStore';
+import useFavorites from '../store/favoritesStore';
+import { useProductStore } from '../store/storeProduct'
+
 const cartStore = useCartStore();
 const { totalItems } = storeToRefs(cartStore);
 const { favorites } = useFavorites();
 
+const productStore = useProductStore();
 // UI State
 const mobileMenuOpen = ref(false);
 const searchActive = ref(false);
@@ -660,56 +663,67 @@ const isCategoryOpen = ref(false);
 const isOpen = ref(false);
 const languageDropdownOpen = ref(false);
 
-// Search functionality
+// Search
 const searchQuery = ref('');
 const searchInput = ref<HTMLInputElement | null>(null);
 const recentSearches = ref<string[]>([]);
 const popularSuggestions = ref<string[]>([
-	'iPhone 14 Pro Max',
-	'Samsung Galaxy S24',
-	'MacBook Air M2',
-	'Nike Air Jordan',
-	'PlayStation 5',
-	'AirPods Pro',
-	'Smart Watch',
-	'Wireless Earbuds',
-	'Gaming Laptop',
-	'Bluetooth Speaker',
-	'Skincare Set',
-	'Winter Jacket'
+  'iPhone 14 Pro Max',
+  'Samsung Galaxy S24',
+  'MacBook Air M2',
+  'Nike Air Jordan',
+  'PlayStation 5',
+  'AirPods Pro',
+  'Smart Watch',
+  'Wireless Earbuds',
+  'Gaming Laptop',
+  'Bluetooth Speaker',
+  'Skincare Set',
+  'Winter Jacket'
 ]);
 
-// Language selection
+// Language
 const selectedLanguage = ref('en');
 const languages = [
-	{ code: 'en', label: 'English (EN)', path: '/lan/en.png' },
-	{ code: 'kh', label: 'Khmer (KH)', path: '/lan/kh.png' },
+  { code: 'en', label: 'English (EN)', path: '/lan/en.png' },
+  { code: 'kh', label: 'Khmer (KH)', path: '/lan/kh.png' }
 ];
 
-// Lifecycle hooks
-onMounted(() => {
-	const savedSearches = localStorage.getItem('recentSearches');
-	if (savedSearches) {
-		try {
-			recentSearches.value = JSON.parse(savedSearches);
-		} catch (e) {
-			console.error('Failed to parse recent searches:', e);
-			recentSearches.value = [];
-		}
-	}
-	//=================== ផ្ទុកផលិតផលដែលបានណែនាំ
-	allFeaturedProducts.value = products
-		.filter(product => product.isOnProduct && product.today)
-		.sort(() => Math.random() - 0.5); //=================== ដាក់រៀងចៃដន្យ
-});
+// Discover
+const discoverMoreItems = ref([
+  'smartwatch',
+  'headphones',
+  'fitness tracker',
+  'gaming controller',
+  'wireless earbuds',
+  'sneakers',
+  'leather wallet',
+  'sunglasses'
+]);
 
-onUnmounted(() => {
-	localStorage.setItem('recentSearches', JSON.stringify(recentSearches.value));
-	//=================== ឈប់ប្រើ event listener
-	document.removeEventListener('keydown', handleKeyDown);
-});
+// Featured Product Logic
+const currentRecommendationIndex = ref(0);
+const productsPerPage = 5;
 
+const allFeaturedProducts = computed(() => {
+  	return productStore.products?.filter(product => product.isOnToday) || []
+})
 
+const visibleFeaturedProducts = computed(() => {
+	const start = currentRecommendationIndex.value * productsPerPage
+	return allFeaturedProducts.value.slice(start, start + productsPerPage)
+})
+
+const showMoreRecommendations = () => {
+	const totalPages = Math.ceil(allFeaturedProducts.value.length / productsPerPage)
+	currentRecommendationIndex.value = (currentRecommendationIndex.value + 1) % totalPages
+}
+
+// Image fallback
+const handleImageError = (event: Event) => {
+	const img = event.target as HTMLImageElement
+	img.src = 'https://via.placeholder.com/150?text=No+Image'
+}
 
 // UI Toggles
 const toggleMobileMenu = () => {
@@ -721,8 +735,8 @@ const toggleSearch = () => {
 	searchActive.value = !searchActive.value;
 	if (searchActive.value) {
 		nextTick(() => {
-			searchInput.value?.focus();
-			document.addEventListener('keydown', handleKeyDown);
+		searchInput.value?.focus();
+		document.addEventListener('keydown', handleKeyDown);
 		});
 		mobileMenuOpen.value = false;
 	} else {
@@ -731,42 +745,34 @@ const toggleSearch = () => {
 };
 
 const toggleCategory = () => {
-	isCategoryOpen.value = !isCategoryOpen.value;
+  	isCategoryOpen.value = !isCategoryOpen.value;
 };
 
 const toggleDropdown = () => {
-	isOpen.value = !isOpen.value;
+  isOpen.value = !isOpen.value;
 };
 
-// Language handling
 const selectLanguage = (code: string) => {
-	selectedLanguage.value = code;
-	languageDropdownOpen.value = false;
+  selectedLanguage.value = code;
+  languageDropdownOpen.value = false;
 };
 
-// Search functionality
+// Search
 const executeSearch = () => {
-	const query = searchQuery.value.trim();
-	if (!query) return;
+  const query = searchQuery.value.trim();
+  if (!query) return;
 
-	// Update recent searches
-	const existingIndex = recentSearches.value.indexOf(query);
-	if (existingIndex > -1) {
-		recentSearches.value.splice(existingIndex, 1);
-	}
-	recentSearches.value.unshift(query);
-	
-	// Keep only last 5 searches
-	if (recentSearches.value.length > 5) {
-		recentSearches.value = recentSearches.value.slice(0, 5);
-	}
+  const existingIndex = recentSearches.value.indexOf(query);
+  if (existingIndex > -1) recentSearches.value.splice(existingIndex, 1);
+  recentSearches.value.unshift(query);
+  if (recentSearches.value.length > 5) {
+    recentSearches.value = recentSearches.value.slice(0, 5);
+  }
 
-	// Reset search state
-	searchActive.value = false;
-	document.removeEventListener('keydown', handleKeyDown);
-	
-	// TODO: Implement actual search navigation
-	console.log('Searching for:', query);
+  searchActive.value = false;
+  document.removeEventListener('keydown', handleKeyDown);
+
+  console.log('Searching for:', query);
 };
 
 const selectRecentSearch = (search: string) => {
@@ -780,86 +786,47 @@ const selectSuggestion = (suggestion: string) => {
 };
 
 const removeRecentSearch = (index: number) => {
-	recentSearches.value.splice(index, 1);
+  	recentSearches.value.splice(index, 1);
 };
 
 const clearRecentSearches = () => {
-	recentSearches.value = [];
+  	recentSearches.value = [];
 };
 
-// Event handlers
 const handleKeyDown = (e: KeyboardEvent) => {
-	if (e.key === 'Enter') {
-		executeSearch();
-	}
-	if (e.key === 'Escape') {
-		searchActive.value = false;
-	}
+  if (e.key === 'Enter') executeSearch();
+  if (e.key === 'Escape') searchActive.value = false;
 };
 
 const handleFocusOut = (event: FocusEvent) => {
-	const currentTarget = event.currentTarget as HTMLElement;
-	if (!currentTarget.contains(event.relatedTarget as Node)) {
-		isOpen.value = false;
-	}
-};
-
-//=================== របស់ផ្សេងទៀតសម្រាប់ស្វែងរក
-const discoverMoreItems = ref([
-	'smartwatch',
-	'headphones',
-	'fitness tracker',
-	'gaming controller',
-	'wireless earbuds',
-	'sneakers',
-	'leather wallet',
-	'sunglasses'
-]);
-//=================== ផលិតផលដែលបានណែនាំ
-const currentRecommendationIndex = ref(0);
-const productsPerPage = 5; //=================== ចំនួនបង្ហាញក្នុងមួយទំព័រ
-const allFeaturedProducts = ref<Product[]>([]); //=================== ទាំងអស់ដែលត្រូវបានជ្រើសរើស
-
-//=================== បង្ហាញផលិតផលដែលអាចមើលបានបច្ចុប្បន្ន
-const visibleFeaturedProducts = computed(() => {
-	const start = currentRecommendationIndex.value * productsPerPage;
-	return allFeaturedProducts.value.slice(start, start + productsPerPage);
-});
-//=================== ប្តូរទំព័រផលិតផលណែនាំ
-const showMoreRecommendations = () => {
-	const totalPages = Math.ceil(allFeaturedProducts.value.length / productsPerPage);
-	currentRecommendationIndex.value = (currentRecommendationIndex.value + 1) % totalPages;
-};
-
-//=================== ប្រើ placeholder បើរូបភាពមិនទាន់មាន
-const handleImageError = (event: Event) => {
-	const img = event.target as HTMLImageElement;
-	img.src = 'https://via.placeholder.com/150?text=No+Image';
+  const currentTarget = event.currentTarget as HTMLElement;
+  if (!currentTarget.contains(event.relatedTarget as Node)) {
+    isOpen.value = false;
+  }
 };
 
 const signOut = () => {
-	console.log('Signing out...');
-	isOpen.value = false;
+  console.log('Signing out...');
+  isOpen.value = false;
 };
-function closeMobileMenu() {
-  mobileMenuOpen.value = false;
-}
 
+const closeMobileMenu = () => {
+  mobileMenuOpen.value = false;
+};
+
+// Delayed close hover on search
 const isHoveringSearch = ref(false);
 let closeTimeout: ReturnType<typeof setTimeout> | null = null;
 
 const handleSearchMouseLeave = () => {
-  isHoveringSearch.value = false;
-
-  // Delay closing to give user chance to return
-  closeTimeout = setTimeout(() => {
-    if (!isHoveringSearch.value && !searchInput.value?.matches(':focus')) {
-      searchActive.value = false;
-    }
-  }, 300); // 300ms delay
+	isHoveringSearch.value = false;
+	closeTimeout = setTimeout(() => {
+		if (!isHoveringSearch.value && !searchInput.value?.matches(':focus')) {
+		searchActive.value = false;
+		}
+	}, 300);
 };
 
-// Cancel timeout if user returns mouse
 watch(isHoveringSearch, (hovering) => {
   if (hovering && closeTimeout) {
     clearTimeout(closeTimeout);
@@ -867,8 +834,24 @@ watch(isHoveringSearch, (hovering) => {
   }
 });
 
-</script>
+// ========== Mounted & Unmounted ==========
+onMounted(() => {
+	const savedSearches = localStorage.getItem('recentSearches');
+	if (savedSearches) {
+		try {
+		recentSearches.value = JSON.parse(savedSearches);
+		} catch (e) {
+		console.error('Failed to parse recent searches:', e);
+		recentSearches.value = [];
+		}
+	}
+});
 
+onUnmounted(() => {
+	localStorage.setItem('recentSearches', JSON.stringify(recentSearches.value));
+	document.removeEventListener('keydown', handleKeyDown);
+});
+</script>
 
 <style scoped>
 .nav-link {

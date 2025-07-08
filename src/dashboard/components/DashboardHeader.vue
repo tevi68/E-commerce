@@ -1,14 +1,14 @@
 <template>
-    <header class="sticky top-0 z-50 backdrop-blur-md bg-white/90 dark:bg-gray-900/90 border-b border-gray-200/50 dark:border-gray-700/50 shadow-sm">
+    <header class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
         <div class="max-w-screen-xl mx-auto px-4 lg:px-6 py-3 flex items-center justify-between">
             <!-- Left Section: Logo and Mobile Menu -->
             <div class="flex items-center gap-4">
                 <!-- Mobile Menu Button -->
                 <button
                     @click="toggleSidebar"
-                    class="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    class="lg:hidden p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                    <i class="pi pi-bars text-xl text-gray-700 dark:text-gray-200"></i>
+                    <i class="pi pi-bars text-xl text-gray-700"></i>
                 </button>
 
                 <!-- Logo -->
@@ -22,15 +22,15 @@
                 </router-link>
             </div>
 
-            <!-- Desktop Search (hidden on mobile) -->
+            <!-- Desktop Search -->
             <div class="hidden md:flex flex-1 max-w-md mx-4 lg:mx-6">
                 <div class="relative w-full">
                     <input
                         type="text"
                         placeholder="Search..."
-                        class="w-full pl-10 pr-4 py-2 text-sm bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-transparent rounded-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:bg-white dark:focus:bg-gray-700 transition"
+                        class="w-full pl-10 pr-4 py-2 text-sm bg-gray-100 text-gray-700 border border-transparent rounded-full focus:ring-2 focus:ring-blue-500 focus:outline-none focus:bg-white transition"
                     />
-                    <i class="pi pi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 text-sm"></i>
+                    <i class="pi pi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm"></i>
                 </div>
             </div>
 
@@ -39,17 +39,17 @@
                 <!-- Mobile Search Button -->
                 <button
                     @click="openSearchModal"
-                    class="md:hidden p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none transition"
+                    class="md:hidden p-2 rounded-full hover:bg-gray-100 focus:outline-none transition"
                     aria-label="Search"
                 >
-                    <i class="pi pi-search text-gray-600 dark:text-gray-300 text-lg"></i>
+                    <i class="pi pi-search text-gray-600 text-lg"></i>
                 </button>
 
                 <button
-                    class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none transition"
+                    class="p-2 rounded-full hover:bg-gray-100 focus:outline-none transition"
                     aria-label="Notifications"
                 >
-                    <i class="pi pi-bell text-gray-600 dark:text-gray-300 text-lg"></i>
+                    <i class="pi pi-bell text-gray-600 text-lg"></i>
                 </button>
 
                 <ThemeToggle />
@@ -62,15 +62,15 @@
             <div v-if="showSearchModal" class="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm flex items-start justify-center pt-20 px-4"
                 @click.self="closeSearchModal"
             >
-                <div class="w-full max-w-lg bg-white dark:bg-gray-800 rounded-lg shadow-xl p-4 relative animate-fade-in"
-                        @keydown.esc="closeSearchModal"
+                <div class="w-full max-w-lg bg-white rounded-lg shadow-xl p-4 relative animate-fade-in"
+                    @keydown.esc="closeSearchModal"
                 >
                     <button 
                         @click="closeSearchModal"
-                        class="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                        class="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition"
                         aria-label="Close search"
                     >
-                        <i class="pi pi-times text-gray-500 dark:text-gray-400"></i>
+                        <i class="pi pi-times text-gray-500"></i>
                     </button>
                 
                     <div class="relative w-full">
@@ -78,15 +78,16 @@
                             ref="searchInput"
                             type="text"
                             placeholder="Search..."
-                            class="w-full pl-10 pr-4 py-3 text-base bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-transparent rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none focus:bg-white dark:focus:bg-gray-600 transition"
+                            class="w-full pl-10 pr-4 py-3 text-base bg-gray-100 text-gray-700 border border-transparent rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none focus:bg-white transition"
                         />
-                        <i class="pi pi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400"></i>
+                        <i class="pi pi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
                     </div>
                 </div>
             </div>
         </Teleport>
     </header>
 </template>
+
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
@@ -133,6 +134,7 @@ watch(showSearchModal, (isOpen) => {
   }
 })
 </script>
+
 
 <style>
 .animate-fade-in {

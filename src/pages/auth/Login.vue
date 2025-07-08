@@ -1,87 +1,103 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800 flex items-center justify-center p-4">
-    <!-- Animated background elements -->
-    <div class="absolute inset-0 overflow-hidden pointer-events-none">
-      <div 
-        v-for="(bubble, index) in bubbles"
-        :key="index"
-        class="absolute rounded-full blur-xl opacity-20 animate-float"
-        :class="bubble.color"
-        :style="{
-          width: `${bubble.size}px`,
-          height: `${bubble.size}px`,
-          top: `${bubble.top}%`,
-          left: `${bubble.left}%`,
-          animationDuration: `${bubble.duration}s`,
-          animationDelay: `${bubble.delay}s`
-        }"
-      ></div>
-    </div>
+  <div class="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+    <!-- Main container with image and form -->
+    <div class="w-full max-w-6xl bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row">
+      <!-- Image Section (Left) -->
+      <div class="w-full md:w-1/2 bg-gradient-to-br from-indigo-600 to-purple-700 relative hidden md:block">
+        <!-- Background image with overlay -->
+        <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+          <img 
+            src="https://images.pexels.com/photos/6214388/pexels-photo-6214388.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
+            alt="Login background"
+            class="w-full h-full object-cover opacity-90"
+          />
+        </div>
+        
+        <!-- Content overlay -->
+        <div class="relative z-10 h-full flex flex-col justify-center p-12 text-white">
+          <div class="mb-8">
+            <div class="w-16 h-16 bg-white/20 rounded-xl backdrop-blur-sm flex items-center justify-center mb-6">
+              <i class="pi pi-shopping-cart text-2xl"></i>
+            </div>
+            <h1 class="text-4xl font-bold mb-2">Welcome Back</h1>
+            <p class="text-white/80">Streamline your shopping experience with our powerful dashboard</p>
+          </div>
+          
+          <div class="mt-auto">
+            <div class="flex items-center space-x-4">
+              <div class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
+                <i class="pi pi-shield text-xl"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold">Secure Authentication</h3>
+                <p class="text-sm text-white/70">Your data is protected with industry-standard encryption</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <!-- Main card container -->
-    <div class="relative w-full max-w-md">
-      <!-- Glass card with hover effect -->
-      <div class="backdrop-blur-lg bg-white/10 border border-white/20 rounded-3xl shadow-2xl p-8 transition-all duration-500 hover:bg-white/15 hover:shadow-3xl">
-        <!-- Logo with animation -->
-        <div class="text-center mb-8 transform transition-transform duration-500 hover:scale-105">
-          <div class="w-16 h-16 bg-gradient-to-r from-pink-500 to-violet-500 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg animate-pulse">
+      <!-- Form Section (Right) -->
+      <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+        <!-- Logo for mobile -->
+        <div class="md:hidden mb-8 text-center">
+          <div class="w-16 h-16 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl mx-auto flex items-center justify-center shadow-md">
             <i class="pi pi-shopping-cart text-white text-2xl"></i>
           </div>
-          <h1 class="text-3xl font-bold text-white mb-2 animate-fade-in">ShopLux</h1>
-          <p class="text-white/70 text-sm animate-fade-in">Sign in to your account</p>
+          <h1 class="text-2xl font-bold mt-4 text-gray-800">ShopLux</h1>
+        </div>
+
+        <!-- Form Header -->
+        <div class="mb-8">
+          <h2 class="text-2xl font-bold text-gray-800">Sign In</h2>
+          <p class="text-gray-600 mt-2">Enter your credentials to access your account</p>
         </div>
 
         <!-- Login Form -->
-        <form @submit.prevent="handleLogin" class="space-y-6 animate-fade-in-up">
+        <form @submit.prevent="handleLogin" class="space-y-6">
           <!-- Email Field -->
-          <div class="space-y-2">
-            <label class="block text-white/90 text-sm font-medium mb-1">Email Address</label>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
             <div class="relative">
-              <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/50">
-                <i class="pi pi-envelope"></i>
-              </span>
               <InputText 
                 v-model.trim="loginForm.email"
                 type="email"
-                placeholder="Enter your email"
-                class="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:border-pink-400 focus:bg-white/15 transition-all duration-300"
-                :class="{ 'p-invalid': formErrors.email }"
+                placeholder="your@email.com"
+                class="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+                :class="{ 'border-red-500': formErrors.email }"
               />
-              <small v-if="formErrors.email" class="p-error text-pink-300 text-xs mt-1 block">
+              <small v-if="formErrors.email" class="text-red-500 text-xs mt-1 block">
                 {{ formErrors.email }}
               </small>
             </div>
           </div>
 
           <!-- Password Field -->
-          <div class="space-y-2">
-            <label class="block text-white/90 text-sm font-medium mb-1">Password</label>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
             <div class="relative">
-              <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/50">
-                <i class="pi pi-lock"></i>
-              </span>
               <InputText 
                 v-model.trim="loginForm.password"
                 :type="showLoginPassword ? 'text' : 'password'"
-                placeholder="Enter your password"
-                class="w-full pl-12 pr-12 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:border-pink-400 focus:bg-white/15 transition-all duration-300"
-                :class="{ 'p-invalid': formErrors.password }"
+                placeholder="••••••••"
+                class="w-full pl-10 pr-12 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+                :class="{ 'border-red-500': formErrors.password }"
               />
               <button 
                 @click.prevent="showLoginPassword = !showLoginPassword"
                 type="button"
-                class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-white/80 transition-colors"
+                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                 :aria-label="showLoginPassword ? 'Hide password' : 'Show password'"
               >
                 <i :class="showLoginPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
               </button>
-              <small v-if="formErrors.password" class="p-error text-pink-300 text-xs mt-1 block">
+              <small v-if="formErrors.password" class="text-red-500 text-xs mt-1 block">
                 {{ formErrors.password }}
               </small>
             </div>
           </div>
 
-          <!-- Remember Me & Forgot Password -->
+          <!-- Remember & Forgot -->
           <div class="flex items-center justify-between">
             <div class="flex items-center">
               <Checkbox 
@@ -90,11 +106,11 @@
                 inputId="remember"
                 class="mr-2"
               />
-              <label for="remember" class="text-white/70 text-sm cursor-pointer select-none">Remember me</label>
+              <label for="remember" class="text-sm text-gray-600 cursor-pointer">Remember me</label>
             </div>
             <router-link 
               to="/forgot-password"
-              class="text-pink-300 hover:text-pink-200 text-sm font-medium transition-colors"
+              class="text-sm text-indigo-600 hover:text-indigo-500 font-medium transition-colors"
             >
               Forgot password?
             </router-link>
@@ -103,60 +119,58 @@
           <!-- Submit Button -->
           <Button 
             type="submit"
-            :disabled="loginLoading"
-            class="w-full..."
+            :loading="loginLoading"
+            class="w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium rounded-lg shadow-md transition-all duration-300"
           >
             <template #default>
-              <span v-if="!loginLoading">Sign In to ShopLux</span>
-              <span v-else class="flex items-center">
+              <span v-if="!loginLoading">Sign In</span>
+              <span v-else class="flex items-center justify-center">
                 <i class="pi pi-spin pi-spinner mr-2"></i>
                 <span>Signing in...</span>
               </span>
             </template>
           </Button>
 
-          <!-- Social login divider -->
+          <!-- Divider -->
           <div class="relative my-6">
             <div class="absolute inset-0 flex items-center">
-              <div class="w-full border-t border-white/20"></div>
+              <div class="w-full border-t border-gray-200"></div>
             </div>
             <div class="relative flex justify-center text-sm">
-              <span class="px-4 bg-transparent text-white/60">Or continue with</span>
+              <span class="px-4 bg-white text-gray-500">Or continue with</span>
             </div>
           </div>
 
-          <!-- Social login buttons -->
+          <!-- Social Buttons -->
           <div class="grid grid-cols-2 gap-3">
             <Button 
               @click="socialLogin('google')"
-              class="bg-white/10 hover:bg-white/20 border border-white/20 py-2 rounded-xl transition-all duration-300 flex items-center justify-center"
+              class="flex items-center justify-center gap-2 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
               outlined
             >
-              <i class="pi pi-google text-white mr-2"></i>
-              <span class="text-white text-sm">Google</span>
+              <i class="pi pi-google text-red-500"></i>
+              <span>Google</span>
             </Button>
             <Button 
               @click="socialLogin('facebook')"
-              class="bg-white/10 hover:bg-white/20 border border-white/20 py-2 rounded-xl transition-all duration-300 flex items-center justify-center"
+              class="flex items-center justify-center gap-2 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
               outlined
             >
-              <i class="pi pi-facebook text-white mr-2"></i>
-              <span class="text-white text-sm">Facebook</span>
+              <i class="pi pi-facebook text-blue-600"></i>
+              <span>Facebook</span>
             </Button>
           </div>
         </form>
 
-        <!-- Registration prompt -->
-        <div class="text-center mt-8 animate-fade-in">
-          <p class="text-white/60 text-sm">
-            Don't have an account?
-            <router-link 
-              to="/register"
-              class="text-pink-300 hover:text-pink-200 font-medium ml-1 transition-colors"
-            >
-              Sign up
-            </router-link>
-          </p>
+        <!-- Registration Link -->
+        <div class="mt-8 text-center text-sm text-gray-600">
+          Don't have an account?
+          <router-link 
+            to="/register"
+            class="text-indigo-600 hover:text-indigo-500 font-medium ml-1 transition-colors"
+          >
+            Sign up
+          </router-link>
         </div>
       </div>
     </div>
@@ -191,14 +205,6 @@ const formErrors = reactive({
   email: '',
   password: ''
 })
-
-// Background bubbles
-const bubbles = ref([
-  { size: 120, top: 10, left: 10, color: 'bg-pink-400', duration: 15, delay: 0 },
-  { size: 80, top: 80, left: 80, color: 'bg-violet-400', duration: 20, delay: 2 },
-  { size: 60, top: 60, left: 20, color: 'bg-white/40', duration: 18, delay: 1 },
-  { size: 100, top: 20, left: 70, color: 'bg-pink-300', duration: 25, delay: 3 }
-])
 
 // Form validation
 const validateForm = () => {
@@ -293,98 +299,45 @@ const socialLogin = (provider: string) => {
 </script>
 
 <style scoped>
-/* Custom animations */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0) translateX(0);
-  }
-  25% {
-    transform: translateY(-20px) translateX(10px);
-  }
-  50% {
-    transform: translateY(0) translateX(20px);
-  }
-  75% {
-    transform: translateY(20px) translateX(10px);
-  }
+/* Custom transitions */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
 }
 
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-float {
-  animation: float linear infinite;
-}
-
-.animate-fade-in {
-  animation: fade-in 0.8s ease-out;
-}
-
-.animate-fade-in-up {
-  animation: fade-in-up 0.6s ease-out;
-}
-
-/* PrimeVue component overrides */
+/* PrimeVue overrides */
 :deep(.p-inputtext) {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  color: white !important;
   transition: all 0.3s ease !important;
 }
 
 :deep(.p-inputtext:enabled:hover) {
-  border-color: rgba(255, 255, 255, 0.3) !important;
+  border-color: #818cf8 !important;
 }
 
 :deep(.p-inputtext:enabled:focus) {
-  border-color: rgb(244 114 182) !important;
-  box-shadow: 0 0 0 0.2rem rgba(244, 114, 182, 0.2) !important;
-  background: rgba(255, 255, 255, 0.15) !important;
-}
-
-:deep(.p-inputtext::placeholder) {
-  color: rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.2) !important;
 }
 
 :deep(.p-checkbox .p-checkbox-box) {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
   transition: all 0.3s ease !important;
+  border-color: #d1d5db !important;
 }
 
 :deep(.p-checkbox .p-checkbox-box.p-highlight) {
-  background: linear-gradient(135deg, rgb(236 72 153), rgb(139 92 246)) !important;
-  border-color: rgb(236 72 153) !important;
+  background: #4f46e5 !important;
+  border-color: #4f46e5 !important;
 }
 
-:deep(.p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover) {
-  background: linear-gradient(135deg, rgb(219 39 119), rgb(124 58 237)) !important;
-  border-color: rgb(219 39 119) !important;
+:deep(.p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover) {
+  border-color: #818cf8 !important;
 }
 
 :deep(.p-button) {
   transition: all 0.3s ease !important;
-}
-
-:deep(.p-button:disabled) {
-  opacity: 0.7 !important;
-  transform: none !important;
 }
 </style>

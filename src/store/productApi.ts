@@ -1,20 +1,44 @@
-import { products } from '../store/storeProduct'
+import { useProductStore } from '../store/storeProduct'
 import type { Product } from '../store/storeProduct'
 
-//========= បំព្រិតដំណើរការដូចជាដកទិន្នន័យពី API សម្រាប់ទាញផលិតផលទាំងអស់
+// Fetch all products
 export function fetchProducts(): Promise<Product[]> {
     return new Promise(resolve => {
         setTimeout(() => {
-            resolve(products) //========= ផ្ញើត្រឡប់ផលិតផលទាំងអស់
-        }, 300) //========= ពន្យារពេល 300ms ដូចជាការទាញពី server
+            const productStore = useProductStore()
+            resolve(productStore.allProducts)
+        }, 300)
     })
 }
 
-//========= បំព្រិតដំណើរការដូចជាទាញទិន្នន័យតាម ID
+// Fetch product by ID
 export function fetchProductById(id: number): Promise<Product | undefined> {
     return new Promise(resolve => {
         setTimeout(() => {
-            resolve(products.find(p => p.id === id)) //========= ស្វែងរកផលិតផលតាម ID
+            const productStore = useProductStore()
+            resolve(productStore.getProductById(id))
+        }, 300)
+    })
+}
+
+// Fetch today's deals
+export function fetchTodayDeals(): Promise<Product[]> {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            const productStore = useProductStore()
+            resolve(productStore.todaysDeals)
+        }, 300)
+    })
+}
+
+// Fetch products by category
+export function fetchProductsByCategory(category: string): Promise<Product[]> {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            const productStore = useProductStore()
+            resolve(productStore.allProducts.filter(p => 
+                p.category.toLowerCase() === category.toLowerCase()
+            ))
         }, 300)
     })
 }

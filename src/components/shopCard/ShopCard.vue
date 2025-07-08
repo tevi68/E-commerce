@@ -1,11 +1,12 @@
 <template>
-    <div class="flex flex-col lg:flex-row gap-6 max-w-7xl mx-auto py-6 px-4">
+    <div class="w-full px-4 py-6 lg:px-8 xl:px-16 flex flex-col lg:flex-row gap-6">
+
         <!-- Mobile toggle button (outside sidebar) -->
 
         <!-- Filter Sidebar -->
-        <aside class="w-full lg:w-80 bg-white rounded-2xl shadow-lg border border-gray-200 mb-6 lg:mb-0 overflow-hidden transition-all duration-300 ease-in-out"
+        <aside class="w-full lg:w-80 bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden transition-all duration-300 ease-in-out"
             :class="{
-                'hidden lg:block': !showMobileFilters,
+                'hidden lg:block lg:sticky lg:top-6 lg:max-h-[calc(100vh-48px)]': !showMobileFilters,
                 'fixed inset-0 z-[100] h-screen w-screen bg-white lg:static lg:inset-auto lg:h-auto lg:w-80': showMobileFilters
             }">
             
@@ -264,72 +265,93 @@
             <!-- Product Cards Grid -->
             <div
                 v-if="filteredProducts.length > 0"
-                class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4"
-            >
+                class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 gap-4"
+                >
                 <div
                     v-for="product in paginatedProducts"
                     :key="product.id"
-                    @click="openView(product)"
-                    class="bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 flex flex-col overflow-hidden group border border-gray-100 hover:border-orange-200"
+                    class="group relative bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-100 overflow-hidden flex flex-col"
                 >
-                    <!-- Image -->
-                    <div class="relative overflow-hidden aspect-square cursor-pointer">
-                        <img
-                            :src="product.image"
-                            :alt="product.title"
-                            class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
-                            loading="lazy"
-                        />
-                        <!-- Discount -->
-                        <div v-if="product.discount > 0" class="absolute top-2 left-2">
-                            <span class="bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-sm">
-                                -{{ product.discount }}%
-                            </span>
-                        </div>
-                        <!-- Favorite Button -->
-                        <button
-                            class="absolute top-3 right-2 w-9 h-9 bg-white/90 hover:bg-white text-gray-800 rounded-full shadow-md transition opacity-0 group-hover:opacity-100"
-                            @click.stop="toggleFavorite(product)"
-                        >
-                            <span
-                                class="pi"
-                                :class="isFavorite(product.id) ? 'pi-heart-fill text-red-500' : 'pi-heart text-gray-500 hover:text-red-400'"
-                            ></span>
-                        </button>
+                    <!-- Product Image Container (Full Card Width) -->
+                    <div class="relative w-full pt-[100%] bg-gray-50"> <!-- 1:1 Aspect Ratio -->
+                    <!-- Image that fills container while maintaining aspect ratio -->
+                    <img
+                        :src="product.image"
+                        :alt="product.title"
+                        class="absolute top-0 left-0 w-full h-full object-cover transform group-hover:scale-105 transition duration-300"
+                        loading="lazy"
+                    />
+                    
+                    <!-- Discount Badge -->
+                    <div v-if="product.discount > 0" class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                        {{ product.discount }}% OFF
+                    </div>
+                    
+                    <!-- Favorite Button -->
+                    <button
+                        @click.stop="toggleFavorite(product.id)"
+                        class="absolute top-2 left-2 bg-white rounded-full size-8 flex items-center justify-center shadow-sm hover:bg-gray-50 transition-all"
+                        title="Add to favorites"
+                    >
+                        <i class="pi text-sm" :class="isFavorite(product.id) ? 'pi-heart-fill text-red-500' : 'pi-heart text-gray-400'"></i>
+                    </button>
+                    
+                    <!-- Quick Add to Cart -->
+                    <button
+                        @click.stop="addToCart(product)"
+                        class="absolute bottom-2 right-2 bg-white rounded-full size-10 p-2 shadow-sm hover:bg-orange-50 transition-all duration-200 opacity-0 group-hover:opacity-100"
+                        title="Add to Cart"
+                    >
+                        <i class="pi pi-shopping-cart text-orange-500 text-sm"></i>
+                    </button>
                     </div>
 
-                    <!-- Info -->
+                    <!-- Product Content -->
                     <div class="p-3 flex flex-col flex-grow">
-                        <h3 class="font-medium text-gray-900 text-sm line-clamp-2 mb-1">{{ product.title }}</h3>
-                        <!-- Rating -->
-                        <div class="flex items-center mb-2">
-                            <div class="flex mr-1">
-                                <i
-                                    v-for="n in 5"
-                                    :key="'star-' + product.id + '-' + n"
-                                    :class="n <= Math.round(product.rating) ? 'pi pi-star-fill text-yellow-400' : 'pi pi-star text-gray-300'"
-                                    class="text-xs"
-                                ></i>
-                            </div>
-                            <span class="text-xs text-gray-500">({{ product.reviewCount }})</span>
+                    <!-- Title -->
+                    <h3 class="text-sm font-semibold text-gray-900 line-clamp-2 mb-1.5">
+                        {{ product.title }}
+                    </h3>
+
+                    <!-- Price -->
+                    <div class="flex items-baseline gap-1 mb-1">
+                        <span class="text-base font-bold text-red-600">
+                        ${{ product.price.toFixed(2) }}
+                        </span>
+                        <span
+                        v-if="product.originalPrice"
+                        class="text-xs text-gray-500 line-through"
+                        >
+                        ${{ product.originalPrice.toFixed(2) }}
+                        </span>
+                    </div>
+
+                    <!-- Rating and Sold -->
+                    <div class="flex items-center gap-1 mb-2">
+                        <div class="flex text-yellow-400">
+                        <i v-for="star in 5" :key="star" class="pi text-xs" 
+                            :class="star <= Math.round(product.rating) ? 'pi-star-fill' : 'pi-star'"></i>
                         </div>
-                        <!-- Price -->
-                        <div class="mt-auto">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-orange-500 font-bold text-xl">${{ product.price.toFixed(2) }}</p>
-                                    <p v-if="product.originalPrice" class="text-gray-400 text-xs line-through">
-                                        ${{ product.originalPrice.toFixed(2) }}
-                                    </p>
-                                </div>
-                                <button
-                                    class="bg-orange-500 hover:bg-orange-600 text-white p-2 rounded-lg transition flex items-center justify-center shadow-sm cursor-pointer"
-                                    @click="openView(product)"
-                                >
-                                    <span class="pi pi-cart-arrow-down text-sm" style="font-size: 1.5rem;"></span>
-                                </button>
-                            </div>
-                        </div>
+                        <span class="text-xs text-gray-500">
+                        {{ product.rating.toFixed(1) }} | {{ product.reviewCount || 0 }} sold
+                        </span>
+                    </div>
+
+                    <!-- Bottom Buttons -->
+                    <div class="flex gap-2 mt-auto">
+                        <button
+                        class="flex-1 bg-gray-800 hover:bg-gray-700 text-white py-2 text-xs rounded transition-colors"
+                        @click.stop="openView(product)"
+                        >
+                        See preview
+                        </button>
+                        <button
+                        class="flex-1 border border-gray-200 hover:bg-gray-50 text-gray-700 py-2 text-xs rounded transition-colors"
+                        @click.stop="openView(product)"
+                        >
+                        Similar
+                        </button>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -385,7 +407,7 @@
 import { ref, computed } from 'vue'
 import type { Product } from '../../store/storeProduct'
 import ViewDetail from '../../pages/hom-page/product/ViewDetail.vue'
-import { products } from '../../store/storeProduct'
+import { useProductStore } from '../../store/storeProduct'
 import { useCartStore } from '../../store/cartStore'
 import useFavoriteStore from '../../store/favoritesStore'
 import Slider from 'primevue/slider'
@@ -394,6 +416,7 @@ import Dropdown from 'primevue/dropdown'
 import Checkbox from 'primevue/checkbox'
 
 // ------------- STORES -------------
+const productStore = useProductStore()
 const cartStore = useCartStore()
 const favoriteStore = useFavoriteStore()
 
@@ -406,116 +429,127 @@ const productsPerPage = ref(12)
 const loadingMore = ref(false)
 
 // ------------- FILTER STATE -------------
-const selectedCategory = ref<string>('')
+const selectedCategory = ref<{name: string, code: string} | null>(null)
 const priceRange = ref<[number, number]>([0, 500])
 const minRating = ref<number>(0)
 const inStockOnly = ref<boolean>(false)
 const includeOutOfStock = ref<boolean>(true)
 
+// Get products from store
+const products = computed(() => productStore.shopProducts)
+
 // ------------- COMPUTED PROPERTIES -------------
 const categories = computed(() => {
-    return [...new Set(products.map(p => p.category_shop || p.category))]
-        .filter(Boolean)
-        .map(category => ({ name: category, code: category.toUpperCase().replace(/\s+/g, '_') }))
+  return [...new Set(products.value.map(p => p.category))]
+    .filter((category): category is string => Boolean(category))
+    .map(category => ({
+      name: category,
+      code: category.toUpperCase().replace(/\s+/g, '_')
+    }))
 })
 
 const filteredProducts = computed(() => {
-    return products.filter(product => {
-        // Category filter
-        const matchCategory = !selectedCategory.value || 
-            (product.category_shop || product.category) === selectedCategory.value
-        
-        // Price filter using range slider
-        const productPrice = product.price_shop || product.price
-        const matchMinPrice = productPrice >= priceRange.value[0]
-        const matchMaxPrice = productPrice <= priceRange.value[1]
-        
-        // Rating filter
-        const productRating = product.rating_shop || product.rating
-        const matchRating = minRating.value === 0 || productRating >= minRating.value
-        
-        // Stock availability
-        const matchStock = !inStockOnly.value || (product.stock > 0)
-        const matchIncludeOutOfStock = includeOutOfStock.value || (product.stock > 0)
+  return products.value.filter((product: Product) => {
+    // Category filter
+    const matchCategory = !selectedCategory.value || 
+      product.category === selectedCategory.value.name
+    
+    // Price filter
+    const matchPrice = product.price >= priceRange.value[0] && 
+                     product.price <= priceRange.value[1]
+    
+    // Rating filter
+    const matchRating = minRating.value === 0 || 
+                      product.rating >= minRating.value
+    
+    // Stock availability
+    const matchStock = !inStockOnly.value || product.stock > 0
+    const matchIncludeOutOfStock = includeOutOfStock.value || product.stock > 0
 
-        return matchCategory && matchMinPrice && matchMaxPrice && 
-            matchRating && matchStock && matchIncludeOutOfStock
-    })
+    return matchCategory && matchPrice && matchRating && 
+           matchStock && matchIncludeOutOfStock
+  })
 })
-const paginatedProducts = computed(() => {
-    return sortedProducts.value.slice(0, productsPerPage.value)
-})
+
 const sortedProducts = computed(() => {
-    const productsToSort = [...filteredProducts.value]
+  const productsToSort = [...filteredProducts.value]
 
-    switch (sortOption.value) {
-        case 'price-low':
-            return productsToSort.sort((a, b) => (a.price_shop || a.price) - (b.price_shop || b.price))
-        case 'price-high':
-            return productsToSort.sort((a, b) => (b.price_shop || b.price) - (a.price_shop || a.price))
-        case 'rating':
-            return productsToSort.sort((a, b) => (b.rating_shop || b.rating) - (a.rating_shop || a.rating))
-        default: // 'featured'
-            return productsToSort
-    }
+  switch (sortOption.value) {
+    case 'price-low':
+      return productsToSort.sort((a, b) => a.price - b.price)
+    case 'price-high':
+      return productsToSort.sort((a, b) => b.price - a.price)
+    case 'rating':
+      return productsToSort.sort((a, b) => b.rating - a.rating)
+    default: // 'featured'
+      return productsToSort
+  }
+})
+
+const paginatedProducts = computed(() => {
+  return sortedProducts.value.slice(0, productsPerPage.value)
 })
 
 const canShowMore = computed(() => {
-    return productsPerPage.value < filteredProducts.value.length
+  return productsPerPage.value < filteredProducts.value.length
 })
 
 // ------------- FUNCTIONS -------------
 const applyFilters = () => {
-    showMobileFilters.value = false
-    // Reset pagination when filters change
-    productsPerPage.value = 8
+  showMobileFilters.value = false
+  productsPerPage.value = 8
 }
 
 const resetFilters = () => {
-    selectedCategory.value = ''
-    priceRange.value = [0, 500]
-    minRating.value = 0
-    inStockOnly.value = false
-    includeOutOfStock.value = true
-    showMobileFilters.value = false
-    productsPerPage.value = 8
+  selectedCategory.value = null
+  priceRange.value = [0, 500]
+  minRating.value = 0
+  inStockOnly.value = false
+  includeOutOfStock.value = true
+  showMobileFilters.value = false
+  productsPerPage.value = 8
 }
 
 const addToCart = (product: Product, quantity: number = 1) => {
-    cartStore.addToCart(product, quantity)
+  cartStore.addToCart(product, quantity)
 }
 
-const toggleFavorite = (product: Product) => {
+// Updated to accept either Product or product ID
+const toggleFavorite = (product: Product | number) => {
+  if (typeof product === 'number') {
+    favoriteStore.toggleFavorite(product)
+  } else {
     favoriteStore.toggleFavorite(product.id)
+  }
 }
 
 const isFavorite = (productId: number) => {
-    return favoriteStore.isFavorite(productId)
+  return favoriteStore.isFavorite(productId)
 }
 
 const openView = (product: Product) => {
-    viewProduct.value = product
-    showViewDetail.value = true
+  viewProduct.value = product
+  showViewDetail.value = true
 }
 
 const closeView = () => {
-    showViewDetail.value = false
+  showViewDetail.value = false
 }
 
 const showMoreProducts = () => {
-    loadingMore.value = true
-    setTimeout(() => {
-        productsPerPage.value += 8
-        loadingMore.value = false
-    }, 800)
+  loadingMore.value = true
+  setTimeout(() => {
+    productsPerPage.value += 8
+    loadingMore.value = false
+  }, 800)
 }
 
 // ------------- EXPOSE TO TEMPLATE IF NEEDED -------------
 defineExpose({
-    openView,
-    closeView,
-    addToCart,
-    toggleFavorite
+  openView,
+  closeView,
+  addToCart,
+  toggleFavorite
 })
 </script>
 

@@ -1,61 +1,47 @@
 <template>
   <button
     @click="toggleTheme"
-    class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
+    class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-300"
     :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
   >
-    <Transition name="fade" mode="out-in">
-      <i
-        v-if="isDark"
-        key="sun"
-        class="pi pi-sun text-yellow-400 text-lg"
-      />
-      <i
-        v-else
-        key="moon"
-        class="pi pi-moon text-gray-700 dark:text-gray-300 text-lg"
-      />
-    </Transition>
+    <i v-if="isDark" class="pi pi-sun text-yellow-400 text-lg"></i>
+    <i v-else class="pi pi-moon text-shadow-indigo-800 text-lg"></i>
   </button>
 </template>
 
-<script setup lang="ts">
-import { ref, onMounted } from 'vue';
+<script setup>
+import { ref, onMounted } from 'vue'
 
-const isDark = ref(false);
+const isDark = ref(false)
 
-function setTheme(dark: boolean) {
-  isDark.value = dark;
-  const html = document.documentElement;
-  html.classList.toggle('dark', dark);
-  localStorage.setItem('theme', dark ? 'dark' : 'light');
+const applyTheme = () => {
+  const html = document.documentElement
+  if (isDark.value) {
+    html.classList.add('dark')
+  } else {
+    html.classList.remove('dark')
+  }
 }
 
-function toggleTheme() {
-  setTheme(!isDark.value);
+const toggleTheme = () => {
+  isDark.value = !isDark.value
+  localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
+  applyTheme()
 }
 
 onMounted(() => {
-  const savedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  
-  // Priority: localStorage > OS preference
-  if (savedTheme !== null) {
-    setTheme(savedTheme === 'dark');
-  } else {
-    setTheme(prefersDark);
+  const savedTheme = localStorage.getItem('theme')
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+
+  isDark.value = savedTheme ? savedTheme === 'dark' : prefersDark
+  applyTheme()
+})
+
+// Listen to system theme changes only if user hasn't chosen a theme
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+  if (!localStorage.getItem('theme')) {
+    isDark.value = e.matches
+    applyTheme()
   }
-});
+})
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.15s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>
