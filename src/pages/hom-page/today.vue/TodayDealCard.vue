@@ -93,13 +93,20 @@
                     ${{ formatPrice(data.originalPrice) }}
                   </span>
                 </div>
-
+                <div class="flex gap-2 mt-auto">
                 <button
-                  class="w-full bg-gray-800 hover:bg-gray-700 text-white py-2 text-xs rounded transition-colors"
+                  class="flex-1 bg-gray-800 hover:bg-gray-700 text-white py-2 text-xs rounded transition-colors"
                   @click.stop="openView(data)"
                 >
-                  View Details
+                  See preview
                 </button>
+                <button
+                  class="flex-1 border border-gray-200 hover:bg-gray-50 text-gray-700 py-2 text-xs rounded transition-colors"
+                  @@click.stop="openView(data)"
+                >
+                  Similar
+                </button>
+              </div>
               </div>
             </div>
           </div>
