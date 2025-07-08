@@ -150,7 +150,7 @@
             <!-- Features -->
             <div class="col-span-2 space-y-2">
                 <label class="block text-sm font-medium text-gray-700">Features</label>
-                <div v-for="(feature, index) in form.features" :key="index" class="flex items-center gap-2 mb-2">
+                <div v-for="(_feature, index) in form.features" :key="index" class="flex items-center gap-2 mb-2">
                     <InputText
                         v-model="form.features[index]"
                         class="flex-1 p-3 border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
@@ -218,7 +218,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, watch } from 'vue'
+import { reactive, computed, watch } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import Dialog from 'primevue/dialog'
@@ -228,9 +228,25 @@ import RadioButton from 'primevue/radiobutton'
 import Button from 'primevue/button'
 import Textarea from 'primevue/textarea'
 
+interface ProductForm {
+    id: number | null;
+    title: string;
+    category: string;
+    price: number;
+    originalPrice: number;
+    discount: number;
+    stock: number;
+    rating: number;
+    reviewCount: number;
+    status: 'published' | 'draft';
+    description: string;
+    features: string[];
+    images: string[];
+}
+
 const props = defineProps<{ 
-    visible: boolean,
-    product?: any
+    visible: boolean;
+    product?: ProductForm;
 }>()
 
 const emit = defineEmits(['submit', 'update:visible'])
@@ -240,7 +256,7 @@ const visible = computed({
     set: (value) => emit('update:visible', value)
 })
 
-const defaultForm = {
+const defaultForm: ProductForm = {
     id: null,
     title: '',
     category: '',
@@ -256,7 +272,7 @@ const defaultForm = {
     images: []
 }
 
-const form = reactive({ ...defaultForm })
+const form = reactive<ProductForm>({ ...defaultForm })
 
 const rules = computed(() => ({
     title: { required },
@@ -295,7 +311,9 @@ function onImageChange(event: Event) {
         Array.from(files).forEach(file => {
             const reader = new FileReader()
             reader.onload = () => {
-                form.images.push(reader.result as string)
+                if (reader.result && typeof reader.result === 'string') {
+                    form.images.push(reader.result)
+                }
             }
             reader.readAsDataURL(file)
         })
