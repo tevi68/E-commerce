@@ -14,21 +14,22 @@
     <div class="modal-content p-4 bg-white flex-1 overflow-y-auto">
       <slot />
     </div>
+
     <template #footer>
       <slot name="footer">
         <div class="flex items-center justify-end gap-3">
           <button
-              class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg"
-              @click="closeModal"
+            class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg"
+            @click="closeModal"
           >
-              Cancel
+            Cancel
           </button>
           <button
-              @click="confirmModal"
-              :disabled="!enableBtn"
-              class="bg-blue-600 text-white px-4 py-2 rounded-lg"
+            @click="confirmModal"
+            :disabled="!enableBtn"
+            class="bg-blue-600 text-white px-4 py-2 rounded-lg disabled:opacity-50"
           >
-              Save & Close
+            Save & Close
           </button>
         </div>
       </slot>
@@ -37,10 +38,9 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue'
 import Dialog from 'primevue/dialog'
 
-const props = defineProps({
+const { modal, enableBtn, maximizable, closeable } = defineProps({
   modal: {
     type: Object,
     required: true
@@ -50,25 +50,27 @@ const props = defineProps({
     default: true
   },
   maximizable: {
-      type: Boolean,
-      default: false
+    type: Boolean,
+    default: false
   },
   closeable: {
-      type: Boolean,
-      default: true
+    type: Boolean,
+    default: true
   }
 })
+
 const emit = defineEmits(['confirm', 'close-modal'])
 
 function onUpdateVisible(value: boolean) {
-    if (value === false) {
-        emit('close-modal')
-    }
+  if (value === false) {
+    emit('close-modal')
+  }
 }
 
 function closeModal() {
   emit('close-modal')
 }
+
 function confirmModal() {
   emit('confirm')
 }
