@@ -8,7 +8,7 @@ const CART_KEY = 'cart_items'
 export const useCartStore = defineStore('cart', {
     //========= state តំណាងឲ្យទិន្នន័យ cart
     state: () => ({
-        items: [] as Array<{ product: Product; quantity: number }> //========= បញ្ជីទំនិញក្នុង cart
+        items: [] as Array<{ product: Product; quantity: number; selectedImageUrl?: string }> //========= បញ្ជីទំនិញក្នុង cart
     }),
 
     //========= getters គឺជាការគណនាមូលដ្ឋានលើ state
@@ -24,12 +24,15 @@ export const useCartStore = defineStore('cart', {
     //========= actions សម្រាប់ធ្វើប្រតិបត្តិការលើ state
     actions: {
         //========= បន្ថែមទំនិញទៅក្នុង cart
-        addToCart(product: Product, quantity = 1) {
+        addToCart(product: Product, quantity = 1, selectedImageUrl?: string) {
             const existing = this.items.find(item => item.product.id === product.id)
             if (existing) {
                 existing.quantity += quantity //========= បន្ថែមបរិមាណ
+                if (selectedImageUrl) {
+                    existing.selectedImageUrl = selectedImageUrl // Update image if provided
+                }
             } else {
-                this.items.push({ product, quantity }) //========= បញ្ចូលផលិតផលថ្មី
+                this.items.push({ product: { ...product, selectedImageUrl }, quantity }) //========= បញ្ចូលផលិតផលថ្មី
             }
             this.saveCart() //========= រក្សាទុកទៅ localStorage
         },

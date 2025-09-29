@@ -41,6 +41,7 @@ import ConfirmDialog from 'primevue/confirmdialog';
 import ConfirmationService from 'primevue/confirmationservice'
 
 import ProgressSpinner from 'primevue/progressspinner'
+import Tooltip from 'primevue/tooltip';
 
 
 
@@ -82,6 +83,7 @@ app.component('Tag', Tag);
 app.component('Tabs', Tabs);
 app.component('Image', Image);
 app.component('InputMask', InputMask);
+app.directive('tooltip', Tooltip);
 
 app.component('VirtualScroller', VirtualScroller);
 

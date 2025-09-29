@@ -40,7 +40,6 @@ const isAuthPage = computed(() =>
 )
 
 const isCheckout = computed(() => route.path === '/checkout')
-
 const isDashboardRoute = computed(() => route.path.startsWith('/dashboard'))
 </script>
 

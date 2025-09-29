@@ -4,8 +4,8 @@
     <div class="relative w-full pt-[100%] bg-gray-50"> <!-- 1:1 Aspect Ratio -->
       <!-- Image that fills container while maintaining aspect ratio -->
       <img
-        :src="product.image"
-        :alt="product.title"
+        :src="getImageUrl(product.image)"
+        :alt="product.title || 'Product image'"
         class="absolute top-0 left-0 w-full h-full object-cover transform group-hover:scale-105 transition duration-300 cursor-pointer"
         @click.stop="$emit('view-product', product)"
       />
@@ -44,13 +44,13 @@
       <!-- Price -->
       <div class="flex items-baseline gap-1 mb-1">
         <span class="text-base font-bold text-red-600">
-          KHR{{ product.price.toLocaleString() }}
+          {{ currencyStore.getDisplayPrice(product.price) }}
         </span>
         <span
           v-if="product.originalPrice"
           class="text-xs text-gray-500 line-through"
         >
-          KHR{{ product.originalPrice.toLocaleString() }}
+          {{ currencyStore.getDisplayPrice(product.originalPrice) }}
         </span>
       </div>
 
@@ -69,7 +69,7 @@
       <div class="flex gap-2 mt-auto">
         <button
           class="flex-1 bg-gray-800 hover:bg-gray-700 text-white py-2 text-xs rounded transition-colors"
-          @click.stop="$emit('view-product', product)"
+          @click.stop="openView(product)"
         >
           See preview
         </button>
@@ -86,7 +86,10 @@
 
 <script setup lang="ts">
 import { defineProps, defineEmits } from 'vue'
+import { useRouter } from 'vue-router'
 import useFavorites from '../../../store/favoritesStore'
+import { useCurrencyStore } from '../../../store/currencyStore'
+const currencyStore = useCurrencyStore();
 
 defineProps({
   product: {
@@ -97,6 +100,19 @@ defineProps({
 
 const emit = defineEmits(['add-to-cart', 'view-product', 'open-similar'])
 const { isFavorite, toggleFavorite } = useFavorites()
+
+const router = useRouter()
+const openView = (product: any) => {
+  router.push(`/product/${product.id}`)
+}
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'
+
+function getImageUrl(imagePath: string | undefined): string {
+  if (!imagePath) return '/fallback-image.png'
+  if (imagePath.startsWith('http')) return imagePath
+  const fixedPath = imagePath.replace(/^\/images\//, '/uploads/')
+  return apiBaseUrl + fixedPath
+}
 </script>
 
 <style scoped>

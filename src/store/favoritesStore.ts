@@ -1,17 +1,31 @@
 import { ref, watch } from 'vue'
+import type { Product } from './storeProduct'
 
-type ProductID = number
+// Define a type for a favorite item
+interface FavoriteItem {
+  productId: number;
+  selectedImageUrl?: string;
+}
 
-const favorites = ref<ProductID[]>([])
+const favorites = ref<FavoriteItem[]>([])
 
 // Initialize favorites from localStorage
 function initializeFavorites() {
     const stored = localStorage.getItem('favorites')
     if (stored) {
         try {
+            // Parse with a check for the new structure
             const parsed = JSON.parse(stored)
-            if (Array.isArray(parsed) && parsed.every(item => typeof item === 'number')) {
+            if (Array.isArray(parsed) && parsed.every(item => 
+                typeof item === 'object' && item !== null &&
+                typeof item.productId === 'number' && 
+                (item.selectedImageUrl === undefined || typeof item.selectedImageUrl === 'string')
+            )) {
                 favorites.value = parsed
+            } else if (Array.isArray(parsed) && parsed.every(item => typeof item === 'number')) {
+                // Handle old format (array of numbers) and convert to new format
+                favorites.value = parsed.map(id => ({ productId: id }))
+                console.warn('Converting old favorites data to new format.')
             } else {
                 console.warn('Invalid favorites data in localStorage, clearing...')
                 localStorage.removeItem('favorites')
@@ -40,22 +54,25 @@ watch(favorites, (newValue) => {
 }, { deep: true })
 
 export default function useFavoriteStore() {
-    const isFavorite = (productId: ProductID): boolean => {
-        return favorites.value.includes(productId)
+    const isFavorite = (productId: number): boolean => {
+        return favorites.value.some(item => item.productId === productId)
     }
 
-    const toggleFavorite = (productId: ProductID): void => {
-        const index = favorites.value.indexOf(productId)
+    const toggleFavorite = (productId: number, selectedImageUrl?: string): void => {
+        const index = favorites.value.findIndex(item => item.productId === productId)
         if (index > -1) {
             favorites.value.splice(index, 1)
         } else {
-            favorites.value.push(productId)
+            favorites.value.push({ productId, selectedImageUrl })
         }
     }
 
-    const addMultiple = (productIds: ProductID[]): void => {
-        const uniqueNewIds = productIds.filter(id => !favorites.value.includes(id))
-        favorites.value.push(...uniqueNewIds)
+    const addMultiple = (productIds: number[]): void => {
+        // Convert old productIds to new FavoriteItem structure, avoiding duplicates
+        const uniqueNewItems = productIds
+            .filter(id => !favorites.value.some(item => item.productId === id))
+            .map(id => ({ productId: id }))
+        favorites.value.push(...uniqueNewItems)
     }
 
     const clearAll = (): void => {

@@ -56,7 +56,7 @@
                       <!-- <Button @click="confirmDelete(item.product.id)" 
                         :loading="deletingItemId === item.product.id" icon="pi pi-times" severity="danger" rounded aria-label="Cancel" size="small"/> -->
                       
-                      <Image :src="item.product.image" alt="Image" class="w-16 h-10 sm:w-16 sm:h-14 object-cover rounded" preview />
+                      <Image :src="getImageUrl(item)" alt="Image" class="w-16 h-10 sm:w-16 sm:h-14 object-cover rounded" preview />
                       <div class="sm:max-w-[150px]">
                         <div class="font-semibold text-sm sm:text-base line-clamp-2">{{ item.product.title }}</div>
                         <div class="text-xs sm:text-sm text-gray-500">{{ item.product.category }}</div>
@@ -65,16 +65,16 @@
                     
                     <!-- Mobile price and subtotal -->
                     <div class="sm:hidden flex justify-between items-center pl-11">
-                      <div class="text-sm">${{ item.product.price?.toFixed(2) }}</div>
+                      <div class="text-sm">${{ currencyStore.getDisplayPrice(item.product.price) }}</div>
                       <div class="font-semibold text-orange-600 text-sm">
-                        ${{ (item.product.price * item.quantity)?.toFixed(2) }}
+                        ${{ currencyStore.getDisplayPrice(item.product.price * item.quantity) }}
                       </div>
                     </div>
                   </td>
                   
                   <!-- Desktop Price -->
                   <td class="py-4 hidden sm:table-cell">
-                    ${{ item.product.price?.toFixed(2) }}
+                    ${{ currencyStore.getDisplayPrice(item.product.price) }}
                   </td>
                   
                   <!-- Quantity -->
@@ -100,7 +100,7 @@
                   
                   <!-- Desktop Subtotal -->
                   <td class="py-4 font-semibold text-orange-600 hidden sm:table-cell">
-                    ${{ (item.product.price * item.quantity)?.toFixed(2) }}
+                    ${{ currencyStore.getDisplayPrice(item.product.price * item.quantity) }}
                     <Button 
                         icon="pi pi-times" 
                         text 
@@ -155,7 +155,7 @@
           <div class="space-y-3 text-sm text-gray-700">
             <div class="flex justify-between">
               <span>Subtotal:</span>
-              <span>${{ totalPrice?.toFixed(2) }}</span>
+              <span>${{ currencyStore.getDisplayPrice(totalPrice) }}</span>
             </div>
             <div class="flex justify-between">
               <span>Discount:</span>
@@ -168,7 +168,7 @@
             <hr class="my-2" />
             <div class="flex justify-between text-base sm:text-lg font-bold">
               <span>Total:</span>
-              <span class="text-orange-600">${{ (totalPrice * 0.8)?.toFixed(2) }}</span>
+              <span class="text-orange-600">${{ currencyStore.getDisplayPrice(totalPrice * 0.8) }}</span>
             </div>
           </div>
 
@@ -200,7 +200,10 @@ import { useToast } from 'primevue/usetoast'
 import ProgressSpinner from 'primevue/progressspinner'
 import BigNumber from 'bignumber.js'
 import CheckoutInfoModal from '../view-carts/checkout/CustomerInfoForm.vue'
-
+import { type Product } from '../../../store/storeProduct' // Import Product type
+import { type ProductImage } from '../../../dashboard/views/Products/ProductFormModal.vue' // Import ProductImage type
+import { useCurrencyStore } from '../../../store/currencyStore'
+const currencyStore = useCurrencyStore();
 
 const router = useRouter()
 const confirm = useConfirm()
@@ -212,7 +215,20 @@ const deletingItemId = ref<number | null>(null)
 const showCheckoutModal = ref(false)
 
 
+// Type guard for Product
+function isProduct(item: any): item is Product {
+  return typeof item === 'object' && item !== null && 'images' in item && Array.isArray(item.images);
+}
 
+// Type guard for CartItem (the object stored in cartStore.items)
+function isCartItem(item: any): item is { product: Product; quantity?: number; selectedImageUrl?: string } {
+    return typeof item === 'object' && item !== null && 'product' in item;
+}
+
+// Type guard for ProductImage
+function isProductImage(item: any): item is ProductImage {
+    return typeof item === 'object' && item !== null && 'url' in item && typeof item.url === 'string';
+}
 
 onMounted(async () => {
   try {
@@ -248,13 +264,13 @@ function showToast(severity: string, summary: string, detail: string) {
   })
 }
 
-function increaseQty(item: { product: any; quantity: number }) {
+function increaseQty(item: { product: Product; quantity: number; selectedImageUrl?: string }) {
   if (item.quantity < item.product.stock) {
-    cartStore.addToCart(item.product, 1)
+    cartStore.addToCart(item.product, 1, item.selectedImageUrl)
   }
 }
 
-function decreaseQty(item: { product: any; quantity: number }) {
+function decreaseQty(item: { product: Product; quantity: number; selectedImageUrl?: string }) {
   if (item.quantity > 1) {
     item.quantity--
     cartStore.saveCart()
@@ -287,8 +303,6 @@ async function confirmDelete(productId: number) {
 // function proceedToCheckout() {
 //   if (cartItems.value.length > 0) {
 //     router.push('/checkout')
-//   } else {
-//     showToast('warn', 'Empty Cart', 'Your cart is empty')
 //   }
 // }
 
@@ -323,5 +337,30 @@ function onModalSubmit(info: CustomerInfo) {
     detail: 'Checkout information saved successfully',
     life: 3000
   })
+}
+
+const getImageUrl = (item: { product: Product; quantity?: number; selectedImageUrl?: string } | ProductImage | string | Product) => {
+  let url: string | undefined
+
+  if (typeof item === 'string') {
+    url = item
+  } else if (isCartItem(item)) {
+    if (item.selectedImageUrl) {
+      url = item.selectedImageUrl
+    } else if (isProduct(item.product) && item.product.images.length > 0) {
+      url = item.product.images[0].url
+    }
+  } else if (isProductImage(item)) {
+    url = item.url
+  } else if (isProduct(item) && item.images.length > 0) {
+    url = item.images[0].url
+  }
+
+  if (!url) return '/placeholder-product.jpg'
+
+  if (url.startsWith('http')) return url
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'
+  const fixedPath = url.replace(/^\/images\//, '/uploads/')
+  return `${apiBaseUrl}${fixedPath}`
 }
 </script>

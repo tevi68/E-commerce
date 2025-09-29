@@ -39,6 +39,24 @@ const mainRoutes: RouteRecordRaw[] = [
         meta: { auth: false, logedIn: true }
     },
     {
+        path: '/product/:id',
+        name: 'ProductDetail',
+        component: defineAsyncComponent({
+            loader: () => import('../pages/hom-page/product/ViewDetail.vue'),
+            loadingComponent: LoadingComponent,
+        }),
+        meta: { auth: false, logedIn: true }
+    },
+    {
+        path: '/category/:category',
+        name: 'ShopByCategory',
+        component: defineAsyncComponent({
+            loader: () => import('../pages/hom-page/categories/CategoryProducts.vue'),
+            loadingComponent: LoadingComponent,
+        }),
+        meta: { auth: false, logedIn: true }
+    },
+    {
         path: '/checkout',
         name: 'Checkout',
         component: defineAsyncComponent({
@@ -113,6 +131,15 @@ const mainRoutes: RouteRecordRaw[] = [
         name: 'Register',
         component: defineAsyncComponent({
             loader: () => import('../pages/auth/Register.vue'),
+            loadingComponent: LoadingComponent,
+        }),
+        meta: { auth: false, logedIn: true }
+    },
+    {
+        path: '/weeklydeals/:id',
+        name: 'WeeklyDetail',
+        component: defineAsyncComponent({
+            loader: () => import('../pages/hom-page/categories/WeeklyDetail.vue'),
             loadingComponent: LoadingComponent,
         }),
         meta: { auth: false, logedIn: true }

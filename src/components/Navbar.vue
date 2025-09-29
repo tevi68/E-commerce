@@ -79,7 +79,39 @@
 				</div>
 
 				<!-- Search Content -->
-				<div class="p-6 overflow-y-auto h-[calc(100vh-80px)] bg-gray-50">
+				<div class="p-6 bg-gray-50">
+					<!-- Search Results -->
+					<div v-if="searchQuery && filteredProducts.length > 0" class="mb-8">
+						<h3 class="text-lg font-semibold text-gray-800 flex items-center mb-4">
+							<i class="pi pi-search mr-2 text-orange-500"></i>
+							Search Results
+						</h3>
+						<!-- Virtual Scroller Basic for mobile search results -->
+						<VirtualScroller 
+							:items="filteredProducts" 
+							:itemSize="120"
+							class="max-h-60 custom-scrollbar"
+							:scrollHeight="'240px'"
+							:pt="{
+								content: { class: 'grid grid-cols-2 gap-3' }
+							}"
+						>
+							<template #item="{ item }">
+								<div @click="goToProduct(item.id)" class="p-3 border border-gray-100 rounded-2xl hover:bg-gradient-to-br hover:from-orange-50 hover:to-red-50 cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg group">
+									<div class="w-full h-24 mb-3 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl overflow-hidden relative">
+										<img :src="item.images && item.images.length > 0 ? getImageUrl(item.images[0]) : 'https://via.placeholder.com/150?text=No+Image'" :alt="item.title" class="w-full h-full object-cover" />
+									</div>
+									<div class="text-xs font-semibold text-gray-700 truncate">{{ item.title }}</div>
+								</div>
+							</template>
+						</VirtualScroller>
+					</div>
+					<div v-else-if="searchQuery && filteredProducts.length === 0" class="mb-8 flex flex-col items-center justify-center bg-gradient-to-r from-orange-50 to-red-50 rounded-2xl shadow-md p-8">
+						<i class="pi pi-search text-4xl text-orange-400 mb-3"></i>
+						<div class="text-lg font-semibold text-gray-700 mb-1">No products found</div>
+						<div class="text-sm text-gray-500 mb-3">We couldn't find any results for "<span class="font-bold">{{ searchQuery }}</span>".</div>
+						<div class="text-xs text-gray-400">Try different keywords or <router-link to="/shopcard" class="text-orange-500 hover:underline font-medium">browse all products</router-link>.</div>
+					</div>
 					<!-- Recent Searches -->
 					<div v-if="recentSearches.length > 0" class="mb-8">
 						<div class="flex justify-between items-center mb-4">
@@ -167,10 +199,10 @@
 
 				<!-- Enhanced Search Bar Component -->
 				<div class="flex flex-1 mx-12">
-					<div @mouseenter="isHoveringSearch = true" @mouseleave="handleSearchMouseLeave" class="relative w-full group">
+					<div @focus="searchActive = true" class="relative w-full group">
 						
 						<!-- Search Input -->
-						<div class="relative transform transition-all duration-300 group-hover:scale-[1.02]">
+						<div class="relative">
 						<input
 							type="text"
 							placeholder="Search for products, brands and more..."
@@ -189,12 +221,40 @@
 						</router-link>
 
 						<!-- Search Dropdown -->
-						<div v-if="searchActive" class="absolute z-50 w-full mt-3 bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-100 overflow-hidden animate-fade-in-up max-h-[80vh] flex flex-col">
-						
+						<div v-if="searchActive" class="absolute z-50 w-full mt-3 bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-100 overflow-hidden animate-fade-in-up max-h-[80vh] overflow-y-auto flex flex-col">
+							<button
+								@click="searchActive = false"
+								class="absolute cursor-pointer top-4 right-4 text-gray-400 hover:text-red-500 text-2xl z-50"
+								aria-label="Close search"
+								type="button"
+							>
+								<i class="pi pi-times"></i>
+							</button>
 							<!-- Header Section -->
 							<div class="bg-gradient-to-r from-orange-500/10 to-red-500/10 p-1">
 								<div class="bg-white/80 backdrop-blur-sm rounded-t-3xl p-6">
 								
+								<!-- Search Results (Desktop) -->
+								<div v-if="searchQuery && filteredProducts.length > 0" class="mb-6">
+									<h3 class="text-sm font-bold text-gray-700 mb-4 flex items-center">
+										<i class="pi pi-search text-orange-500 mr-2"></i>
+										Search Results
+									</h3>
+									<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+										<div v-for="item in filteredProducts" :key="item.id" @click="goToProduct(item.id)" class="p-3 border border-gray-100 rounded-2xl hover:bg-gradient-to-br hover:from-orange-50 hover:to-red-50 cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg group">
+											<div class="w-full h-24 mb-3 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl overflow-hidden relative">
+												<img :src="item.images && item.images.length > 0 ? getImageUrl(item.images[0]) : 'https://via.placeholder.com/150?text=No+Image'" :alt="item.title" class="w-full h-full object-cover" />
+											</div>
+											<div class="text-xs font-semibold text-gray-700 truncate">{{ item.title }}</div>
+										</div>
+									</div>
+								</div>
+								<div v-else-if="searchQuery && filteredProducts.length === 0" class="mb-6 flex flex-col items-center justify-center bg-gradient-to-r from-orange-50 to-red-50 rounded-2xl shadow-md p-8">
+									<i class="pi pi-search text-4xl text-orange-400 mb-3"></i>
+									<div class="text-lg font-semibold text-gray-700 mb-1">No products found</div>
+									<div class="text-sm text-gray-500 mb-3">We couldn't find any results for "<span class="font-bold">{{ searchQuery }}</span>".</div>
+									<div class="text-xs text-gray-400">Try different keywords or <router-link to="/shopcard" class="text-orange-500 hover:underline font-medium">browse all products</router-link>.</div>
+								</div>
 								<!-- Recent Searches -->
 								<div v-if="recentSearches.length > 0" class="mb-6">
 									<div class="flex justify-between items-center mb-4">
@@ -234,7 +294,7 @@
 									<div class="max-h-100 overflow-y-auto custom-scrollbar">
 										<!-- Scrollable Main Content -->
 										<div class="flex-1 overflow-y-auto custom-scrollbar">
-											<!-- Featured Products -->
+											<!-- FEATURED PRODUCTS -->
 											<div class="p-6">
 												<div class="flex justify-between items-center mb-4">
 													<h3 class="text-sm font-bold text-gray-700 flex items-center">
@@ -259,10 +319,10 @@
 														>
 														<div class="w-full h-24 mb-3 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl overflow-hidden relative">
 															<img 
-															:src="product.image" 
-															:alt="product.title"
-															class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-															@error="handleImageError"
+																:src="product.images && product.images.length > 0 ? getImageUrl(product.images[0]) : 'https://via.placeholder.com/150?text=No+Image'" 
+																:alt="product.title"
+																class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+																@error="handleImageError"
 															/>
 															<div class="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 															
@@ -273,19 +333,19 @@
 
 											<!-- Discover More -->
 											<div class="bg-gradient-to-r from-gray-50 to-white p-6 border-t border-gray-100">
-											<h3 class="text-sm font-bold text-gray-700 mb-4 flex items-center">
-												<i class="pi pi-compass text-orange-500 mr-2"></i>
-												DISCOVER MORE
-											</h3>
-											<div class="flex flex-wrap gap-3 pr-2">
-												<span v-for="(item, index) in discoverMoreItems"
-												:key="'discover-'+index"
-												@click="selectSuggestion(item)"
-												class="inline-flex items-center px-4 py-2 bg-white hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 rounded-full text-sm cursor-pointer border border-gray-200 hover:border-orange-300 transition-all duration-300 hover:scale-105 hover:shadow-md font-medium text-gray-600 hover:text-gray-900">
-												<i class="pi pi-search text-xs mr-1 opacity-60"></i>
-												{{ item }}
-												</span>
-											</div>
+												<h3 class="text-sm font-bold text-gray-700 mb-4 flex items-center">
+													<i class="pi pi-compass text-orange-500 mr-2"></i>
+													DISCOVER MORE
+												</h3>
+												<div class="flex flex-wrap gap-3 pr-2">
+													<span v-for="(item, index) in discoverMoreItems"
+													:key="'discover-'+index"
+													@click="selectSuggestion(item)"
+													class="inline-flex items-center px-4 py-2 bg-white hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 rounded-full text-sm cursor-pointer border border-gray-200 hover:border-orange-300 transition-all duration-300 hover:scale-105 hover:shadow-md font-medium text-gray-600 hover:text-gray-900">
+													<i class="pi pi-search text-xs mr-1 opacity-60"></i>
+													{{ item }}
+													</span>
+												</div>
 											</div>
 										</div>
 										
@@ -310,37 +370,14 @@
 
 				<!-- Right Side Actions -->
 				<div class="flex items-center space-x-4">
-					<!-- Language Selector -->
-					<div class="relative" @keydown.esc="languageDropdownOpen = false" @focusout="languageDropdownOpen = false">
-						<button class="flex items-center text-gray-700 hover:text-orange-500 p-3 focus:outline-none rounded-lg hover:bg-orange-50 transition-all duration-200" @click="languageDropdownOpen = !languageDropdownOpen" :aria-expanded="languageDropdownOpen"  aria-haspopup="true" tabindex="0">
-							<img :src="languages.find((l) => l.code === selectedLanguage)?.path" alt="Flag" class="w-6 h-4 object-cover rounded-sm shadow-sm"/>
-							<span class="ml-2 uppercase font-semibold">{{ selectedLanguage.toUpperCase() }}</span>
-							<i class="pi pi-chevron-down ml-1 text-xs transition-transform duration-200" :class="{ 'rotate-180': languageDropdownOpen }"></i>
-						</button>
-
-						<Transition
-							enter-active-class="transition-all duration-200 ease-out"
-							enter-from-class="opacity-0 transform scale-95 translate-y-2"
-							enter-to-class="opacity-100 transform scale-100 translate-y-0"
-							leave-active-class="transition-all duration-150 ease-in"
-							leave-from-class="opacity-100 transform scale-100 translate-y-0"
-							leave-to-class="opacity-0 transform scale-95 translate-y-2"
-						>
-							<div v-if="languageDropdownOpen" class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg py-2 z-50 border border-gray-100" role="menu" aria-label="Language selector">
-								<button
-									v-for="lang in languages"
-									:key="lang.code"
-									@click="selectLanguage(lang.code)"
-									class="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 flex items-center transition-all duration-200"
-									:class="{ 'bg-gradient-to-r from-orange-50 to-red-50 font-semibold text-orange-600': selectedLanguage === lang.code }"
-									role="menuitem"
-									tabindex="0"
-								>
-									<img :src="lang.path" alt="Flag" class="w-6 h-4 mr-3 object-cover rounded-sm shadow-sm"/>
-									{{ lang.label }}
-								</button>
-							</div>
-						</Transition>
+					<!-- Language Selector (match screenshot style) -->
+					<div class="relative flex items-center" style="min-width: 80px;">
+						<img :src="languages.find(l => l.code === selectedLanguage)?.path" alt="Flag" class="w-8 h-6 object-cover rounded-sm shadow-sm" />
+						<div class="flex flex-col items-start ml-2 leading-none">
+							<span class="text-xs font-semibold">EN/<span class="text-black font-extrabold">{{ selectedLanguage.toUpperCase() }}</span></span>
+						</div>
+						<i class="pi pi-chevron-down ml-1 text-xs" style="margin-top: 2px;"></i>
+						<button @click="showLangModal = true" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"></button>
 					</div>
 
 					<!-- Account Dropdown -->
@@ -389,19 +426,20 @@
 					</div>
 
 					<!-- Favorites -->
-					<router-link to="/viewfavorite" class="flex items-center text-gray-700 hover:text-red-500 p-3 relative rounded-lg hover:bg-red-50 transition-all duration-200 group" aria-label="View favorites">
+					<router-link to="/viewfavorite"  class="flex items-center relative">
 						<i class="pi pi-heart text-xl group-hover:scale-110 transition-transform duration-200" style="font-size: 1.3rem;"></i>
-						<span v-if="favorites.length > 0" class="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold shadow-lg animate-bounce" aria-live="polite">
+						<span v-if="favorites.length > 0" class="absolute -top-5 -right-2 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
 							{{ favorites.length }}
 						</span>
 					</router-link>
 
 					<!-- Cart -->
-					<router-link to="/viewcart" class="flex items-center text-gray-700 hover:text-orange-500 p-3 relative rounded-lg hover:bg-orange-50 transition-all duration-200 group">
-						<i class="pi pi-shopping-cart text-xl group-hover:scale-110 transition-transform duration-200" style="font-size: 1.3rem;"></i>
-						<span v-if="totalItems > 0" class="absolute -top-1 -right-1 bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold shadow-lg animate-bounce">
+					<router-link to="/viewcart" class="flex items-center relative">
+						<i class="pi pi-shopping-cart text-2xl" style="font-size: 1.3rem;"></i>
+						<span class="absolute -top-4 -right-2 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
 							{{ totalItems }}
 						</span>
+						<span class="ml-2 text-xs font-bold">Cart</span>
 					</router-link>
 				</div>
 			</div>
@@ -639,29 +677,92 @@
 				</div>
 			</div>
 		</Transition>
+
+		<!-- Language/Country/Currency Modal -->
+		<Dialog v-model:visible="showLangModal" modal :closable="true" :style="{ width: '350px' }" class="rounded-2xl p-0">
+			<div class="p-6">
+				<div class="mb-4">
+					<label class="block font-bold mb-2">Ship to</label>
+					<Dropdown
+						v-model="selectedCountry"
+						:options="countries"
+						optionLabel="name"
+						optionValue="code"
+						class="w-full"
+					>
+						<template #option="slotProps">
+							<div class="flex items-center gap-2">
+								<img :src="slotProps.option.flag" class="w-6 h-4 rounded" />
+								<span>{{ slotProps.option.name }}</span>
+							</div>
+						</template>
+					</Dropdown>
+				</div>
+				<div class="mb-4">
+					<label class="block font-bold mb-2">Language</label>
+					<Dropdown
+						v-model="selectedLang"
+						:options="languagesList"
+						optionLabel="label"
+						optionValue="code"
+						class="w-full"
+					/>
+				</div>
+				<div class="mb-6">
+					<label class="block font-bold mb-2">Currency</label>
+					<Dropdown
+						v-model="selectedCurrency"
+						:options="currencies"
+						optionLabel="label"
+						optionValue="code"
+						class="w-full"
+					/>
+				</div>
+				<button @click="saveLangModal" class="w-full bg-black text-white rounded-full py-2 font-bold text-lg">Save</button>
+			</div>
+		</Dialog>
 	</nav>
 </template>
 
 <script setup lang="ts">
 import { ref, nextTick, onMounted, onUnmounted, computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
+import Fuse from 'fuse.js';
+import type { FuseResult } from 'fuse.js';
+
 
 // Stores
 import { useCartStore } from '../store/cartStore';
 import useFavorites from '../store/favoritesStore';
 import { useProductStore } from '../store/storeProduct'
+import { fetchProducts } from '../store/productApi';
+import { useCurrencyStore } from '../store/currencyStore'
+
+import VirtualScroller from 'primevue/virtualscroller';
+
+
+// Import PrimeVue components
+import Dialog from 'primevue/dialog'
 
 const cartStore = useCartStore();
 const { totalItems } = storeToRefs(cartStore);
 const { favorites } = useFavorites();
 
 const productStore = useProductStore();
+const router = useRouter();
+const currencyStore = useCurrencyStore();
 // UI State
 const mobileMenuOpen = ref(false);
 const searchActive = ref(false);
 const isCategoryOpen = ref(false);
 const isOpen = ref(false);
-const languageDropdownOpen = ref(false);
+// const languageDropdownOpen = ref(false);
+const showLangModal = ref(false);
+
+// Scroll state for Desktop Top Bar
+const isTopBarVisible = ref(true);
+const lastScrollY = ref(0);
 
 // Search
 const searchQuery = ref('');
@@ -683,30 +784,38 @@ const popularSuggestions = ref<string[]>([
 ]);
 
 // Language
-const selectedLanguage = ref('en');
+const selectedLanguage = ref('kh');
 const languages = [
-  { code: 'en', label: 'English (EN)', path: '/lan/en.png' },
-  { code: 'kh', label: 'Khmer (KH)', path: '/lan/kh.png' }
+	{ code: 'kh', label: 'Khmer (KH)', path: '/lan/kh.png' },
+  	{code: 'en', label: 'English (EN)', path: '/lan/en.png' }
+];
+
+const selectedCountry = ref('KH');
+const selectedLang = ref(selectedLanguage.value);
+const selectedCurrency = ref(currencyStore.currency); // initialize from store
+
+const countries = [
+  { code: 'KH', name: 'Cambodia', flag: '/lan/kh.png' },
+  { code: 'US', name: 'United States', flag: '/lan/en.png' }
+];
+const languagesList = [
+	{ code: 'kh', label: 'Khmer' },
+  	{ code: 'en', label: 'English' }
+];
+const currencies = [
+  { code: 'USD', label: 'USD' },
+  { code: 'KHR', label: 'KHR' }
 ];
 
 // Discover
-const discoverMoreItems = ref([
-  'smartwatch',
-  'headphones',
-  'fitness tracker',
-  'gaming controller',
-  'wireless earbuds',
-  'sneakers',
-  'leather wallet',
-  'sunglasses'
-]);
+const discoverMoreItems = computed(() => productStore.uniqueCategories)
 
 // Featured Product Logic
 const currentRecommendationIndex = ref(0);
 const productsPerPage = 5;
 
 const allFeaturedProducts = computed(() => {
-  	return productStore.products?.filter(product => product.isOnToday) || []
+  return productStore.products?.filter(product => product.isOnToday && product.status === 'published') || []
 })
 
 const visibleFeaturedProducts = computed(() => {
@@ -724,6 +833,15 @@ const handleImageError = (event: Event) => {
 	const img = event.target as HTMLImageElement
 	img.src = 'https://via.placeholder.com/150?text=No+Image'
 }
+
+// Helper function to get image URL
+const getImageUrl = (productImage: any) => {
+  if (!productImage || !productImage.url) return '/placeholder-product.jpg';
+  if (productImage.url.startsWith('http')) return productImage.url;
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+  const fixedPath = productImage.url.replace(/^\/images\//, '/uploads/');
+  return `${apiBaseUrl}${fixedPath}`;
+};
 
 // UI Toggles
 const toggleMobileMenu = () => {
@@ -752,16 +870,17 @@ const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
 };
 
-const selectLanguage = (code: string) => {
-  selectedLanguage.value = code;
-  languageDropdownOpen.value = false;
-};
+// const selectLanguage = (code: string) => {
+//   selectedLanguage.value = code;
+//   languageDropdownOpen.value = false;
+// };
 
 // Search
 const executeSearch = () => {
   const query = searchQuery.value.trim();
   if (!query) return;
 
+  // Save to recent searches
   const existingIndex = recentSearches.value.indexOf(query);
   if (existingIndex > -1) recentSearches.value.splice(existingIndex, 1);
   recentSearches.value.unshift(query);
@@ -769,10 +888,11 @@ const executeSearch = () => {
     recentSearches.value = recentSearches.value.slice(0, 5);
   }
 
-  searchActive.value = false;
-  document.removeEventListener('keydown', handleKeyDown);
+  // Do NOT close overlay or clear query here
+  // searchActive.value = false;
+  // document.removeEventListener('keydown', handleKeyDown);
 
-  console.log('Searching for:', query);
+  // Results will show automatically via filteredProducts
 };
 
 const selectRecentSearch = (search: string) => {
@@ -814,28 +934,24 @@ const closeMobileMenu = () => {
   mobileMenuOpen.value = false;
 };
 
-// Delayed close hover on search
-const isHoveringSearch = ref(false);
-let closeTimeout: ReturnType<typeof setTimeout> | null = null;
-
-const handleSearchMouseLeave = () => {
-	isHoveringSearch.value = false;
-	closeTimeout = setTimeout(() => {
-		if (!isHoveringSearch.value && !searchInput.value?.matches(':focus')) {
-		searchActive.value = false;
-		}
-	}, 300);
+// Scroll handler for Desktop Top Bar
+const handleScroll = () => {
+  const currentScrollY = window.scrollY;
+  
+  // Show top bar when scrolling up, hide when scrolling down
+  if (currentScrollY > lastScrollY.value && currentScrollY > 100) {
+    // Scrolling down and past 100px
+    isTopBarVisible.value = false;
+  } else if (currentScrollY < lastScrollY.value) {
+    // Scrolling up
+    isTopBarVisible.value = true;
+  }
+  
+  lastScrollY.value = currentScrollY;
 };
 
-watch(isHoveringSearch, (hovering) => {
-  if (hovering && closeTimeout) {
-    clearTimeout(closeTimeout);
-    closeTimeout = null;
-  }
-});
-
 // ========== Mounted & Unmounted ==========
-onMounted(() => {
+onMounted(async () => {
 	const savedSearches = localStorage.getItem('recentSearches');
 	if (savedSearches) {
 		try {
@@ -845,11 +961,75 @@ onMounted(() => {
 		recentSearches.value = [];
 		}
 	}
+	// Ensure products are loaded for search
+	if (!productStore.products || productStore.products.length === 0) {
+		const allProducts = await fetchProducts();
+		productStore.setProducts(allProducts);
+	}
+	
+	// Add scroll event listener for Desktop Top Bar
+	window.addEventListener('scroll', handleScroll, { passive: true });
 });
 
 onUnmounted(() => {
 	localStorage.setItem('recentSearches', JSON.stringify(recentSearches.value));
 	document.removeEventListener('keydown', handleKeyDown);
+	
+	// Remove scroll event listener
+	window.removeEventListener('scroll', handleScroll);
+});
+
+let fuse: Fuse<any> | null = null;
+
+watch(
+  () => productStore.products,
+  (products) => {
+    fuse = new Fuse(products, {
+      keys: ['title', 'category'],
+      threshold: 0.4 // adjust for strictness
+    });
+  },
+  { immediate: true }
+);
+
+const filteredProducts = computed(() => {
+  const query = searchQuery.value.trim();
+  if (!query) return [];
+  let results: any[] = [];
+  if (fuse) {
+    results = fuse.search(query).map((result: FuseResult<any>) => result.item);
+  }
+  // Fallback to normal search if fuzzy returns nothing
+  if (results.length === 0) {
+    results = productStore.products.filter(
+      p => p.status === 'published' && (
+        p.title.toLowerCase().includes(query.toLowerCase()) ||
+        p.category.toLowerCase().includes(query.toLowerCase())
+      )
+    );
+  } else {
+    // Only show published products from fuzzy results
+    results = results.filter(p => p.status === 'published');
+  }
+  return results;
+});
+
+function goToProduct(id: number) {
+  searchActive.value = false;
+  mobileMenuOpen.value = false;
+  router.push(`/product/${id}`);
+}
+
+function saveLangModal() {
+  selectedLanguage.value = selectedLang.value;
+  currencyStore.setCurrency(selectedCurrency.value);
+  showLangModal.value = false;
+}
+
+watch(showLangModal, (val) => {
+  if (val) {
+    selectedCurrency.value = currencyStore.currency;
+  }
 });
 </script>
 
@@ -931,5 +1111,35 @@ onUnmounted(() => {
 .nav-item:hover {
   transform: scale(1.02);
   transition: transform 0.2s ease;
+}
+
+/* Custom scrollbar styles */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #f97316 #f1f5f9;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #f97316, #dc2626);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #ea580c, #b91c1c);
+}
+
+/* Smooth scrolling for better UX */
+.custom-scrollbar {
+  scroll-behavior: smooth;
 }
 </style>

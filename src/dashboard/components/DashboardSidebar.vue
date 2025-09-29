@@ -1,9 +1,21 @@
-<<template>
+<template>
 	<aside
-		class="fixed lg:static inset-0 z-40 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out h-screen flex flex-col"
-		:class="dashboardStore.sidebarVisible ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
+		class="w-64 bg-white border-r border-gray-200 h-full flex flex-col flex-shrink-0"
+		:class="dashboardStore.sidebarVisible ? 'fixed lg:static inset-0 z-40' : 'hidden lg:block'"
 	>
-		<div class="flex-1 overflow-y-auto py-6 px-4 scrollbar-thin scrollbar-thumb-gray-400">
+		<div class="flex-1 overflow-y-auto py-6 px-4 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
+			<!-- Logo (Mobile) -->
+			<div class="lg:hidden mb-6 px-4">
+				<router-link to="/dashboard" class="flex items-center gap-2">
+					<div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center shadow-md">
+						<i class="pi pi-shopping-bag text-white text-sm"></i>
+					</div>
+					<span class="text-lg font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+						Ecom Dashboard
+					</span>
+				</router-link>
+			</div>
+
 			<!-- Navigation Menu -->
 			<nav class="space-y-1">
 				<div v-for="item in menuItems" :key="item.name">
@@ -28,6 +40,7 @@
 									:class="{
 										'bg-blue-50 text-blue-600': $route.path === child.path
 									}"
+									@click="dashboardStore.sidebarVisible = false"
 								>
 									{{ child.name }}
 								</router-link>
@@ -44,6 +57,7 @@
 							'bg-blue-50 text-blue-600': $route.path === item.path,
 							'text-gray-600 hover:bg-gray-100': $route.path !== item.path
 						}"
+						@click="dashboardStore.sidebarVisible = false"
 					>
 						<i :class="item.icon" class="mr-3 text-lg" />
 						{{ item.name }}
@@ -75,14 +89,30 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- Sidebar Footer -->
+		<div class="p-4 border-t border-gray-200">
+			<div class="flex items-center">
+				<Avatar 
+					image="../../public/profile/images/IMG_8154.PNG" 
+					shape="circle" 
+					size="large"
+					class="mr-3"
+				/>
+				<div>
+					<p class="text-sm font-medium text-gray-900">Hello! Kevin</p>
+					<p class="text-xs text-gray-500">Admin</p>
+				</div>
+			</div>
+		</div>
 	</aside>
 </template>
-
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useDashboardStore } from '../../store/dashboardStore'
+import Avatar from 'primevue/avatar'
 
 const router = useRouter()
 const dashboardStore = useDashboardStore()
@@ -98,14 +128,13 @@ const menuItems = [
 		name: 'Products',
 		icon: 'pi pi-box',
 		children: [
-			{ name: 'Todays Deals', path: '/dashboard/products/Tody' },
-			{ name: 'Cate By Shop', path: '/dashboard/products/catebyshop' },
-			{ name: 'ProductsPage', path: '/dashboard/products' },
-			{ name: 'Shop Lish', path: '/dashboard/products/shoplish' },
+			{ name: 'Produst List', path: '/dashboard/products' },
+			{ name: 'Weekly Deals', path: '/dashboard/weeklys'}
 		]
 	},
 	{ name: 'Orders', icon: 'pi pi-shopping-cart', path: '/dashboard/orders', badge: '8' },
 	{ name: 'Customers', icon: 'pi pi-users', path: '/dashboard/customers' },
+	{ name: 'Exchange Rate', icon: 'pi pi-dollar', path: '/dashboard/exchangeRate'},
 	{ name: 'Analytics', icon: 'pi pi-chart-bar', path: '/dashboard/analytics' },
 	{ name: 'Settings', icon: 'pi pi-cog', path: '/dashboard/settings' }
 ]
@@ -136,11 +165,10 @@ const navigateTo = (path: string) => {
 	width: 6px;
 }
 .scrollbar-thin::-webkit-scrollbar-thumb {
-	background-color: rgba(100, 116, 139, 0.5); /* slate-500 */
+	background-color: rgba(156, 163, 175, 0.5);
 	border-radius: 9999px;
 }
 .scrollbar-thin::-webkit-scrollbar-track {
-	background-color: transparent;
+	background-color: rgba(243, 244, 246, 0.5);
 }
 </style>
-

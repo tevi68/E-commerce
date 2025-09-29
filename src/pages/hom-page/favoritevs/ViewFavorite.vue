@@ -33,9 +33,10 @@
                     <template #body="{ data }">
                         <div class="bg-blue-50 p-1 rounded">
                             <img 
-                                :src="data.image" 
+                                :src="getImageUrl(data)" 
                                 :alt="data.title"
                                 class="w-16 h-14 object-cover rounded"
+                                @error="onImageError"
                             />
                         </div>
                     </template>
@@ -52,9 +53,9 @@
                 <!-- Price Column -->
                 <Column field="price" header="Price" headerClass="bg-amber-50 text-amber-700">
                     <template #body="{ data }">
-                        <span class="text-orange-500 font-bold">{{ formatPrice(data.price) }}</span>
+                        <span class="text-orange-500 font-bold">{{ currencyStore.getDisplayPrice(data.price) }}</span>
                         <span v-if="data.originalPrice" class="text-gray-400 text-xs line-through ml-2">
-                            {{ formatPrice(data.originalPrice) }}
+                            {{ currencyStore.getDisplayPrice(data.originalPrice) }}
                         </span>
                         <span v-if="data.discount" class="text-xs bg-orange-100 text-orange-600 px-1.5 py-0.5 rounded-full ml-2">
                             -{{ data.discount }}%
@@ -127,14 +128,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useProductStore } from '../../../store/storeProduct'
 import useFavoriteStore from '../../../store/favoritesStore'
 import { useToast } from 'primevue/usetoast'
 import { useCartStore } from '../../../store/cartStore'
 import { useConfirm } from 'primevue/useconfirm'
 import type { Product } from '../../../store/storeProduct'
+import { fetchProductsByIds } from '../../../store/productApi' // Import the new function
+import { useCurrencyStore } from '../../../store/currencyStore'
+const currencyStore = useCurrencyStore();
 
 // PrimeVue UI
 import DataTable from 'primevue/datatable'
@@ -142,7 +145,6 @@ import Column from 'primevue/column'
 import ProgressSpinner from 'primevue/progressspinner'
 
 // Stores
-const productStore = useProductStore()
 const cartStore = useCartStore()
 const favoriteStore = useFavoriteStore()
 const router = useRouter()
@@ -152,24 +154,43 @@ const confirm = useConfirm()
 const loading = ref(true)
 
 // Get favorite products directly from the store
-const favoriteProducts = computed(() => {
-  return productStore.allProducts.filter(product => 
-    favoriteStore.isFavorite(product.id)
-  )
-})
+const favoriteProducts = ref<Product[]>([])
 
-const formatPrice = (price: number) => `$${price.toFixed(2)}`
+onMounted(async () => {
+  try {
+    loading.value = true
+    const favoriteItems = favoriteStore.favorites.value
+    const favoriteIds = favoriteItems.map(item => item.productId)
+    const fetchedProducts = await fetchProductsByIds(favoriteIds)
+    
+    favoriteProducts.value = fetchedProducts
+      .filter(p => favoriteIds.includes(p.id))
+      .map(product => {
+        const favoriteItem = favoriteItems.find(item => item.productId === product.id);
+        return {
+          ...product,
+          selectedImageUrl: favoriteItem?.selectedImageUrl || product.images[0]?.url || '/placeholder-product.jpg'
+        };
+      });
 
-onMounted(() => {
-  setTimeout(() => {
+  } catch (error) {
+    console.error('Failed to fetch favorite products:', error)
+    toast.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Failed to load favorite products',
+      life: 3000
+    })
+  } finally {
     loading.value = false
-  }, 700)
+  }
 })
 
 const handleAddToCart = async (product: Product) => {
   loading.value = true
   try {
-    cartStore.addToCart(product, 1)
+    // When adding to cart from favorites, use the selectedImageUrl stored in the favoriteProduct itself
+    cartStore.addToCart(product, 1, product.selectedImageUrl)
     await new Promise(resolve => setTimeout(resolve, 700))
     toast.add({
       severity: 'success',
@@ -198,7 +219,30 @@ const removeFavorite = (productId: number) => {
     rejectLabel: 'Cancel',
     acceptClass: 'p-button-danger',
     accept: () => {
-      favoriteStore.toggleFavorite(productId)
+      favoriteStore.toggleFavorite(productId) // No need to pass selectedImageUrl when removing
+      // Re-fetch favorite products to update the displayed list
+      const updatedFavoriteItems = favoriteStore.favorites.value
+      const updatedFavoriteIds = updatedFavoriteItems.map(item => item.productId)
+
+      fetchProductsByIds(updatedFavoriteIds).then(fetchedProducts => {
+        favoriteProducts.value = fetchedProducts
+          .filter(p => updatedFavoriteIds.includes(p.id))
+          .map(product => {
+            const favoriteItem = updatedFavoriteItems.find(item => item.productId === product.id);
+            return {
+              ...product,
+              selectedImageUrl: favoriteItem?.selectedImageUrl || product.images[0]?.url || '/placeholder-product.jpg'
+            };
+          });
+      }).catch(error => {
+        console.error('Failed to re-fetch favorite products after removal:', error)
+        toast.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to update favorite list',
+          life: 3000
+        })
+      })
       toast.add({
         severity: 'info',
         summary: 'Removed',
@@ -211,6 +255,39 @@ const removeFavorite = (productId: number) => {
 
 const viewProduct = (product: Product) => {
   router.push(`/product/${product.id}`)
+}
+
+function onImageError(event: Event) {
+  const target = event.target as HTMLImageElement;
+  if (target) target.src = '/placeholder-product.jpg';
+}
+
+const getImageUrl = (product: Product) => {
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+  // Prioritize selectedImageUrl if it exists
+  if (product.selectedImageUrl && typeof product.selectedImageUrl === 'string') {
+    console.log('selectedImageUrl:', product.selectedImageUrl)
+    return product.selectedImageUrl.startsWith('http')
+      ? product.selectedImageUrl
+      : apiBaseUrl + product.selectedImageUrl
+  }
+  // Fallback to the first image in the images array
+  if (product.images && product.images.length > 0) {
+    if (typeof product.images[0] === 'object' && product.images[0].url && typeof product.images[0].url === 'string') {
+      console.log('images[0].url:', product.images[0].url)
+      return product.images[0].url.startsWith('http')
+        ? product.images[0].url
+        : apiBaseUrl + product.images[0].url
+    }
+    if (typeof product.images[0] === 'string') {
+      console.log('images[0] string:', product.images[0])
+      return (product.images[0] as string).startsWith('http')
+        ? product.images[0]
+        : apiBaseUrl + product.images[0]
+    }
+  }
+  console.warn('No image found for product:', product)
+  return '/placeholder-product.jpg'
 }
 </script>
 

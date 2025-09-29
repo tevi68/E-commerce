@@ -44,25 +44,22 @@
                 </svg>
             </button>
         </div>
-        
-        <ViewDetail v-if="showViewDetail && viewProduct" :product="viewProduct" @close="closeView" @add-to-cart="addToCart" />
-    </div>
-    <div class="py-20">
-
     </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import ProductCard from './ProductCard.vue'
-import ViewDetail from './ViewDetail.vue'
 import { useCartStore } from '../../../store/cartStore'
 import type { Product } from '../../../store/storeProduct'
 import { fetchProducts } from '../../../store/productApi'
+import { useCurrencyStore } from '../../../store/currencyStore'
+
+const currencyStore = useCurrencyStore();
 
 // State
 const products = ref<Product[]>([])
-const displayedCount = ref(10)
+const displayedCount = ref(12)
 const favorites = ref<number[]>([])
 const viewProduct = ref<Product | null>(null)
 const showViewDetail = ref(false)
@@ -99,10 +96,6 @@ const addToCart = (product: Product, quantity = 1) => {
 const openView = (product: Product) => {
   viewProduct.value = product
   showViewDetail.value = true
-}
-
-const closeView = () => {
-  showViewDetail.value = false
 }
 
 const loadMoreProducts = async () => {

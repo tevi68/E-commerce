@@ -109,7 +109,7 @@
                                     <div class="flex flex-wrap items-center gap-3 sm:gap-6">
                                             <div class="flex items-center space-x-2">
                                             <span class="text-sm text-gray-500">Unit Price:</span>
-                                            <span class="text-blue-600 font-bold text-lg">${{ item.product.price }}</span>
+                                            <span class="text-blue-600 font-bold text-lg">{{ currencyStore.getDisplayPrice(item.product.price) }}</span>
                                         </div>
                                             <div class="flex items-center space-x-2">
                                             <span class="text-sm text-gray-500">Quantity:</span>
@@ -120,7 +120,7 @@
                                         <div class="flex items-center space-x-2">
                                             <span class="text-sm text-gray-500">Subtotal:</span>
                                             <span class="text-green-600 font-bold text-lg">
-                                                ${{ (item.product.price * item.quantity).toFixed(2) }}
+                                                {{ currencyStore.getDisplayPrice((item.product.price * item.quantity)) }}
                                             </span>
                                         </div>
                                     </div>
@@ -138,7 +138,7 @@
                             </h3>
                             <div class="text-right">
                                 <span class="text-3xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-                                ${{ total.toFixed(2) }}
+                                {{ currencyStore.getDisplayPrice(total) }}
                                 </span>
                             </div>
                         </div>
@@ -238,6 +238,7 @@
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useOrderStore } from '../../store/orderStore'
+import { useCurrencyStore } from '../../store/currencyStore'
 import ProgressSpinner from 'primevue/progressspinner'
 
 const route = useRoute()
@@ -245,6 +246,8 @@ const orderStore = useOrderStore()
 const loading = ref(false)
 const orderId = Number(route.params.id)
 const order = computed(() => orderStore.orders.find(o => o.id === orderId))
+
+const currencyStore = useCurrencyStore();
 
 const total = computed(() => {
     if (!order.value || !order.value.items) return 0

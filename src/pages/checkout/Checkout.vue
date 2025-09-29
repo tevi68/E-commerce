@@ -49,22 +49,39 @@
                             </h2>
                             
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-                                <Button
+                                <button
                                     v-for="method in paymentMethods"
                                     :key="method.id"
                                     :class="[
-                                        'h-20 transition-all duration-300 transform hover:scale-105',
-                                        selectedMethod === method.id 
-                                        ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg scale-105' 
-                                        : 'bg-white hover:bg-gray-50 text-gray-700 shadow-md border border-gray-200'
+                                    'h-24 cursor-pointer transition-all duration-300 ease-in-out rounded-xl overflow-hidden',
+                                    'flex flex-col items-center justify-center relative',
+                                    'border-2 hover:border-opacity-100',
+                                    selectedMethod === method.id
+                                        ? method.selectedStyle + ' border-opacity-100 scale-[1.02] shadow-lg'
+                                        : method.baseStyle + ' border-opacity-30 hover:shadow-md'
                                     ]"
-                                        @click="selectedMethod = method.id"
-                                    >
-                                    <div class="flex flex-col items-center space-y-2">
-                                        <i :class="method.icon" class="text-2xl"></i>
-                                        <span class="text-sm font-semibold">{{ method.label }}</span>
+                                    @click="selectedMethod = method.id"
+                                >
+                                    <!-- Animated background for selected state -->
+                                    <div 
+                                        v-if="selectedMethod === method.id"
+                                        class="absolute inset-0 bg-gradient-to-r opacity-90 animate-gradient-x"
+                                        :class="method.gradient"
+                                        ></div>
+                                        
+                                        <!-- Content -->
+                                        <div class="relative z-10 flex flex-col items-center space-y-2 p-4">
+                                        <i :class="method.icon" class="text-3xl"></i>
+                                        <span class="text-sm font-semibold tracking-wide">{{ method.label }}</span>
+                                        
+                                        <!-- Checkmark for selected state -->
+                                        <div 
+                                            v-if="selectedMethod === method.id"
+                                            class="absolute -top-2 -right-2 bg-white rounded-full p-1 shadow-md"
+                                        >
+                                        </div>
                                     </div>
-                                </Button>
+                                </button>
                             </div>
                         </div>
 
@@ -184,7 +201,7 @@
                         <!-- Cart Items -->
                         <div v-for="item in cartItems" :key="item.product.id" class="flex items-start space-x-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
                             <img 
-                                :src="item.product.image" 
+                                :src="getProductImageUrl(item.product)" 
                                 :alt="item.product.title" 
                                 class="w-16 h-16 rounded-lg object-cover shadow-md"
                             />
@@ -192,7 +209,7 @@
                                 <h3 class="font-semibold text-gray-800 truncate">{{ item.product.title }}</h3>
                                 <p class="text-sm text-gray-500 mb-2">{{ item.product.category }}</p>
                                 <div class="flex justify-between items-center">
-                                    <span class="font-bold text-lg text-blue-600">${{ item.product.price }}</span>
+                                    <span class="font-bold text-lg text-blue-600">{{ currencyStore.getDisplayPrice(item.product.price) }}</span>
                                     <span class="text-sm text-gray-500 bg-gray-200 px-2 py-1 rounded-full">
                                         Qty: {{ item.quantity }}
                                     </span>
@@ -204,21 +221,21 @@
                         <div class="space-y-3 py-6 border-t border-gray-200">
                             <div class="flex justify-between text-gray-600">
                                 <span>Subtotal</span>
-                                <span>${{ subtotal.toFixed(2) }}</span>
+                                <span>{{ currencyStore.getDisplayPrice(subtotal) }}</span>
                             </div>
                             <div class="flex justify-between text-gray-600">
                                 <span>Shipping</span>
-                                <span>${{ shipping.toFixed(2) }}</span>
+                                <span>{{ currencyStore.getDisplayPrice(shipping) }}</span>
                             </div>
                             <div class="flex justify-between text-gray-600">
                                 <span>Tax</span>
-                                <span>${{ tax.toFixed(2) }}</span>
+                                <span>{{ currencyStore.getDisplayPrice(tax) }}</span>
                             </div>
                             <div v-if="discount > 0" class="flex justify-between text-green-600 font-semibold">
                                 <span>
                                 <i class="pi pi-tag mr-1"></i>Discount
                                 </span>
-                                <span>-${{ discount.toFixed(2) }}</span>
+                                <span>-{{ currencyStore.getDisplayPrice(discount) }}</span>
                             </div>
                         </div>
 
@@ -226,7 +243,7 @@
                         <div class="border-t border-gray-200 pt-4 mb-6">
                             <div class="flex justify-between items-center">
                                 <span class="text-xl font-bold text-gray-800">Total</span>
-                                <span class="text-2xl font-bold text-blue-600">${{ total.toFixed(2) }}</span>
+                                <span class="text-2xl font-bold text-blue-600">{{ currencyStore.getDisplayPrice(total) }}</span>
                             </div>
                         </div>
 
@@ -259,6 +276,8 @@ import type { Order } from '../../store/orderStore'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useToast } from 'primevue/usetoast'
+import { useCurrencyStore } from '../../store/currencyStore'
+const currencyStore = useCurrencyStore();
 
 //=============== Import PrimeVue Components ///
 const toast = useToast()
@@ -266,9 +285,30 @@ const orderStore = useOrderStore()
 const router = useRouter()
 // Payment Methods
 const paymentMethods = [
-    { id: 'card', label: 'Credit Card', icon: 'pi pi-credit-card' },
-    { id: 'paypal', label: 'PayPal', icon: 'pi pi-paypal' },
-    { id: 'bank', label: 'Bank Transfer', icon: 'pi pi-building' }
+  { 
+    id: 'card', 
+    label: 'Credit Card', 
+    icon: 'pi pi-credit-card',
+    baseStyle: 'bg-white text-blue-600 border-blue-400',
+    selectedStyle: 'text-white border-blue-500',
+    gradient: 'from-blue-500 via-purple-500 to-indigo-600'
+  },
+  { 
+    id: 'paypal', 
+    label: 'PayPal', 
+    icon: 'pi pi-paypal',
+    baseStyle: 'bg-white text-blue-700 border-blue-300',
+    selectedStyle: 'text-white border-blue-400',
+    gradient: 'from-blue-400 via-blue-500 to-blue-600'
+  },
+  { 
+    id: 'bank', 
+    label: 'Bank Transfer', 
+    icon: 'pi pi-building',
+    baseStyle: 'bg-white text-green-600 border-green-300',
+    selectedStyle: 'text-white border-green-400',
+    gradient: 'from-green-500 via-teal-500 to-emerald-600'
+  }
 ]
 const selectedMethod = ref('card')
 
@@ -311,7 +351,7 @@ const getCompleteOrderLabel = () => {
     if (isProcessing.value) return 'Processing...'
     if (selectedMethod.value === 'paypal') return 'Continue to PayPal'
     if (selectedMethod.value === 'bank') return 'Place Order'
-    return `Pay $${total.value.toFixed(2)}`
+    return `Pay ${currencyStore.getDisplayPrice(total.value)}`
 }
 
 const completeOrder = () => {
@@ -327,7 +367,7 @@ const completeOrder = () => {
                     id: item.product.id,
                     title: item.product.title,
                     price: item.product.price,
-                    image: item.product.image,
+                    image: getProductImageUrl(item.product),
                     category: item.product.category
                 },
                 quantity: item.quantity
@@ -346,6 +386,19 @@ const completeOrder = () => {
         })
         router.push({ name: 'MyOrders' })
     }, 2000)
+}
+
+function getProductImageUrl(product: any) {
+  if (product.images && product.images.length > 0) {
+    const img = product.images[0];
+    if (img.url) {
+      if (img.url.startsWith('http')) return img.url;
+      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      const fixedPath = img.url.replace(/^\/images\//, '/uploads/');
+      return `${apiBaseUrl}${fixedPath}`;
+    }
+  }
+  return 'https://via.placeholder.com/150?text=No+Image';
 }
 
 </script>

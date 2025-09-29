@@ -1,12 +1,12 @@
 <template>
-    <div class="min-h-screen bg-white">
+    <div class="flex flex-col h-screen bg-gray-50 overflow-hidden">
         <DashboardHeader />
 
-        <div class="flex flex-col lg:flex-row min-h-[calc(100vh-64px)]">
+        <div class="flex flex-1 overflow-hidden">
             <DashboardSidebar />
 
-            <main class="w-full p-4 py-10">
-                <div class="p-4 lg:p-6">
+            <main class="flex-1 overflow-hidden">
+                <div class="h-full overflow-y-auto p-4 lg:p-6">
                     <router-view v-slot="{ Component }">
                         <transition name="fade" mode="out-in">
                             <component :is="Component" />
@@ -17,7 +17,6 @@
         </div>
     </div>
 </template>
-
 
 <script setup lang="ts">
 import DashboardHeader from './components/DashboardHeader.vue'

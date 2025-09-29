@@ -1,208 +1,157 @@
 <template>
-    <footer class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white relative overflow-hidden">
-
-        <!-- Main Footer Content -->
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
-            
-            <!-- Brand Section -->
-            <div class="lg:col-span-2 space-y-6">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                <i class="pi pi-shopping-bag text-white text-xl"></i>
+    <footer class="bg-gray-950 text-gray-300 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 py-12">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <!-- Brand Column -->
+            <div class="col-span-2 md:col-span-1">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-9 h-9 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <i class="pi pi-shopping-bag text-white text-lg"></i>
                 </div>
-                <span class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                <span class="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                 ShopHub
                 </span>
             </div>
-            <p class="text-slate-300 text-lg leading-relaxed max-w-md">
-                Your premier destination for quality products, exceptional service, and unbeatable prices. Experience shopping redefined.
+            <p class="text-gray-400 text-sm mb-4">Redefining your shopping experience with quality and convenience.</p>
+            <div class="flex gap-3">
+                <a href="#" class="w-9 h-9 rounded-full bg-gray-800 hover:bg-blue-600 transition-all flex items-center justify-center">
+                <i class="pi pi-facebook text-gray-300"></i>
+                </a>
+                <a href="#" class="w-9 h-9 rounded-full bg-gray-800 hover:bg-sky-500 transition-all flex items-center justify-center">
+                <i class="pi pi-twitter text-gray-300"></i>
+                </a>
+                <a href="#" class="w-9 h-9 rounded-full bg-gray-800 hover:bg-pink-600 transition-all flex items-center justify-center">
+                <i class="pi pi-instagram text-gray-300"></i>
+                </a>
+            </div>
+            </div>
+
+            <!-- Links Columns -->
+            <div class="space-y-4">
+            <h4 class="text-sm font-semibold text-white uppercase tracking-wider">Shop</h4>
+            <ul class="space-y-3">
+                <li>
+                <a href="#" class="text-gray-400 hover:text-white text-sm transition-all flex items-center gap-2 group">
+                    <span class="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-blue-400 transition-all"></span>
+                    New Arrivals
+                </a>
+                </li>
+                <li>
+                <a href="#" class="text-gray-400 hover:text-white text-sm transition-all flex items-center gap-2 group">
+                    <span class="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-blue-400 transition-all"></span>
+                    Best Sellers
+                </a>
+                </li>
+                <li>
+                <a href="#" class="text-gray-400 hover:text-white text-sm transition-all flex items-center gap-2 group">
+                    <span class="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-blue-400 transition-all"></span>
+                    Deals
+                </a>
+                </li>
+                <li>
+                <a href="#" class="text-gray-400 hover:text-white text-sm transition-all flex items-center gap-2 group">
+                    <span class="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-blue-400 transition-all"></span>
+                    Gift Cards
+                </a>
+                </li>
+            </ul>
+            </div>
+
+            <div class="space-y-4">
+            <h4 class="text-sm font-semibold text-white uppercase tracking-wider">Support</h4>
+            <ul class="space-y-3">
+                <li>
+                <a href="#" class="text-gray-400 hover:text-white text-sm transition-all flex items-center gap-2 group">
+                    <span class="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-blue-400 transition-all"></span>
+                    Contact Us
+                </a>
+                </li>
+                <li>
+                <a href="#" class="text-gray-400 hover:text-white text-sm transition-all flex items-center gap-2 group">
+                    <span class="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-blue-400 transition-all"></span>
+                    FAQs
+                </a>
+                </li>
+                <li>
+                <a href="#" class="text-gray-400 hover:text-white text-sm transition-all flex items-center gap-2 group">
+                    <span class="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-blue-400 transition-all"></span>
+                    Shipping
+                </a>
+                </li>
+                <li>
+                <a href="#" class="text-gray-400 hover:text-white text-sm transition-all flex items-center gap-2 group">
+                    <span class="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-blue-400 transition-all"></span>
+                    Returns
+                </a>
+                </li>
+            </ul>
+            </div>
+
+            <div class="space-y-4">
+            <h4 class="text-sm font-semibold text-white uppercase tracking-wider">Company</h4>
+            <ul class="space-y-3">
+                <li>
+                <a href="#" class="text-gray-400 hover:text-white text-sm transition-all flex items-center gap-2 group">
+                    <span class="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-blue-400 transition-all"></span>
+                    About
+                </a>
+                </li>
+                <li>
+                <a href="#" class="text-gray-400 hover:text-white text-sm transition-all flex items-center gap-2 group">
+                    <span class="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-blue-400 transition-all"></span>
+                    Careers
+                </a>
+                </li>
+                <li>
+                <a href="#" class="text-gray-400 hover:text-white text-sm transition-all flex items-center gap-2 group">
+                    <span class="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-blue-400 transition-all"></span>
+                    Blog
+                </a>
+                </li>
+                <li>
+                <a href="#" class="text-gray-400 hover:text-white text-sm transition-all flex items-center gap-2 group">
+                    <span class="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-blue-400 transition-all"></span>
+                    Press
+                </a>
+                </li>
+            </ul>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="border-t border-gray-800 my-8"></div>
+
+        <!-- Bottom Row -->
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-gray-500 text-xs">
+            © 2025 ShopHub. All rights reserved.
             </p>
             
-            <!-- Social Media -->
-            <div class="space-y-4">
-                <h4 class="text-lg font-semibold text-white">Follow Us</h4>
-                <div class="flex space-x-4">
-                <Button 
-                    icon="pi pi-facebook" 
-                    class="w-12 h-12 rounded-full bg-slate-800/50 border-slate-700 hover:bg-blue-600 hover:border-blue-500 transition-all duration-300"
-                    outlined
-                />
-                <Button 
-                    icon="pi pi-twitter" 
-                    class="w-12 h-12 rounded-full bg-slate-800/50 border-slate-700 hover:bg-sky-500 hover:border-sky-400 transition-all duration-300"
-                    outlined
-                />
-                <Button 
-                    icon="pi pi-instagram" 
-                    class="w-12 h-12 rounded-full bg-slate-800/50 border-slate-700 hover:bg-pink-600 hover:border-pink-500 transition-all duration-300"
-                    outlined
-                />
-                <Button 
-                    icon="pi pi-linkedin" 
-                    class="w-12 h-12 rounded-full bg-slate-800/50 border-slate-700 hover:bg-blue-700 hover:border-blue-600 transition-all duration-300"
-                    outlined
-                />
-                </div>
+            <div class="flex items-center gap-4">
+            <a href="#" class="text-gray-500 hover:text-gray-300 text-xs transition-all">Privacy Policy</a>
+            <a href="#" class="text-gray-500 hover:text-gray-300 text-xs transition-all">Terms of Service</a>
+            <a href="#" class="text-gray-500 hover:text-gray-300 text-xs transition-all">Cookies</a>
             </div>
-            </div>
-
-            <!-- Quick Links -->
-            <div class="space-y-6">
-            <h4 class="text-lg font-semibold text-white border-b border-slate-700 pb-2">Quick Links</h4>
-            <ul class="space-y-3">
-                <li><a href="#" class="text-slate-300 hover:text-blue-400 transition-colors duration-300 flex items-center group">
-                <i class="pi pi-angle-right text-xs mr-2 group-hover:translate-x-1 transition-transform"></i>
-                Home
-                </a></li>
-                <li><a href="#" class="text-slate-300 hover:text-blue-400 transition-colors duration-300 flex items-center group">
-                <i class="pi pi-angle-right text-xs mr-2 group-hover:translate-x-1 transition-transform"></i>
-                Shop
-                </a></li>
-                <li><a href="#" class="text-slate-300 hover:text-blue-400 transition-colors duration-300 flex items-center group">
-                <i class="pi pi-angle-right text-xs mr-2 group-hover:translate-x-1 transition-transform"></i>
-                Categories
-                </a></li>
-                <li><a href="#" class="text-slate-300 hover:text-blue-400 transition-colors duration-300 flex items-center group">
-                <i class="pi pi-angle-right text-xs mr-2 group-hover:translate-x-1 transition-transform"></i>
-                About Us
-                </a></li>
-                <li><a href="#" class="text-slate-300 hover:text-blue-400 transition-colors duration-300 flex items-center group">
-                <i class="pi pi-angle-right text-xs mr-2 group-hover:translate-x-1 transition-transform"></i>
-                Contact
-                </a></li>
-            </ul>
-            </div>
-
-            <!-- Customer Service -->
-            <div class="space-y-6">
-            <h4 class="text-lg font-semibold text-white border-b border-slate-700 pb-2">Customer Service</h4>
-            <ul class="space-y-3">
-                <li><a href="#" class="text-slate-300 hover:text-blue-400 transition-colors duration-300 flex items-center group">
-                <i class="pi pi-angle-right text-xs mr-2 group-hover:translate-x-1 transition-transform"></i>
-                Help Center
-                </a></li>
-                <li><a href="#" class="text-slate-300 hover:text-blue-400 transition-colors duration-300 flex items-center group">
-                <i class="pi pi-angle-right text-xs mr-2 group-hover:translate-x-1 transition-transform"></i>
-                Returns & Exchanges
-                </a></li>
-                <li><a href="#" class="text-slate-300 hover:text-blue-400 transition-colors duration-300 flex items-center group">
-                <i class="pi pi-angle-right text-xs mr-2 group-hover:translate-x-1 transition-transform"></i>
-                Shipping Info
-                </a></li>
-                <li><a href="#" class="text-slate-300 hover:text-blue-400 transition-colors duration-300 flex items-center group">
-                <i class="pi pi-angle-right text-xs mr-2 group-hover:translate-x-1 transition-transform"></i>
-                Size Guide
-                </a></li>
-                <li><a href="#" class="text-slate-300 hover:text-blue-400 transition-colors duration-300 flex items-center group">
-                <i class="pi pi-angle-right text-xs mr-2 group-hover:translate-x-1 transition-transform"></i>
-                Track Order
-                </a></li>
-            </ul>
-            </div>
-
-            <!-- Contact Info -->
-            <div class="space-y-6">
-            <h4 class="text-lg font-semibold text-white border-b border-slate-700 pb-2">Get in Touch</h4>
-            <div class="space-y-4">
-                <div class="flex items-start space-x-3">
-                <div class="w-8 h-8 bg-blue-600/20 rounded-lg flex items-center justify-center mt-0.5">
-                    <i class="pi pi-map-marker text-blue-400"></i>
-                </div>
-                <div>
-                    <p class="text-slate-300 text-sm leading-relaxed">
-                    123 Commerce Street<br>
-                    Shopping District, NY 10001
-                    </p>
-                </div>
-                </div>
-                
-                <div class="flex items-center space-x-3">
-                <div class="w-8 h-8 bg-green-600/20 rounded-lg flex items-center justify-center">
-                    <i class="pi pi-phone text-green-400"></i>
-                </div>
-                <p class="text-slate-300">+1 (555) 123-4567</p>
-                </div>
-                
-                <div class="flex items-center space-x-3">
-                <div class="w-8 h-8 bg-purple-600/20 rounded-lg flex items-center justify-center">
-                    <i class="pi pi-envelope text-purple-400"></i>
-                </div>
-                <p class="text-slate-300">support@shophub.com</p>
-                </div>
-            </div>
-
-            <!-- Trust Badges -->
-            <div class="pt-4">
-                <h5 class="text-sm font-medium text-slate-400 mb-3">Secure Shopping</h5>
-                <div class="flex space-x-2">
-                <div class="bg-slate-800/50 border border-slate-700 rounded-lg p-2 flex items-center justify-center">
-                    <i class="pi pi-shield text-green-400"></i>
-                </div>
-                <div class="bg-slate-800/50 border border-slate-700 rounded-lg p-2 flex items-center justify-center">
-                    <i class="pi pi-lock text-blue-400"></i>
-                </div>
-                <div class="bg-slate-800/50 border border-slate-700 rounded-lg p-2 flex items-center justify-center">
-                    <i class="pi pi-verified text-purple-400"></i>
-                </div>
-                </div>
-            </div>
-            </div>
-        </div>
-        </div>
-
-        <!-- Bottom Bar -->
-        <div class="relative border-t border-slate-700/50 bg-slate-900/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div class="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
             
-            <!-- Copyright -->
-            <div class="text-center lg:text-left">
-                <p class="text-slate-400 text-sm">
-                © 2025 ShopHub. All rights reserved. | 
-                <a href="#" class="hover:text-blue-400 transition-colors">Privacy Policy</a> | 
-                <a href="#" class="hover:text-blue-400 transition-colors">Terms of Service</a>
-                </p>
-            </div>
-
-            <!-- Payment Methods -->
-            <div class="flex items-center space-x-4">
-                <span class="text-slate-400 text-sm hidden sm:inline">We Accept:</span>
-                <div class="flex space-x-2">
-                <div class="w-10 h-6 bg-slate-800 border border-slate-700 rounded flex items-center justify-center">
-                    <i class="pi pi-credit-card text-slate-400 text-xs"></i>
+            <div class="flex items-center gap-3">
+            <span class="text-gray-500 text-xs">Secure payments:</span>
+            <div class="flex gap-2">
+                <div class="w-6 h-4 bg-gray-800 rounded-sm flex items-center justify-center">
+                <i class="pi pi-credit-card text-gray-500 text-xs"></i>
                 </div>
-                <div class="w-10 h-6 bg-slate-800 border border-slate-700 rounded flex items-center justify-center">
-                    <span class="text-slate-400 text-xs font-bold">PP</span>
+                <div class="w-6 h-4 bg-gray-800 rounded-sm flex items-center justify-center">
+                <span class="text-gray-500 text-xs font-bold">PP</span>
                 </div>
-                <div class="w-10 h-6 bg-slate-800 border border-slate-700 rounded flex items-center justify-center">
-                    <span class="text-slate-400 text-xs font-bold">AP</span>
-                </div>
-                <div class="w-10 h-6 bg-slate-800 border border-slate-700 rounded flex items-center justify-center">
-                    <span class="text-slate-400 text-xs font-bold">GP</span>
-                </div>
+                <div class="w-6 h-4 bg-gray-800 rounded-sm flex items-center justify-center">
+                <span class="text-gray-500 text-xs font-bold">GP</span>
                 </div>
             </div>
             </div>
         </div>
         </div>
-
-        <!-- Back to Top Button -->
-        <Button 
-        icon="pi pi-chevron-up" 
-        class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 z-50"
-        @click="scrollToTop"
-        />
     </footer>
 </template>
 
 <script setup lang="ts">
-
-
-const scrollToTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  })
-}
+// Scroll to top functionality can be added here if needed
 </script>

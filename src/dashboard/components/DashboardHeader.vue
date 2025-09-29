@@ -1,6 +1,6 @@
 <template>
     <header class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-        <div class="max-w-screen-xl mx-auto px-4 lg:px-6 py-3 flex items-center justify-between">
+        <div class="full-screen mx-auto px-4 lg:px-6 py-3 flex items-center justify-between">
             <!-- Left Section: Logo and Mobile Menu -->
             <div class="flex items-center gap-4">
                 <!-- Mobile Menu Button -->

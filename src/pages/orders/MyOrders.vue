@@ -72,7 +72,7 @@
                             <div class="w-px h-12 bg-gray-200"></div>
                             <div class="text-center">
                                 <div class="text-2xl font-bold text-green-600">
-                                    ${{ orders.reduce((sum, order) => sum + order.total, 0).toFixed(2) }}
+                                    {{ currencyStore.getDisplayPrice(orders.reduce((sum, order) => sum + order.total, 0)) }}
                                 </div>
                                 <div class="text-xs text-gray-500 uppercase tracking-wide">Total Spent</div>
                             </div>
@@ -97,7 +97,7 @@
                                 </div>
                                 <div class="mt-4 sm:mt-0 flex items-center space-x-4">
                                     <div class="text-right">
-                                        <div class="text-2xl font-bold text-green-600">${{ order.total.toFixed(2) }}</div>
+                                        <div class="text-2xl font-bold text-green-600">{{ currencyStore.getDisplayPrice(order.total) }}</div>
                                         <div class="text-xs text-gray-500 uppercase tracking-wide">Total Amount</div>
                                     </div>
                                 </div>
@@ -119,7 +119,7 @@
                                     </div>
                                     <div class="flex items-center space-x-2 text-sm text-gray-600">
                                         <i class="pi pi-dollar text-green-500"></i>
-                                        <span class="font-semibold">${{ order.total.toFixed(2) }}</span>
+                                        <span class="font-semibold">{{ currencyStore.getDisplayPrice(order.total) }}</span>
                                     </div>
                                 </div>
 
@@ -200,10 +200,12 @@ import { storeToRefs } from 'pinia'
 import ProgressSpinner from 'primevue/progressspinner'
 import Button from 'primevue/button'
 import { useToast } from 'primevue/usetoast'
+import { useCurrencyStore } from '../../store/currencyStore'
 
 const toast = useToast()
 const router = useRouter()
 const orderStore = useOrderStore()
+const currencyStore = useCurrencyStore();
 const { orders } = storeToRefs(orderStore)
 const loading = ref(false)
 const { proxy } = getCurrentInstance()!
