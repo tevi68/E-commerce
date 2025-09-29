@@ -46,7 +46,7 @@
                   @click="addFeature" />
               </div>
               <div class="space-y-3 max-h-60 overflow-y-auto">
-                <div v-for="(feature, idx) in form.features" :key="idx" class="flex items-center gap-3">
+                <div v-for="(_feature, idx) in form.features" :key="idx" class="flex items-center gap-3">
                   <div
                     class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center text-xs font-medium text-gray-600">
                     {{ idx + 1 }}
@@ -287,7 +287,7 @@ const form = ref<WeeklyDealForm>({
   timer_seconds: 0
 })
 
-const defaultForm = JSON.parse(JSON.stringify(form.value));
+// const _defaultForm = JSON.parse(JSON.stringify(form.value));
 
 const rules = computed(() => ({
   title: { required },

@@ -53,9 +53,9 @@ import ProductCard from './ProductCard.vue'
 import { useCartStore } from '../../../store/cartStore'
 import type { Product } from '../../../store/storeProduct'
 import { fetchProducts } from '../../../store/productApi'
-import { useCurrencyStore } from '../../../store/currencyStore'
+// import { useCurrencyStore } from '../../../store/currencyStore'
 
-const currencyStore = useCurrencyStore();
+// const currencyStore = useCurrencyStore();
 
 // State
 const products = ref<Product[]>([])

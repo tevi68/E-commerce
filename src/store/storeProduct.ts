@@ -20,11 +20,13 @@ export interface Product {
     description: string
     features: string[]
     images: ProductImage[]
-    videos?: {
-        url: string
-        thumbnail?: string | null
-        duration?: string | null
-      }[]
+  // Backwards-compatibility single-image field used across templates
+    image?: string
+        videos?: {
+            url: string
+            thumbnail?: string | null
+            duration?: string | null
+        }[]
     selectedImageUrl?: string 
 }
 

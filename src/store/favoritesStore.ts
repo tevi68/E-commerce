@@ -1,5 +1,4 @@
 import { ref, watch } from 'vue'
-import type { Product } from './storeProduct'
 
 // Define a type for a favorite item
 interface FavoriteItem {

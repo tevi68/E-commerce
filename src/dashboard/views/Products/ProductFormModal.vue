@@ -874,21 +874,21 @@ async function onSubmit() {
     }
 }
 
-async function onSaveAndNew() {
-    const savedProduct = await saveProduct();
-    if(savedProduct) {
-        emit('submit', savedProduct);
-        emit('reloadList');
-        // Reset form
-        Object.assign(form, defaultForm);
-        // Ensure features array exists
-        if (!form.features || form.features.length === 0) {
-            form.features = [''];
-        }
-        v$.value.$reset();
-        oldFormData.value = JSON.stringify(form);
-    }
-}
+// async function onSaveAndNew() {
+//     const savedProduct = await saveProduct();
+//     if(savedProduct) {
+//         emit('submit', savedProduct);
+//         emit('reloadList');
+//         // Reset form
+//         Object.assign(form, defaultForm);
+//         // Ensure features array exists
+//         if (!form.features || form.features.length === 0) {
+//             form.features = [''];
+//         }
+//         v$.value.$reset();
+//         oldFormData.value = JSON.stringify(form);
+//     }
+// }
 
 </script>
 

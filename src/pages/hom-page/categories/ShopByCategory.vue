@@ -225,7 +225,7 @@ const openView = (product: Product) => {
   router.push({ name: 'ProductDetail', params: { id: product.id } })
 }
 
-function getImageUrl(imagePath: string) {
+function getImageUrl(imagePath?: string | null) {
   if (!imagePath) return fallbackImage
   if (imagePath.startsWith('http')) return imagePath
   const fixedPath = imagePath.replace(/^\/images\//, '/uploads/')

@@ -254,6 +254,7 @@
   })
   const emit = defineEmits(['close'])
   const currencyStore = useCurrencyStore()
+  console.log(currencyStore.currency)
   
   const modalVisible = computed({
     get: () => props.visible,
@@ -279,7 +280,7 @@
     }
   })
   
-  watch(() => props.deal, (newDeal) => {
+  watch(() => props.deal, (_newDeal) => {
     selectedImageIndex.value = 0
     selectedVideo.value = null
   })

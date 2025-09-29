@@ -211,7 +211,7 @@ function getImageUrl(imagePath: string) {
   return `${apiBaseUrl}${fixedPath}`
 }
 
-const formatPrice = (price: number): string => price.toFixed(2)
+// const formatPrice = (price: number): string => price.toFixed(2)
 
 function updateCambodiaTime() {
   cambodiaTime.value = new Date().toLocaleTimeString('en-US', {
